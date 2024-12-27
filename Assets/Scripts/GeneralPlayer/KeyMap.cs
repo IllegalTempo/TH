@@ -9,6 +9,7 @@ public class KeyMap
 
     public static KeyCode SprintKey = KeyCode.LeftShift;
     public static KeyCode CrouchKey = KeyCode.C;
+    public static KeyCode JumpKey = KeyCode.Space;
     public static MouseButton Attack = MouseButton.Left;
     public static MouseButton altAttack = MouseButton.Right;
 }

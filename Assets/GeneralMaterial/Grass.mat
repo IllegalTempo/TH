@@ -67,7 +67,7 @@ Material:
     m_Floats:
     - _BendRotationRandom: 0.571
     - _BladeCurve: 4
-    - _BladeForward: 0.1
+    - _BladeForward: 1
     - _BladeHeight: 0.5
     - _BladeHeightRandom: 0.3
     - _BladeRandomAmount: 0.5
@@ -82,10 +82,10 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _GrassHeight: 1
-    - _GrassHeightRandom: 1
-    - _GrassWidth: 0.17
-    - _GrassWidthRandom: 0.1
+    - _GrassHeight: 0.31
+    - _GrassHeightRandom: 1.51
+    - _GrassWidth: -0.04
+    - _GrassWidthRandom: 0
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
@@ -95,9 +95,9 @@ Material:
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
-    - _TessellationUniform: 16
+    - _TessellationUniform: 41
     - _TessellationUniform_this: 1
-    - _TranslucentGain: 1
+    - _TranslucentGain: 0.686
     - _UVSec: 0
     - _WindScale: 1
     - _WindStrength: 0.5

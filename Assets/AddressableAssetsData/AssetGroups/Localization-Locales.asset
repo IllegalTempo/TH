@@ -17,12 +17,6 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 3ccf7b4720820a7439152705d5630235
   m_SerializeEntries:
-  - m_GUID: 030811328a6962145945a44c3e7ef598
-    m_Address: Chinese (Simplified) (zh-Hans)
-    m_ReadOnly: 1
-    m_SerializedLabels:
-    - Locale
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 2bbf04bb9893a04419163953f0ffdb4b
     m_Address: English (en)
     m_ReadOnly: 1
@@ -43,6 +37,12 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 3d6187f89bf017543a474da6266aecb3
     m_Address: Chinese (Traditional, Hong Kong SAR China) (zh-HK)
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7ed4c10d77ecb5141b08dac2afbfbca0
+    m_Address: Chinese (Simplified) (zh)
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale

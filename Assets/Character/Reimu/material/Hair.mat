@@ -167,8 +167,8 @@ Material:
     - _ThirdShade: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
-    - _falloffthreshold: 2.7
-    - _litthreshold: 2.2
+    - _falloffthreshold: 0.98
+    - _litthreshold: 0.86
     - _softness: 0
     m_Colors:
     - _BaseColor: {r: 0.20754719, g: 0.17328233, b: 0.17328233, a: 1}

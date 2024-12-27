@@ -29,11 +29,6 @@ public class InGameSystemController : MonoBehaviour
     }
     private void Start()
     {
-#if UNITY_EDITOR
-        EditorApplication.playModeStateChanged += GameInformation.OnExit;
-#endif
-
-        Save.LoadData();
         for (int i = 0; i < 10;i++)
         {
             
@@ -43,8 +38,5 @@ public class InGameSystemController : MonoBehaviour
         }
     }
 
-    private void OnApplicationQuit()
-    {
-        GameInformation.currentsave.Saving();
-    }
+    
 }

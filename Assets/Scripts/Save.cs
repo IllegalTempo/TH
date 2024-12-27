@@ -9,6 +9,7 @@ public class Save
 {
     public PlayerInventory Inventory;
     public Vector3 LastLocation;
+    public int CutScenes = -1;
     public Save()
     {
         //new Player Save

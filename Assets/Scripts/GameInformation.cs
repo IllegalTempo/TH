@@ -12,6 +12,7 @@ public class GameInformation
     public static Save currentsave;
     public static InGameSystemController system;
     public static LayerMask OnlyBuildings = LayerMask.GetMask("Buildings");
+    public const int BuildingLayer = 8;
     public static Dictionary<int, string> WeaponPrefabPath = new Dictionary<int, string>()
     {
         { (int)Weapon.HAKUREI_FLUTE,"weapon/flute/HAKUREI_FLUTE/flute"},

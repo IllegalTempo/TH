@@ -28,8 +28,8 @@ public class Movement : MonoBehaviour
     private float sensY = 10;
     private float xrot;
     private float yrot;
+    public const float JumpConstant = 2500;
     private Vector3 MoveDirection;
-    private Vector3 altMoveDirection;
 
     private Quaternion CharacterRotation;
     private Vector3 DefaultTargetCameraOffset = new Vector3(0,2,-10);
@@ -39,6 +39,7 @@ public class Movement : MonoBehaviour
     private Vector3 TargetCameraOffset;
     public bool aiming;
     public bool OpeningInventory;
+    public bool IsGrounded;
     private float TargetX = 0;
     private Vector3 height = new Vector3(0,3,0);
 
@@ -101,7 +102,10 @@ public class Movement : MonoBehaviour
         }
     }
     private Vector3 CameraRayExtension = new Vector3(0, 0, 50);
-    private Vector3 AimingRotation;
+    private Vector3 twodmask = new Vector3(1,0,1);
+
+    private Quaternion AimingRotation;
+
     private void PlayerMovement()
     {
         
@@ -112,28 +116,32 @@ public class Movement : MonoBehaviour
         //Vector3 localVelocity = (transform.rotation * rb.velocity)/WalkSpeed;
         TargetX += (localVelocity.magnitude - TargetX) * Time.deltaTime * WalkSpeed;
         animator.SetFloat("X", TargetX);
-        MoveDirection = transform.forward * inputs.y + transform.right * inputs.x;
-        altMoveDirection = -transform.forward * inputs.x + transform.right * inputs.y;
+        MoveDirection = cam.transform.forward * inputs.y + cam.transform.right * inputs.x;
 
-        CharacterRotation = Quaternion.Euler(Vector3.up * (yrot + Vector3.SignedAngle(transform.forward, MoveDirection, transform.position)));
         //transform.RotateAround(transform.position,transform.up, Vector3.SignedAngle(transform.forward, MoveDirection, transform.position));
         if(aiming)
         {
-            AimingRotation = (transform.position - cam.transform.position + cam.transform.rotation * CameraRayExtension);
+            transform.localRotation = Quaternion.Euler(0, yrot, 0);
             //AimingRotation.y = 0;
-            transform.forward = AimingRotation;
             rb.AddForce(MoveDirection * WalkSpeed * 10, ForceMode.Force);
 
         }
         else if(MoveDirection != Vector3.zero)
         {
-            rb.AddForce(transform.forward * MoveDirection.magnitude * WalkSpeed * 10, ForceMode.Force);
 
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, CharacterRotation, Time.deltaTime * Quaternion.Angle(transform.rotation, CharacterRotation) * 60);
+            rb.AddForce(transform.forward * MoveDirection.magnitude * WalkSpeed * 10, ForceMode.Force);
+            
+            transform.forward = Vector3.Scale(MoveDirection,twodmask);
+            //transform.rotation = Quaternion.RotateTowards(transform.rotation, CharacterRotation, Time.deltaTime * Quaternion.Angle(transform.rotation, CharacterRotation) * 60);
 
         }
         //transform.rotation = CharacterRotation;
 
+    }
+    private void Jump()
+    {
+        IsGrounded = false;
+        rb.AddForce(Vector3.up * JumpConstant,ForceMode.Force);
     }
     private void Update()
     {
@@ -146,12 +154,45 @@ public class Movement : MonoBehaviour
             CameraOffset = Vector3.MoveTowards(CameraOffset, TargetCameraOffset, 30 * Time.deltaTime);
 
         }
+        if(Input.GetKeyDown(KeyMap.JumpKey) && IsGrounded)
+        {
+            Jump();
+        }
+        
     }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.layer == GameInformation.BuildingLayer)
+        {
+            IsGrounded = true;
+        }
+    }
+    /*private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.layer == GameInformation.BuildingLayer)
+        {
+            IsGrounded = false;
+        }
+    }*/
     private void SpeedControl()
     {
-        if(rb.velocity.magnitude > WalkSpeed)
+        Vector3 dir = rb.velocity.normalized;
+        if(Mathf.Sqrt(Mathf.Pow(rb.velocity.x,2) + Mathf.Pow(rb.velocity.z,2)) > WalkSpeed)
         {
-            rb.velocity = rb.velocity.normalized * WalkSpeed;
+            rb.velocity = new Vector3(dir.x * WalkSpeed, rb.velocity.y, dir.z * WalkSpeed);
+        }
+    }
+    private Vector3 bodyrotation = new Vector3(0,0,0);
+    private Vector3 HeadRotation = Vector3.zero;
+    private void LateUpdate()
+    {
+        if(aiming)
+        {
+            Head.transform.rotation = Quaternion.Euler(xrot, yrot, 0);
+
+
+
+
         }
     }
 }
