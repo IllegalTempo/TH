@@ -12,15 +12,20 @@ public class PlayerMain : MonoBehaviour
     public Animator animator;
     public Movement playermovement;
     public PlayerInventory inventory;
+    public GameObject soul;
     private void OnEnable()
     {
+        DontDestroyOnLoad(gameObject);
         GameInformation.LocalPlayer = gameObject;
+
 
     }
     private void Start()
     {
         playermovement = GetComponent<Movement>();
         ChooseWeapon((int)GameInformation.Weapon.HAKUREI_FLUTE);
+
+        gameObject.SetActive(false);
     }
     public void Damage(float damage)
     {

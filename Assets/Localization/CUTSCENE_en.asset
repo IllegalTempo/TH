@@ -19,7 +19,19 @@ MonoBehaviour:
     m_Items: []
   m_TableData:
   - m_Id: 6718212739379200
-    m_Localized: Save our World!
+    m_Localized: Reimu!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7137163076120576
+    m_Localized: Please!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7137433713586176
+    m_Localized: Save our world!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7137621614211072
+    m_Localized: Gensokyo!
     m_Metadata:
       m_Items: []
   references:

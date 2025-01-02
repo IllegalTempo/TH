@@ -5,22 +5,26 @@ using UnityEditor;
 using UnityEngine;
 public class GameInformation
 {
-    public static SteamManager MainNetwork;
+    public static GameInformation instance;
+    public SteamManager MainNetwork;
 
     //Keys
-    public static GameObject LocalPlayer;
-    public static Save currentsave;
-    public static InGameSystemController system;
-    public static LayerMask OnlyBuildings = LayerMask.GetMask("Buildings");
+    public GameObject LocalPlayer;
+    public Save currentsave;
+    public InGameSystemController system;
+    public LayerMask OnlyBuildings = LayerMask.GetMask("Buildings");
     public const int BuildingLayer = 8;
-    public static Dictionary<int, string> WeaponPrefabPath = new Dictionary<int, string>()
+    public Dictionary<int, string> WeaponPrefabPath = new Dictionary<int, string>()
     {
         { (int)Weapon.HAKUREI_FLUTE,"weapon/flute/HAKUREI_FLUTE/flute"},
     };
-    public static Dictionary<int, string> WeaponPlayerAnimatorPath = new Dictionary<int, string>()
+    public Dictionary<int, string> WeaponPlayerAnimatorPath = new Dictionary<int, string>()
     {
         { (int)WeaponType.flute,"weapon/flute/PlayerAnimator"},
     };
+    public readonly string Hakurei_House_Scene = "InGame";
+    public readonly string Human_Village = "HumanVillage";
+
     public enum WeaponType
     {
         flute,
@@ -30,6 +34,12 @@ public class GameInformation
         harp,
         drum,
     }
+    public enum PlaceID
+    {
+        Hakurei_Shrine = 0,
+        Human_Village = 1,
+    }
+
     public enum Weapon
     {
         HAKUREI_FLUTE = 0,
@@ -39,7 +49,7 @@ public class GameInformation
         HAKUREI_HARP = 4,
         HAKUREI_DRUM = 5,
     }
-    public static void OnExit(PlayModeStateChange mode)
+    public void OnExit(PlayModeStateChange mode)
     {
         Save.OnExit(mode);
     }

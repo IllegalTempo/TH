@@ -7,7 +7,6 @@ public class Inventory : MonoBehaviour
     //This class Controls InventoryUI! if you want to find real storage inventory class go PlayerInventory.cs
     [SerializeField]
     private GameObject InventoryObject;
-    [SerializeField]
     private GameObject soul;
     private bool opening = false;
     private Animator animator;
@@ -15,7 +14,8 @@ public class Inventory : MonoBehaviour
     private Movement playerMovement;
     private void OnEnable()
     {
-        playerMovement = GameObject.Find("Player").GetComponent<Movement>();
+        soul = GameInformation.LocalPlayer.GetComponent<PlayerMain>().soul;
+        playerMovement = GameInformation.LocalPlayer.GetComponent<Movement>();
         animator = GetComponent<Animator>();
     }
     private void Update()
