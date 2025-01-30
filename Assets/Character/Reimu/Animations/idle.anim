@@ -1790,7 +1790,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: Armature
+    path: Armature/Head
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -1802,7 +1802,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: Armature
+    path: Armature/Head
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -1814,7 +1814,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: Armature
+    path: Armature/Head
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -2006,7 +2006,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: Armature/Head
+    path: Armature
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -2018,7 +2018,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: Armature/Head
+    path: Armature
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -2030,7 +2030,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: Armature/Head
+    path: Armature
     classID: 4
     script: {fileID: 0}
     flags: 0

@@ -295,7 +295,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!114 &4793595632832165195
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -326,5 +326,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpeechSender: {fileID: 0}
-  speechtext: {fileID: 821681094599482218}
-  life: 0
+  a: {fileID: 0}

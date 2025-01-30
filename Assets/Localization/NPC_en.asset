@@ -22,6 +22,26 @@ MonoBehaviour:
     m_Localized: Are you getting used to your body?
     m_Metadata:
       m_Items: []
+  - m_Id: 5708090353332224
+    m_Localized: I'm Marisa, I will help you in the journey!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6170337219391488
+    m_Localized: Follow me! I have something to show you
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7304693438689280
+    m_Localized: Once you enter this gate, you will be starting your journey!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8061188816187392
+    m_Localized: Marisa Kirisame
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8061314074882048
+    m_Localized: Youkai Rumia
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

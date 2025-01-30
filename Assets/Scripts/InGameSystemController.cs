@@ -11,7 +11,7 @@ public class InGameSystemController : MonoBehaviour
     public GameObject[] Destinations;
     private void Awake()
     {
-        GameInformation.system = this;
+        GameInformation.instance.system = this;
     }
     public void InstantiateHeadlessNPC(Vector3 pos)
     {

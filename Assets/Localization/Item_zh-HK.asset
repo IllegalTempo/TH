@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: Item_zh-HK
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: zh-HK
+  m_SharedData: {fileID: 11400000, guid: 383718b7a3a588d448b6b240e0e8beca, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 17420726272
+    m_Localized: "\u535A\u9E97\u795E\u793E\u7D00\u5FF5\u54C1"
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

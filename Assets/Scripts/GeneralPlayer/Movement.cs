@@ -43,7 +43,7 @@ public class Movement : MonoBehaviour
     private float TargetX = 0;
     private Vector3 height = new Vector3(0,3,0);
 
-    
+    public bool IsSprinting = false;
     private void OnEnable()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -53,10 +53,15 @@ public class Movement : MonoBehaviour
     }
     private void StateUpdate()
     {
-        if(Input.GetKey(KeyMap.SprintKey))
+        if (Input.GetKeyDown(KeyMap.CrouchKey))
         {
-
+            IsSprinting = true;
         }
+        if(Input.GetKeyUp(KeyMap.CrouchKey))
+        {
+            IsSprinting = false ;
+        }
+        animator.SetFloat("Y", Mathf.MoveTowards(animator.GetFloat("Y"),IsSprinting? 1.0f : 0.0f,0.1f));
     }
     public void AimDownSight()
     {
@@ -149,6 +154,7 @@ public class Movement : MonoBehaviour
         CameraMovement();
         SpeedControl();
         StepMovement();
+        StateUpdate();
         if(CameraOffset != TargetCameraOffset)
         {
             CameraOffset = Vector3.MoveTowards(CameraOffset, TargetCameraOffset, 30 * Time.deltaTime);

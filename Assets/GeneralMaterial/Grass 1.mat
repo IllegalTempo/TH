@@ -16,7 +16,7 @@ Material:
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 1000
+  m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
   m_LockedProperties: 
@@ -65,7 +65,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _BendRotationRandom: 0.571
+    - _BendRotationRandom: 1
     - _BladeCurve: 4
     - _BladeForward: 0.1
     - _BladeHeight: 0.5
@@ -75,17 +75,17 @@ Material:
     - _BladeWidth: 0.05
     - _BladeWidthRandom: 0.02
     - _BumpScale: 1
-    - _CullDistance: 100
+    - _CullDistance: 100.01
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _GrassHeight: 0.3
-    - _GrassHeightRandom: 1
-    - _GrassWidth: 0.2
-    - _GrassWidthRandom: 0.1
+    - _GrassHeight: 1.01
+    - _GrassHeightRandom: 0.16
+    - _GrassWidth: 0.08
+    - _GrassWidthRandom: -0.02
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
@@ -95,12 +95,12 @@ Material:
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
-    - _TessellationUniform: 27.4
+    - _TessellationUniform: 10.5
     - _TessellationUniform_this: 1
     - _TranslucentGain: 1
     - _UVSec: 0
     - _WindScale: 1
-    - _WindStrength: 0.5
+    - _WindStrength: 0.63
     - _ZWrite: 1
     m_Colors:
     - _BottomColor: {r: 0.14765039, g: 0.26415092, b: 0.11587752, a: 1}

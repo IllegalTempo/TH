@@ -528,6 +528,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 6566453301623557977}
   m_SourcePrefab: {fileID: 100100000, guid: edf8265bcd3b91e468ab2df957597e6a, type: 3}
+--- !u!4 &3929773476179268116 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -4382133659382897160, guid: edf8265bcd3b91e468ab2df957597e6a, type: 3}
+  m_PrefabInstance: {fileID: 8477696996358617068}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &7045744204618232737 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1468551188479771725, guid: edf8265bcd3b91e468ab2df957597e6a, type: 3}
@@ -612,6 +617,7 @@ MonoBehaviour:
   aiming: 0
   OpeningInventory: 0
   IsGrounded: 0
+  IsSprinting: 0
 --- !u!95 &6425005829632576601
 Animator:
   serializedVersion: 5
@@ -649,5 +655,6 @@ MonoBehaviour:
   CurrentWeaponID: 0
   animator: {fileID: 6425005829632576601}
   playermovement: {fileID: 1313008142666763571}
-  inventory: {fileID: 0}
   soul: {fileID: 4522045334762078357}
+  hand: {fileID: 3929773476179268116}
+  HighLightObject: {fileID: 0}

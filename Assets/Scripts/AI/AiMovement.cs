@@ -110,7 +110,7 @@ public class AiMovement : MonoBehaviour
 
     private void Start()
     {
-        Destination = GameInformation.system.GetRandomDestination();
+        Destination = GameInformation.instance.system.GetRandomDestination();
         
     }
     private void OnCollisionEnter(Collision collision)
@@ -141,7 +141,7 @@ public class AiMovement : MonoBehaviour
         {
             if(NextDestination == Destination || plannedPath.Count == 0)
             {
-                Destination = GameInformation.system.GetRandomDestination();
+                Destination = GameInformation.instance.system.GetRandomDestination();
                 plannedPath = null;
             } else
             {
@@ -162,7 +162,7 @@ public class AiMovement : MonoBehaviour
     private bool HasLineOfSight(Vector3 org, Vector3 dest)
     {
         
-        return !Physics.SphereCast(org, 3, (dest - org).normalized, out _, Vector3.Distance(dest, org),GameInformation.OnlyBuildings);
+        return !Physics.SphereCast(org, 3, (dest - org).normalized, out _, Vector3.Distance(dest, org),GameInformation.instance.OnlyBuildings);
     }
     private float heuristicfunction(Vector3 loc,Vector3 des)
     {

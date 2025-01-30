@@ -12,10 +12,10 @@ public class Inventory : MonoBehaviour
     private Animator animator;
 
     private Movement playerMovement;
-    private void OnEnable()
+    private void Start()
     {
-        soul = GameInformation.LocalPlayer.GetComponent<PlayerMain>().soul;
-        playerMovement = GameInformation.LocalPlayer.GetComponent<Movement>();
+        soul = GameInformation.instance.LocalPlayer.GetComponent<PlayerMain>().soul;
+        playerMovement = GameInformation.instance.LocalPlayer.GetComponent<Movement>();
         animator = GetComponent<Animator>();
     }
     private void Update()

@@ -82,8 +82,8 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _GrassHeight: 0.31
-    - _GrassHeightRandom: 1.51
+    - _GrassHeight: 1.7
+    - _GrassHeightRandom: 0.17
     - _GrassWidth: -0.04
     - _GrassWidthRandom: 0
     - _Metallic: 0
@@ -95,7 +95,7 @@ Material:
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
-    - _TessellationUniform: 41
+    - _TessellationUniform: 22.4
     - _TessellationUniform_this: 1
     - _TranslucentGain: 0.686
     - _UVSec: 0

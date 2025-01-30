@@ -9,6 +9,7 @@ public abstract class bulletobject : MonoBehaviour
     public float damage;
     public float orglife;
     public float life;
+    public PlayerMain Owner;
     private ObjectPool<bulletobject> poolref;
     private void Update()
     {
@@ -19,6 +20,17 @@ public abstract class bulletobject : MonoBehaviour
             life -= Time.deltaTime;
         } else
         {
+            DestroyBullet();
+        }
+    }
+    private void OnTriggerEnter(UnityEngine.Collider other)
+    {
+        Enemy enemy = other.gameObject.GetComponent<Enemy>();
+        if (enemy != null)
+        {
+            Debug.Log(enemy.gameObject.name);
+
+            enemy.Damage(damage,other.ClosestPoint(transform.position));
             DestroyBullet();
         }
     }

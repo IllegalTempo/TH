@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Timeline;
@@ -16,7 +17,7 @@ public class StartScreenScript : MonoBehaviour
     private string selectedsave;
     public string[] GetAllSavePath()
     {
-        return Directory.GetFiles(Application.dataPath + Path.AltDirectorySeparatorChar + "SaveData","*.json");
+        return Directory.GetFiles(Application.dataPath + Path.AltDirectorySeparatorChar + "SaveData","*.json").OrderByDescending(d => new FileInfo(d).CreationTime).ToArray();
     }
     private void Start()
     {
@@ -54,8 +55,10 @@ public class StartScreenScript : MonoBehaviour
     }
     public void OnClickNewSave()
     {
-        Save.CreateNewSave($"Save{DateTime.UtcNow.Ticks}");
+        selectedsave = Save.CreateNewSave($"Save{DateTime.UtcNow.Ticks}");
         SaveDisplays.ClearOptions();
+        SaveDisplays.value = 0;
+         
         DisplayAllSaves();
 
     }

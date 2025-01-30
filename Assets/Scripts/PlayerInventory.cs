@@ -1,10 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerInventory : MonoBehaviour
+[Serializable]
+public class PlayerInventory
 {
     public Item[] equiped;
+    public Item equipedWeapon;
     public List<Item> inv;
     public PlayerInventory()
     {

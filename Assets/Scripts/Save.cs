@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,32 +7,40 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
 public class Save
 {
     //Save Data
     public PlayerInventory Inventory;
+    [JsonIgnore]
     public Vector3 LastLocation;
+
+    public float[] LastLocation_Save = new float[3]; 
     public string LastSceneName;
     public string savename;
-    public bool[,] ActionCheckList = 
-    {
-        { false},
-    };
+
+    public bool[] ActionCheckList;
+    public PrayerMission[] ActiveMissions = new PrayerMission[9];
+    public PrayerMission CurrentMission;
     //[PlaceID] [priority]
-        
 
 
-
-
-
-
-
-
-    public int GetBestPriorityAction(int placeid)
+    public int[] FindMissionByID(int Type,int id)
     {
-        return Array.IndexOf(ActionCheckList[placeid], false);
+        List<int> result = new List<int>();
+        
+        for(int i = 0; i < ActiveMissions.Length;i++)
+        {
+            if (ActiveMissions[i].missionType == Type && ActiveMissions[i].id == id)
+            {
+                result.Add(i);
+            }
+        }
+        return result.ToArray();
     }
+
+
+
+
 
     public Save(string savename)
     {
@@ -39,12 +48,17 @@ public class Save
         Inventory = new PlayerInventory();
         LastLocation = new Vector3(495, 200, -70);
         LastSceneName = "CUTSCENE_1";
+        ActionCheckList = new bool[100];
         this.savename = savename;
     }
     public void SaveData()
     {
-        string json = JsonUtility.ToJson(this);
-
+        LastLocation_Save = new float[3]
+        {
+            LastLocation.x, LastLocation.y, LastLocation.z
+        };
+        string json = JsonConvert.SerializeObject(this, Formatting.None);
+        ;
         Debug.Log("Saving Data: " + json);
         using (StreamWriter writer = new StreamWriter(Application.dataPath + Path.AltDirectorySeparatorChar + $"SaveData/{savename}.json"))
         {
@@ -86,34 +100,18 @@ public class Save
                 json = reader.ReadToEnd();
             }
             Debug.Log("Reading File: " + json);
-
-            Save save = JsonUtility.FromJson<Save>(json);
+            Save save = new Save(savename);
+            //JsonUtility.FromJsonOverwrite(json,save);
+            JsonConvert.PopulateObject(json,save);
             GameInformation.instance.currentsave = save;
+            save.LastLocation = new Vector3(save.LastLocation_Save[0], save.LastLocation_Save[1], save.LastLocation_Save[2]);
         }
         GameInformation.instance.currentsave.UtilizeSave();
 
     }
     public static void LoadDataPath(string path)
     {
-        if (!File.Exists(path))
-        {
-            Debug.Log("File Not Exist");
-        }
-        else
-        {
-            string json = string.Empty;
-
-            using (StreamReader reader = new StreamReader(path))
-            {
-                json = reader.ReadToEnd();
-            }
-            Debug.Log("Reading File: " + json);
-
-            Save save = JsonUtility.FromJson<Save>(json);
-            GameInformation.instance.currentsave = save;
-            save.UtilizeSave();
-
-        }
+        LoadData(Path.GetFileNameWithoutExtension(path));
 
     }
     public static Save GetSave(string pathname)

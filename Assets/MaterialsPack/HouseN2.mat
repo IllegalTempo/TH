@@ -150,6 +150,9 @@ Material:
     - _Surface: 0
     - _WorkflowMode: 0
     - _ZWrite: 1
+    - _falloffthreshold: 0
+    - _litthreshold: 0
+    - _softness: 0
     m_Colors:
     - _BaseColor: {r: 0.9056604, g: 0.83303666, b: 0.83303666, a: 1}
     - _Color: {r: 0.9056604, g: 0.83303666, b: 0.83303666, a: 1}
