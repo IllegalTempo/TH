@@ -3,6 +3,7 @@ Shader"Toon/Grass"
     Properties
     {
 		[Header(Shading)]
+		_BaseTexture("Texture",2D) = "white" {}
         _TopColor("Top Color", Color) = (1,1,1,1)
 		_BottomColor("Bottom Color", Color) = (1,1,1,1)
 		_TranslucentGain("Translucent Gain", Range(0,1)) = 0.5
@@ -37,6 +38,10 @@ float _GrassHeight;
 float _GrassHeightRandom;
 float _CullDistance;
 sampler2D _WindDistortionMap;
+sampler2D _BaseTexture;
+sampler2D _NormalMap;
+float4 _BaseTexture_ST;
+
 float4 _WindDistortionMap_ST;
 float _WindStrength;
 float2 _WindFrequency;
@@ -47,7 +52,7 @@ struct geometryOutput
     float2 uv : TEXCOORD0;
     float4 _ShadowCoord : TEXCOORD1;
     float3 normal : NORMAL;
-
+	float isBase : TEXCOORD2;
 
 };
 geometryOutput VertexOutput(float3 pos, float2 uv, float3 normal)
@@ -57,12 +62,12 @@ geometryOutput VertexOutput(float3 pos, float2 uv, float3 normal)
 
     o.pos = TransformObjectToHClip(pos);
 	o._ShadowCoord = GetShadowCoord(GetVertexPositionInputs(pos.xyz));
-
+	o.isBase = 0;
     o.uv = uv;
     o.normal = TransformObjectToWorldNormal(normal);
 	#if UNITY_PASS_SHADOWCASTER
 	// Applying the bias prevents artifacts from appearing on the surface.
-#endif
+	#endif
     return o;
 }
 
@@ -104,13 +109,23 @@ geometryOutput GenerateGrassVertex(float3 vertexPosition, float width, float hei
     return VertexOutput(localPosition, uv, localNormal);
 }
 
-[maxvertexcount(BLADE_SEGMENTS * 2 + 1)]
+[maxvertexcount(BLADE_SEGMENTS * 2 + 1 + 3)]
 
 void calgeo(triangle vertexOutput IN[3] : SV_Position, inout TriangleStream<geometryOutput> triStream)
 {
-    
+    //Origin
+	geometryOutput o;
+    for (int v = 0; v < 3; v++)
+    {
+        o.pos = TransformObjectToHClip(IN[v].vertex);
+        o._ShadowCoord = GetShadowCoord(GetVertexPositionInputs(IN[v].vertex.xyz));
 
-
+        o.uv = TRANSFORM_TEX(IN[v].uv, _BaseTexture);
+        o.normal = TransformObjectToWorldNormal(float3(0,1,0));
+		o.isBase = 1;
+        triStream.Append(o);
+    }
+	//Blade
     float3 pos = IN[0].vertex;
     float dist = distance(GetCameraPositionWS(), TransformObjectToWorld(pos));
     if (dist > _CullDistance)
@@ -137,6 +152,7 @@ void calgeo(triangle vertexOutput IN[3] : SV_Position, inout TriangleStream<geom
     float height = (rand(pos.zyx) * 2 - 1) * _GrassHeightRandom + _GrassHeight;
     float width = (rand(pos.xzy) * 2 - 1) * _GrassWidthRandom + _GrassWidth;
     float forward = rand(pos.yyz) * _BladeForward;
+
     for (int i = 0; i < BLADE_SEGMENTS; i++)
     {
 		
@@ -189,15 +205,23 @@ void calgeo(triangle vertexOutput IN[3] : SV_Position, inout TriangleStream<geom
 
 			half4 frag (geometryOutput i, half facing : VFACE) : SV_Target
             {	
-				float3 normal = facing > 0 ? i.normal : -i.normal;
+				float3 normalTS = UnpackNormal(tex2D(_NormalMap, i.uv));
+				float3 normal = facing > 0 ? i.normal * normalTS : -i.normal * normalTS;
 				float shadow = MainLightRealtimeShadow(i._ShadowCoord) + 0.5;
 				float NdotL = saturate(saturate(dot(normal, _MainLightPosition.xyz)) + _TranslucentGain);
 
 				float3 ambient = SampleSHVertex(float4(normal, 1));
 				float4 lightIntensity = NdotL * _MainLightColor + float4(ambient, 1);
-				float4 col = (_TopColor * i.uv.y + lightIntensity * _BottomColor) * shadow;
-
-				return col;
+				if (i.isBase > 0.5) 
+				{
+                    // This is the base triangle, use the base texture
+                    float4 baseColor = tex2D(_BaseTexture, i.uv);
+                    return baseColor * lightIntensity * shadow;
+                } else {
+                    // This is a grass blade, use the gradient coloring
+                    float4 col = (_TopColor * i.uv.y + lightIntensity * _BottomColor) * shadow;
+                    return col;
+                }
 				 //return float4(normal * 0.5 + 0.5, 1);
 
 

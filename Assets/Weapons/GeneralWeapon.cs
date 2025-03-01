@@ -32,10 +32,6 @@ public class GeneralWeapon : MonoBehaviour
         {
             Weaponized = !Weaponized;
             playeranimator.SetBool("Weaponing",Weaponized);
-            if(Weaponized == true)
-            {
-                player.playermovement.AimUpSight();
-            }
         }
     }
     // Update is called once per frame

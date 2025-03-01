@@ -98,7 +98,7 @@ Material:
     - _Cull: 2
     - _CullDistance: 2
     - _Cutoff: 0.5
-    - _Density: 62.25
+    - _Density: 100
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
@@ -130,9 +130,9 @@ Material:
     - _WindStrength: 1
     - _WorkflowMode: 1
     - _ZWrite: 1
-    - _speed: 16.3
+    - _speed: 1
     m_Colors:
-    - _BaseColor: {r: 0.75, g: 0.83641976, b: 1, a: 1}
+    - _BaseColor: {r: 0.6367924, g: 0.7649835, b: 1, a: 0.0627451}
     - _BottomColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}

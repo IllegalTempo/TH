@@ -66,17 +66,7 @@ public class flute : GeneralWeapon
     void Update()
     {
         base.BaseUpdate();
-        if(!Weaponized)
-        {
-            if (Input.GetMouseButtonDown((int)KeyMap.altAttack))
-            {
-                Aim();
-            }
-            if (Input.GetMouseButtonUp((int)KeyMap.altAttack))
-            {
-                UnAim();
-            }
-        }
+        
         
         //Inputs
         if (WeaponActionCD <= 0)
@@ -117,15 +107,6 @@ public class flute : GeneralWeapon
     public void AddCharge()
     {
         charge += 10;
-    }
-    private void Aim()
-    {
-        player.playermovement.AimDownSight();
-    }
-    private void UnAim()
-    {
-        player.playermovement.AimUpSight();
-
     }
     private void Shoot()
     {

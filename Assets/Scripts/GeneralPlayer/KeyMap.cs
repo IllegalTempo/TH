@@ -12,5 +12,6 @@ public class KeyMap
     public static KeyCode JumpKey = KeyCode.Space;
     public static MouseButton Attack = MouseButton.Left;
     public static MouseButton altAttack = MouseButton.Right;
+    public static KeyCode Aim = KeyCode.LeftAlt;
     public static KeyCode SwitchWeaponized = KeyCode.Q;
 }

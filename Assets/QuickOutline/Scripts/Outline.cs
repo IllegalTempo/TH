@@ -100,6 +100,7 @@ public class Outline : MonoBehaviour {
   }
 
   void OnEnable() {
+        GameInformation.instance.ui.StartInteraction();
     foreach (var renderer in renderers) {
 
       // Append outline shaders
@@ -139,7 +140,9 @@ public class Outline : MonoBehaviour {
     }
 
   void OnDisable() {
-    foreach (var renderer in renderers) {
+        GameInformation.instance.ui.EndInteractionTips();
+
+        foreach (var renderer in renderers) {
 
       // Remove outline shaders
       var materials = renderer.sharedMaterials.ToList();

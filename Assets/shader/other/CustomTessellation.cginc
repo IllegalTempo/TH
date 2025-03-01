@@ -6,6 +6,7 @@ struct vertexInput
 	float4 vertex : POSITION;
 	float3 normal : NORMAL;
 	float4 tangent : TANGENT;
+    float2 uv : TEXCOORD0;
 };
 
 struct vertexOutput
@@ -13,6 +14,7 @@ struct vertexOutput
 	float4 vertex : SV_POSITION;
 	float3 normal : NORMAL;
 	float4 tangent : TANGENT;
+    float2 uv : TEXCOORD0;
 };
 
 struct TessellationFactors 
@@ -44,6 +46,7 @@ vertexOutput tessVert(vertexInput v)
 	o.vertex = v.vertex;
 	o.normal = v.normal;
 	o.tangent = v.tangent;
+    o.uv = v.uv;
 	return o;
 }
 CBUFFER_START(UnityPerMaterial)
@@ -83,6 +86,7 @@ vertexOutput domain(TessellationFactors factors, OutputPatch<vertexInput, 3> pat
 	MY_DOMAIN_PROGRAM_INTERPOLATE(vertex)
 	MY_DOMAIN_PROGRAM_INTERPOLATE(normal)
 	MY_DOMAIN_PROGRAM_INTERPOLATE(tangent)
+    MY_DOMAIN_PROGRAM_INTERPOLATE(uv)
 
 	return tessVert(v);
 }

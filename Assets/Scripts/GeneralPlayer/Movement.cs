@@ -8,7 +8,7 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
-    private const float WalkSpeed = 20;
+    private float WalkSpeed = 20;
     private Vector3 BaseWind = new Vector3(-5, 0, 5);
     private Vector3 CameraOffset;
     public static bool InCutScene = false;
@@ -33,35 +33,41 @@ public class Movement : MonoBehaviour
 
     private Quaternion CharacterRotation;
     private Vector3 DefaultTargetCameraOffset = new Vector3(0,2,-10);
-    private Vector3 AimDownCameraOffset = new Vector3(3f, 0, -6);
+    private Vector3 AimDownCameraOffset = new Vector3(3f, 0, -8);
     private Vector3 InventoryCameraOffset = new Vector3(3f, 0.3f, -10f);
 
     private Vector3 TargetCameraOffset;
     public bool aiming;
     public bool OpeningInventory;
     public bool IsGrounded;
+    public bool IsFlying;
     private float TargetX = 0;
     private Vector3 height = new Vector3(0,3,0);
+    private PlayerMain player;
 
-    public bool IsSprinting = false;
+    public bool IsCrouching = false;
     private void OnEnable()
     {
         Cursor.lockState = CursorLockMode.Locked;
         TargetCameraOffset = DefaultTargetCameraOffset;
         rb = GetComponent<Rigidbody>(); 
         animator = GetComponent<Animator>();
+        player = GetComponent<PlayerMain>();    
     }
     private void StateUpdate()
     {
         if (Input.GetKeyDown(KeyMap.CrouchKey))
         {
-            IsSprinting = true;
+            IsCrouching = true;
         }
         if(Input.GetKeyUp(KeyMap.CrouchKey))
         {
-            IsSprinting = false ;
+            IsCrouching = false ;
         }
-        animator.SetFloat("Y", Mathf.MoveTowards(animator.GetFloat("Y"),IsSprinting? 1.0f : 0.0f,0.1f));
+        float targety = 0;
+        if (IsFlying) targety = -1;
+        if (IsCrouching) targety = 1;
+        animator.SetFloat("Y", Mathf.MoveTowards(animator.GetFloat("Y"),targety,0.05f));
     }
     public void AimDownSight()
     {
@@ -117,12 +123,18 @@ public class Movement : MonoBehaviour
 
         inputs.x =Input.GetAxisRaw("Horizontal");
         inputs.y = Input.GetAxisRaw("Vertical");
-        Vector3 localVelocity = (inputs) * (rb.velocity.magnitude/WalkSpeed);
+        Vector3 localVelocity = ((inputs) * (rb.velocity.magnitude/WalkSpeed)).normalized;
         //Vector3 localVelocity = (transform.rotation * rb.velocity)/WalkSpeed;
-        TargetX += (localVelocity.magnitude - TargetX) * Time.deltaTime * WalkSpeed;
-        animator.SetFloat("X", TargetX);
-        MoveDirection = cam.transform.forward * inputs.y + cam.transform.right * inputs.x;
+        TargetX = localVelocity.magnitude;
+        if(IsFlying)
+        {
+            
+            TargetX = 1 - TargetX;
+        }
 
+        animator.SetFloat("X", Mathf.MoveTowards(animator.GetFloat("X"), TargetX, 0.1f));
+        MoveDirection = cam.transform.forward * inputs.y + cam.transform.right * inputs.x;
+        MoveDirection.y = 0;
         //transform.RotateAround(transform.position,transform.up, Vector3.SignedAngle(transform.forward, MoveDirection, transform.position));
         if(aiming)
         {
@@ -133,10 +145,10 @@ public class Movement : MonoBehaviour
         }
         else if(MoveDirection != Vector3.zero)
         {
+            transform.forward = Vector3.Scale(MoveDirection, twodmask);
 
             rb.AddForce(transform.forward * MoveDirection.magnitude * WalkSpeed * 10, ForceMode.Force);
             
-            transform.forward = Vector3.Scale(MoveDirection,twodmask);
             //transform.rotation = Quaternion.RotateTowards(transform.rotation, CharacterRotation, Time.deltaTime * Quaternion.Angle(transform.rotation, CharacterRotation) * 60);
 
         }
@@ -145,8 +157,57 @@ public class Movement : MonoBehaviour
     }
     private void Jump()
     {
-        IsGrounded = false;
-        rb.AddForce(Vector3.up * JumpConstant,ForceMode.Force);
+        if (Input.GetKeyDown(KeyMap.JumpKey) && IsGrounded && !player.InBattle)
+        {
+
+            IsGrounded = false;
+            rb.AddForce(Vector3.up * JumpConstant, ForceMode.Force);
+        }
+    }
+    
+    private void fly()
+    {
+        if (player.InBattle)
+        {
+            IsFlying = true;
+        } else
+        {
+            if (!IsGrounded && Input.GetKeyDown(KeyMap.JumpKey))
+            {
+                IsFlying = true;
+                IsCrouching = false;
+                rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
+                WalkSpeed = 60f;
+
+            }
+            if (Input.GetKeyUp(KeyMap.JumpKey))
+            {
+                IsFlying = false;
+                WalkSpeed = 20f;
+
+            }
+            if (IsFlying)
+            {
+                rb.AddForce(Vector3.up * JumpConstant * 0.1f, ForceMode.Force);
+
+            }
+        }
+        
+    }
+    private void Aiming()
+    {
+        if(Input.GetKeyDown(KeyMap.Aim))
+        {
+            aiming = !aiming;
+            if(aiming)
+            {
+                AimDownSight();
+
+            } else
+            {
+                AimUpSight();
+            }
+        }
     }
     private void Update()
     {
@@ -155,15 +216,15 @@ public class Movement : MonoBehaviour
         SpeedControl();
         StepMovement();
         StateUpdate();
+        fly();
+        Jump();
+        Aiming();
         if(CameraOffset != TargetCameraOffset)
         {
             CameraOffset = Vector3.MoveTowards(CameraOffset, TargetCameraOffset, 30 * Time.deltaTime);
 
         }
-        if(Input.GetKeyDown(KeyMap.JumpKey) && IsGrounded)
-        {
-            Jump();
-        }
+        
         
     }
     private void OnCollisionEnter(Collision collision)
@@ -187,12 +248,16 @@ public class Movement : MonoBehaviour
         {
             rb.velocity = new Vector3(dir.x * WalkSpeed, rb.velocity.y, dir.z * WalkSpeed);
         }
+        if(Mathf.Abs(rb.velocity.y) > 100f)
+        {
+            rb.velocity = new Vector3(rb.velocity.x, Mathf.Clamp(rb.velocity.y,-100,100), rb.velocity.z);
+        }
     }
     private Vector3 bodyrotation = new Vector3(0,0,0);
     private Vector3 HeadRotation = Vector3.zero;
     private void LateUpdate()
     {
-        if(aiming)
+        if(aiming && !player.CurrentWeapon.Weaponized)
         {
             Head.transform.rotation = Quaternion.Euler(xrot, yrot, 0);
 
