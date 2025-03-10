@@ -107,7 +107,6 @@ public class GameUIManager : MonoBehaviour
     }
     private void Start()
     {
-        GameInformation.instance.ui = this;
         InBattleUIObject.SetActive(false);
         RandomRoomDisplay.SetActive(false);
         CrosshairObject.SetActive(false);
