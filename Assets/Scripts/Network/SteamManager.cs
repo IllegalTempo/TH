@@ -128,10 +128,11 @@ public class SteamManager : MonoBehaviour
         l.SetFriendsOnly();
         l.SetJoinable(true);
         Debug.Log($"Lobby ID: {l} Result: {r} Starting Game Server...");
-        
-        server = SteamNetworkingSockets.CreateRelaySocket<GameServer>(8964);
-        Debug.Log($"Server Variable Setted: {new Friend(server.GetSteamID[0]).Name}");
+
+        server = SteamNetworkingSockets.CreateRelaySocket<GameServer>(1111);
         server.GetSteamID.Add(0, SteamClient.SteamId);
+
+        Debug.Log($"Server Variable Setted: {new Friend(server.GetSteamID[0]).Name}");
 
 
         l.SetGameServer(SteamClient.SteamId);
