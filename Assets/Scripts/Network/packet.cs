@@ -140,7 +140,7 @@ public class packet : IDisposable
     {
         int stringlength = Readint();
         string data = Encoding.Unicode.GetString(readerbuffer, readindex, stringlength);
-        readindex += data.Length;
+        readindex += stringlength;
         return data;
     }
     public Vector3 Readvector3()
