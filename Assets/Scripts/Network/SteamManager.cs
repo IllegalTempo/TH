@@ -119,14 +119,17 @@ public class SteamManager : MonoBehaviour
         }
     }
 
-    GameServer server;
+    public static GameServer server;
     public static GameClient client;
     private void OnLobbyCreated(Result r,Lobby l)
     {
         l.SetFriendsOnly();
         l.SetJoinable(true);
         Debug.Log($"Lobby ID: {l} Result: {r} Starting Game Server...");
+        
         server = SteamNetworkingSockets.CreateRelaySocket<GameServer>(8964);
+        GameSystem.instance.SpawnPlayer(true, 0, SteamClient.SteamId);
+
         l.SetGameServer(SteamClient.SteamId);
     }
     private void OnLobbyGameCreated(Lobby lobby, uint ip, ushort port, SteamId id)

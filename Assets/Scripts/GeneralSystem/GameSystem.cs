@@ -12,6 +12,7 @@ public class GameSystem : MonoBehaviour
 {
     // Start is called before the first frame update
     public static GameSystem instance;
+    [SerializeField]
     private GameObject PlayerObject;
     public NPCinform npcs = new NPCinform();
     public static int saveindex;
@@ -63,7 +64,6 @@ public class GameSystem : MonoBehaviour
     private IEnumerator LoadScene(string scene,bool init)
     {
         loadingtext = GameInformation.instance.ui.progressloading;
-        if (scene == "StartScreen") { scene = "CUTSCENE_1"; }
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(scene);
         asyncLoad.allowSceneActivation = false;
         GameInformation.instance.ui.LoadingScreenGameObject.SetActive(true);
@@ -80,14 +80,11 @@ public class GameSystem : MonoBehaviour
         GameInformation.instance.ui.LoadingScreenGameObject.SetActive(false);
 
         GameObject spawnpoint = GameObject.Find("SpawnPoint");
-        GameInformation.instance.LocalPlayer.SetActive(!scene.Contains("CUTSCENE"));
         if(scene == "InBattle")
         {
-            GameInformation.instance.LocalPlayer.GetComponent<PlayerMain>().OnEnterBattle(spawnpoint.transform.position);
             GameInformation.instance.ui.EnterBattleState();
         }
-        GameInformation.instance.LocalPlayer.GetComponent<Rigidbody>().velocity = Vector3.zero;
-        GameInformation.instance.LocalPlayer.transform.position = spawnpoint.transform.position;
+        GameInformation.instance.LocalPlayer.GetComponent<PlayerMain>().SwitchScene(scene,spawnpoint.transform.position);
         GameInformation.instance.ui.NewPlaceIntro(scene,true);
 
     }
@@ -109,6 +106,21 @@ public class GameSystem : MonoBehaviour
     void Update()
     {
         
+    }
+    public PlayerMain SpawnPlayer(bool isLocal,int networkid,ulong steamid)
+    {
+        PlayerMain p = Instantiate(PlayerObject, Vector3.zero, Quaternion.identity).GetComponent<PlayerMain>();
+        p.NetworkID = networkid;
+        p.PlayerID = steamid;
+        if(isLocal)
+        {
+            p.Localisation();
+        } else
+        {
+            p.DeLocalisation();
+
+        }
+        return p;
     }
     private void OnApplicationQuit()
     {

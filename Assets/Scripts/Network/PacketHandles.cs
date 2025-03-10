@@ -24,6 +24,7 @@ public class PacketHandles_Method
 
     public static async void Client_Handle_test(Connection c, packet packet)
     {
+        int NetworkID = packet.Readint();
         string text = packet.ReadstringUNICODE();
         float Servertime = packet.Readfloat();
 
@@ -35,33 +36,32 @@ public class PacketHandles_Method
         await Task.Delay(5);
         Debug.Log("Sending Test Packet");
         PacketSend.Client_Send_test();
-
+        SteamManager.client.NetworkID = NetworkID;
     }
     public static void Client_Handle_InitRoomInfo(Connection c, packet packet)
     {
         int numplayer = packet.Readint();
-
+        float DelayMS = (DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - packet.Readfloat();
+        GameClient client = SteamManager.client;
         for (int i = 0; i < numplayer; i++)
         {
-            GameObject instance = Resources.Load<GameObject>("Assets/Character/Reimu/prefab/Reimu");
+            int NetworkID = packet.Readint();
+            ulong steamid = packet.Readulong();
+            
+            GameSystem.instance.SpawnPlayer(client.IsLocal(NetworkID), NetworkID,steamid);
 
-            ulong playerid = packet.Readulong();
-            PlayerMain p = UnityEngine.Object.Instantiate(instance, Vector3.zero, Quaternion.identity).GetComponent<PlayerMain>();
-            p.NetworkID = i;
-            p.PlayerID = playerid;
-            SteamManager.client.GetPlayerByNetworkID.Add(i, p);
+
         }
     }
     public static void Client_Handle_NewPlayerJoin(Connection c, packet packet)
     {
         ulong playerid = packet.Readulong();
-        GameObject instance = Resources.Load<GameObject>("Assets/Character/Reimu/prefab/Reimu");
+        int supposeNetworkID = packet.Readint();
 
-        PlayerMain p = UnityEngine.Object.Instantiate(instance, Vector3.zero, Quaternion.identity).GetComponent<PlayerMain>();
-        int supposeNetworkID = SteamManager.client.GetPlayerByNetworkID.Count;
-        p.NetworkID = supposeNetworkID;
-        p.PlayerID = playerid;
-        SteamManager.client.GetPlayerByNetworkID.Add(supposeNetworkID, p);
+
+        
+
+        SteamManager.client.GetPlayerByNetworkID.Add(supposeNetworkID, GameSystem.instance.SpawnPlayer(false, supposeNetworkID, playerid));
     }
     public static void Client_Handle_PlayerQuit(Connection c, packet packet)
     { 

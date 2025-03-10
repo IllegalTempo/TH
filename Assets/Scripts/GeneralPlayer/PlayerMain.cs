@@ -36,6 +36,29 @@ public class PlayerMain : MonoBehaviour
     {
         Destroy(gameObject);
     }
+    public void SwitchScene(string newscenename,Vector3 spawnpoint)
+    {
+        bool IsCutScene = newscenename.Contains("CUTSCENE");
+        bool IsBattle = newscenename.Contains("InBattle");
+        GameInformation.instance.LocalPlayer.SetActive(!IsCutScene);
+        if (InBattle)
+        {
+            OnEnterBattle(spawnpoint);
+        }
+
+        GameInformation.instance.LocalPlayer.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        GameInformation.instance.LocalPlayer.transform.position = spawnpoint;
+    }
+    public void Localisation()
+    {
+        IsLocal = true;
+        GameInformation.instance.LocalPlayer = gameObject;
+    }
+    public void DeLocalisation()
+    {
+        IsLocal = false;
+        Destroy(playermovement.cam.gameObject);
+    }
     public void LevelUP()
     {
         CanChooseNewBoon = true;
@@ -102,13 +125,11 @@ public class PlayerMain : MonoBehaviour
     }
     private void Start()
     {
-        GameInformation.instance.LocalPlayer = gameObject;
         health = maxHealth;
         DontDestroyOnLoad(gameObject);
         rb = GetComponent<Rigidbody>();
         playermovement = GetComponent<Movement>();
         ChooseWeapon((int)GameInformation.Weapon.HAKUREI_FLUTE);
-        IsLocal = true;
         gameObject.SetActive(false);
     }
     private void ChangeInHealth()

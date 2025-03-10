@@ -9,10 +9,15 @@ using System.Runtime.InteropServices;
 
 public class GameClient : ConnectionManager
 {
+    public int NetworkID;
     private delegate void PacketHandle(Connection c, packet p);
     private Dictionary<int, PacketHandle> ClientPacketHandles;
     public Dictionary<int, PlayerMain> GetPlayerByNetworkID = new Dictionary<int, PlayerMain>();
 
+    public bool IsLocal(int id)
+    {
+        return id == NetworkID;
+    }
     public Connection GetServer()
     {
         return Connection;

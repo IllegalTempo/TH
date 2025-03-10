@@ -3,6 +3,7 @@ using Steamworks.Data;
 using System;
 using System.Linq;
 using System.Runtime.InteropServices;
+using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEditor.Experimental.GraphView.GraphView;
 
@@ -21,6 +22,7 @@ public class PacketSend
     {
         using (packet p = new packet((int)ServerPackets.Test_Packet))
         {
+            p.Write(pl.NetworkID);
             p.WriteUNICODE(TestRandomUnicode);
             p.Write(DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond);
             return pl.SendPacket(p);
@@ -43,7 +45,7 @@ public class PacketSend
         using (packet p = new packet((int)ServerPackets.UpdatePlayerEnterRoomForExistingPlayer))
         {
             p.Write(newplayer.Identity.SteamId);
-
+            p.Write(SteamManager.server.GetPlayer(newplayer).NetworkID);
             return BroadcastPacket(newplayer, p);
 
         };
@@ -64,17 +66,17 @@ public class PacketSend
     }
     private static Result BroadcastPacket(ConnectionInfo i, packet p)
     {
-        return BroadcastPacket(GameServer.players[i.Identity.SteamId].NetworkID, p);
+        return BroadcastPacket(SteamManager.server.GetPlayer(i).NetworkID, p);
     }
     private static Result BroadcastPacket(ulong ExcludeID, packet p)
     {
-        return BroadcastPacket(GameServer.players[ExcludeID].NetworkID, p);
+        return BroadcastPacket(SteamManager.server.players[ExcludeID].NetworkID, p);
     }
     private static Result BroadcastPacket(int excludeid, packet p)
     {
-        for (int i = 0; i < GameServer.players.Count; i++)
+        for (int i = 0; i < SteamManager.server.currentplayer; i++)
         {
-            NetworkPlayer sendtarget = GameServer.players.ElementAt(i).Value;
+            NetworkPlayer sendtarget = SteamManager.server.GetPlayer(i);
             if (sendtarget.NetworkID != excludeid)
             {
                 if (sendtarget.SendPacket(p) != Result.OK)
@@ -96,7 +98,8 @@ public class PacketSend
             p.Write(DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond);
             for (int i = 0; i < NumPlayer; i++)
             {
-                p.Write(GameServer.players.ElementAt(i).Key); //given information (SteamID)
+                p.Write(SteamManager.server.GetSteamID.ElementAt(i).Key);
+                p.Write(SteamManager.server.GetSteamID[i]); //given information (SteamID)
             }
             return target.SendPacket(p);
         }

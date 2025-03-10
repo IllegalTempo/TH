@@ -44,6 +44,7 @@ public class GameInformation : MonoBehaviour
     {
         playerMask = LayerMask.GetMask("Player");
         OnlyBuildings = LayerMask.GetMask("Buildings");
+        GameObject.Find("");
 
         if (instance == null)
         {

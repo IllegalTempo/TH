@@ -13,12 +13,12 @@ using Unity.VisualScripting;
 
 public class GameServer : SocketManager
 {
-    int maxplayer;
-    int currentplayer;
-    public static Dictionary<ulong, NetworkPlayer> players = new Dictionary<ulong, NetworkPlayer>();
-    public static Dictionary<int, ulong> GetSteamID = new Dictionary<int, ulong>();
+    public int maxplayer;
+    public int currentplayer;
+    public Dictionary<ulong, NetworkPlayer> players = new Dictionary<ulong, NetworkPlayer>();
+    public Dictionary<int, ulong> GetSteamID = new Dictionary<int, ulong>();
     private delegate void PacketHandle(NetworkPlayer n, packet p);
-    private static Dictionary<int, PacketHandle> ServerPacketHandles;
+    private Dictionary<int, PacketHandle> ServerPacketHandles;
     public GameServer()
     {
         this.maxplayer = 8;
@@ -51,16 +51,20 @@ public class GameServer : SocketManager
         await Task.Delay(5);
         Debug.Log("Sending Test Packet");
         NetworkPlayer connectedPlayer = GetPlayer(info);
-        PacketSend.Server_Send_test(connectedPlayer);
+        PacketSend.Server_Send_test(connectedPlayer); // Send a test to the player along with his networkid
         //When a player enter the server, send them the room info including all current players including himself;
         PacketSend.Server_Send_InitRoomInfo(connectedPlayer, currentplayer); //Send packet to the one who connects to the server, with room info
 
-        PacketSend.Server_Send_NewPlayerJoined(info);
-
+        PacketSend.Server_Send_NewPlayerJoined(info); // Broadcast a message to inform all players that a new player has joined
+        GameSystem.instance.SpawnPlayer(false,connectedPlayer.NetworkID,connectedPlayer.steamId);
     }
-    private NetworkPlayer GetPlayer(ConnectionInfo info)
+    public NetworkPlayer GetPlayer(ConnectionInfo info)
     {
         return players[info.Identity.SteamId.Value];
+    }
+    public NetworkPlayer GetPlayer(int NetworkID)
+    {
+        return players[GetSteamID[NetworkID]];
     }
     public override void OnConnecting(Connection connection, ConnectionInfo info)
     {

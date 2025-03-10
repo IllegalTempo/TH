@@ -4,6 +4,7 @@ using System.Collections.Specialized;
 using System.Drawing;
 using System.Security.Cryptography;
 using System.Threading;
+using UnityEditor.AddressableAssets.Build;
 using UnityEngine;
 
 public class Movement : MonoBehaviour
@@ -12,10 +13,10 @@ public class Movement : MonoBehaviour
     private Vector3 BaseWind = new Vector3(-5, 0, 5);
     private Vector3 CameraOffset;
     public static bool InCutScene = false;
-    private Rigidbody rb;
+    public Rigidbody rb;
     private Animator animator;
     [SerializeField]
-    private Camera cam;
+    public Camera cam;
     public GameObject Head;
 
     [Header("Inputs")]
@@ -44,7 +45,6 @@ public class Movement : MonoBehaviour
     private float TargetX = 0;
     private Vector3 height = new Vector3(0, 3, 0);
     private PlayerMain player;
-
     public bool IsCrouching = false;
     private void OnEnable()
     {
@@ -56,14 +56,18 @@ public class Movement : MonoBehaviour
     }
     private void StateUpdate()
     {
-        if (Input.GetKeyDown(KeyMap.CrouchKey))
+        if(player.IsLocal)
         {
-            IsCrouching = true;
+            if (Input.GetKeyDown(KeyMap.CrouchKey))
+            {
+                IsCrouching = true;
+            }
+            if (Input.GetKeyUp(KeyMap.CrouchKey))
+            {
+                IsCrouching = false;
+            }
         }
-        if (Input.GetKeyUp(KeyMap.CrouchKey))
-        {
-            IsCrouching = false;
-        }
+        
         float targety = 0;
         if (IsFlying) targety = -1;
         if (IsCrouching) targety = 1;
@@ -71,7 +75,11 @@ public class Movement : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        PacketSend.Client_Send_Position(transform.position);
+        if(player.IsLocal)
+        {
+            PacketSend.Client_Send_Position(transform.position);
+
+        }
     }
     public void AimDownSight()
     {
@@ -98,7 +106,6 @@ public class Movement : MonoBehaviour
     }
     private void CameraMovement()
     {
-
         if (!InCutScene)
         {
 
@@ -164,6 +171,8 @@ public class Movement : MonoBehaviour
     }
     private void Jump()
     {
+
+
         if (Input.GetKeyDown(KeyMap.JumpKey) && IsGrounded && !player.InBattle)
         {
 
@@ -180,6 +189,8 @@ public class Movement : MonoBehaviour
         }
         else
         {
+            if (!player.IsLocal) return;
+
             if (!IsGrounded && Input.GetKeyDown(KeyMap.JumpKey))
             {
                 IsFlying = true;
@@ -204,6 +215,7 @@ public class Movement : MonoBehaviour
     }
     private void Aiming()
     {
+
         if (Input.GetKeyDown(KeyMap.Aim))
         {
             aiming = !aiming;
@@ -220,12 +232,15 @@ public class Movement : MonoBehaviour
     }
     private void Update()
     {
-        PlayerMovement();
-        CameraMovement();
-        SpeedControl();
         StepMovement();
         StateUpdate();
         fly();
+
+        if (!player.IsLocal) return;
+        SpeedControl();
+
+        CameraMovement();
+        PlayerMovement();
         Jump();
         Aiming();
         if (CameraOffset != TargetCameraOffset)
@@ -252,6 +267,7 @@ public class Movement : MonoBehaviour
     }*/
     private void SpeedControl()
     {
+
         Vector3 dir = rb.velocity.normalized;
         if (Mathf.Sqrt(Mathf.Pow(rb.velocity.x, 2) + Mathf.Pow(rb.velocity.z, 2)) > WalkSpeed)
         {
