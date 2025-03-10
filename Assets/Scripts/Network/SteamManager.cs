@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using UnityEngine.Rendering;
 using Steamworks.Data;
 using UnityEditor;
+using static UnityEditor.Experimental.GraphView.GraphView;
+using UnityEditor.MemoryProfiler;
 
 public class SteamManager : MonoBehaviour
 {
@@ -128,7 +130,9 @@ public class SteamManager : MonoBehaviour
         Debug.Log($"Lobby ID: {l} Result: {r} Starting Game Server...");
         
         server = SteamNetworkingSockets.CreateRelaySocket<GameServer>(8964);
-        GameSystem.instance.SpawnPlayer(true, 0, SteamClient.SteamId);
+        Debug.Log($"Server Variable Setted: {new Friend(server.GetSteamID[0]).Name}");
+        server.GetSteamID.Add(0, SteamClient.SteamId);
+
 
         l.SetGameServer(SteamClient.SteamId);
     }
@@ -149,8 +153,8 @@ public class SteamManager : MonoBehaviour
             SteamId serverid = new SteamId();
             uint ip = 0;
             ushort port = 0;
-            l.GetGameServer(ref ip,ref port,ref serverid);
-            Debug.Log($"Connecting To Relay Server: {ip}:{port}, {serverid}");
+            bool haveserver = l.GetGameServer(ref ip,ref port,ref serverid);
+            Debug.Log($"{haveserver}|Connecting To Relay Server: {ip}:{port}, {serverid}");
 
             client = SteamNetworkingSockets.ConnectRelay<GameClient>(serverid, 8964);
         }

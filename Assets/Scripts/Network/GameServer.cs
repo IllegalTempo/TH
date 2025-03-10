@@ -15,7 +15,7 @@ public class GameServer : SocketManager
 {
     public int maxplayer;
     public int currentplayer;
-    public Dictionary<ulong, NetworkPlayer> players = new Dictionary<ulong, NetworkPlayer>();
+    public Dictionary<ulong, NetworkPlayer> players = new Dictionary<ulong, NetworkPlayer>(); //This does not include the server player
     public Dictionary<int, ulong> GetSteamID = new Dictionary<int, ulong>();
     private delegate void PacketHandle(NetworkPlayer n, packet p);
     private Dictionary<int, PacketHandle> ServerPacketHandles;
