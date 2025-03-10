@@ -157,7 +157,7 @@ public class SteamManager : MonoBehaviour
             bool haveserver = l.GetGameServer(ref ip,ref port,ref serverid);
             Debug.Log($"{haveserver}|Connecting To Relay Server: {ip}:{port}, {serverid}");
 
-            client = SteamNetworkingSockets.ConnectRelay<GameClient>(serverid, 8964);
+            client = SteamNetworkingSockets.ConnectRelay<GameClient>(serverid, 1111);
         }
     }
     private async void OnFriendJoinLobby(Lobby lobby, SteamId id)
