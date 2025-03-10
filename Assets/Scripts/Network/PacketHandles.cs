@@ -34,8 +34,7 @@ public class PacketHandles_Method
         }
         await Task.Delay(5);
         Debug.Log("Sending Test Packet");
-        GameClient.ServerEndPoint = c;
-        PacketSend.Client_Send_test(c);
+        PacketSend.Client_Send_test();
 
     }
     public static void Client_Handle_InitRoomInfo(Connection c, packet packet)
@@ -50,7 +49,7 @@ public class PacketHandles_Method
             PlayerMain p = UnityEngine.Object.Instantiate(instance, Vector3.zero, Quaternion.identity).GetComponent<PlayerMain>();
             p.NetworkID = i;
             p.PlayerID = playerid;
-            GameClient.GetPlayerByNetworkID.Add(i, p);
+            SteamManager.client.GetPlayerByNetworkID.Add(i, p);
         }
     }
     public static void Client_Handle_NewPlayerJoin(Connection c, packet packet)
@@ -59,22 +58,22 @@ public class PacketHandles_Method
         GameObject instance = Resources.Load<GameObject>("Assets/Character/Reimu/prefab/Reimu");
 
         PlayerMain p = UnityEngine.Object.Instantiate(instance, Vector3.zero, Quaternion.identity).GetComponent<PlayerMain>();
-        int supposeNetworkID = GameClient.GetPlayerByNetworkID.Count;
+        int supposeNetworkID = SteamManager.client.GetPlayerByNetworkID.Count;
         p.NetworkID = supposeNetworkID;
         p.PlayerID = playerid;
-        GameClient.GetPlayerByNetworkID.Add(supposeNetworkID, p);
+        SteamManager.client.GetPlayerByNetworkID.Add(supposeNetworkID, p);
     }
     public static void Client_Handle_PlayerQuit(Connection c, packet packet)
     { 
         int NetworkID = packet.Readint();
-        GameClient.GetPlayerByNetworkID[NetworkID].Disconnect();
-        GameClient.GetPlayerByNetworkID.Remove(NetworkID);
+        SteamManager.client.GetPlayerByNetworkID[NetworkID].Disconnect();
+        SteamManager.client.GetPlayerByNetworkID.Remove(NetworkID);
     }
     public static void Client_Handle_ReceivedPlayerMovement(Connection c,packet packet)
     {
         int NetworkID = packet.Readint();
         Vector3 pos = packet.Readvector3();
-        GameClient.GetPlayerByNetworkID[NetworkID].transform.position = pos;
+        SteamManager.client.GetPlayerByNetworkID[NetworkID].transform.position = pos;
     }
 }
 

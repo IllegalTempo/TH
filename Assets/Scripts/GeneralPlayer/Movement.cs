@@ -69,6 +69,10 @@ public class Movement : MonoBehaviour
         if (IsCrouching) targety = 1;
         animator.SetFloat("Y", Mathf.MoveTowards(animator.GetFloat("Y"), targety, 0.05f));
     }
+    private void FixedUpdate()
+    {
+        PacketSend.Client_Send_Position(transform.position);
+    }
     public void AimDownSight()
     {
         WalkSpeed = 10;

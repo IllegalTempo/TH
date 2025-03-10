@@ -110,24 +110,28 @@ public class PacketSend
         Test_Packet = 0,
         SendPosition = 1,
     };
-    public static Result Client_Send_test(Connection connection)
+    public static Result Client_Send_test()
     {
         using (packet p = new packet((int)ClientPackets.Test_Packet))
         {
             p.WriteUNICODE(TestRandomUnicode);
 
-            return PacketSendingUtils.SendPacketToConnection(connection, p);
+            return SendToServer(p);
 
 
         };
     }
-    public static Result Client_Send_Position(Connection connection,Vector3 pos)
+    public static Result Client_Send_Position(Vector3 pos)
     {
         using (packet p = new packet((int)ClientPackets.SendPosition))
         {
             p.Write(pos);
-            return PacketSendingUtils.SendPacketToConnection(connection, p);
+            return SendToServer(p);
         }
+    }
+    private static Result SendToServer(packet p)
+    {
+        return PacketSendingUtils.SendPacketToConnection(SteamManager.client.GetServer(), p);
     }
 }
 

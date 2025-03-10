@@ -10,9 +10,13 @@ using System.Runtime.InteropServices;
 public class GameClient : ConnectionManager
 {
     private delegate void PacketHandle(Connection c, packet p);
-    private static Dictionary<int, PacketHandle> ClientPacketHandles;
-    public static Dictionary<int, PlayerMain> GetPlayerByNetworkID = new Dictionary<int, PlayerMain>();
-    public static Connection ServerEndPoint;
+    private Dictionary<int, PacketHandle> ClientPacketHandles;
+    public Dictionary<int, PlayerMain> GetPlayerByNetworkID = new Dictionary<int, PlayerMain>();
+
+    public Connection GetServer()
+    {
+        return Connection;
+    }
     private void initiatelizePacketHandler()
     {
         ClientPacketHandles = new Dictionary<int, PacketHandle>()

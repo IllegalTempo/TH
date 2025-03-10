@@ -120,7 +120,7 @@ public class SteamManager : MonoBehaviour
     }
 
     GameServer server;
-    GameClient client;
+    public static GameClient client;
     private void OnLobbyCreated(Result r,Lobby l)
     {
         l.SetFriendsOnly();
