@@ -94,7 +94,7 @@ public class packet : IDisposable
     }
     public void WriteUNICODE(string text)
     {
-        Write(text.Length);
+        Write(text.Length * 2);
         buffer.AddRange(Encoding.Unicode.GetBytes(text));
     }
     #endregion
