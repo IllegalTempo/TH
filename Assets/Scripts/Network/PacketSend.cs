@@ -24,7 +24,7 @@ public class PacketSend
         {
             p.Write(pl.NetworkID);
             p.WriteUNICODE(TestRandomUnicode);
-            p.Write(DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond);
+            p.Write(DateTime.Now.Ticks);
             return pl.SendPacket(p);
 
         };
@@ -95,7 +95,6 @@ public class PacketSend
         using (packet p = new packet((int)ServerPackets.RoomInfoOnPlayerEnterRoom))
         {
             p.Write(NumPlayer);
-            p.Write(DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond);
             for (int i = 0; i < NumPlayer; i++)
             {
                 p.Write(SteamManager.server.GetSteamID.ElementAt(i).Key);
@@ -118,7 +117,7 @@ public class PacketSend
         using (packet p = new packet((int)ClientPackets.Test_Packet))
         {
             p.WriteUNICODE(TestRandomUnicode);
-
+            p.Write(DateTime.Now.Ticks);
             return SendToServer(p);
 
 

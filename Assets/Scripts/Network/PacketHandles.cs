@@ -14,7 +14,7 @@ public class PacketHandles_Method
         float clienttime = packet.Readfloat();
         if (text == PacketSend.TestRandomUnicode)
         {
-            Debug.Log($"Confirmed {p.SteamName}, successfully connected, delay:{(DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - clienttime}ms");
+            Debug.Log($"Confirmed {p.SteamName}, successfully connected, delay:{(DateTime.Now.Ticks) - clienttime}ticks");
 
         } else
         {
@@ -38,7 +38,7 @@ public class PacketHandles_Method
 
         if (text == PacketSend.TestRandomUnicode)
         {
-            Debug.Log($"Confirmed connected from server. delay:{(DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - Servertime}ms");
+            Debug.Log($"Confirmed connected from server. delay:{(DateTime.Now.Ticks) - Servertime}ticks");
 
         } else {
             Debug.Log($"Check Code Mismatched Server Message: {text}");
@@ -52,7 +52,6 @@ public class PacketHandles_Method
     public static void Client_Handle_InitRoomInfo(Connection c, packet packet)
     {
         int numplayer = packet.Readint();
-        float DelayMS = (DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - packet.Readfloat();
         GameClient client = SteamManager.client;
         for (int i = 0; i < numplayer; i++)
         {
