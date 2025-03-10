@@ -11,7 +11,7 @@ public class PacketHandles_Method
     public static void Server_Handle_test(NetworkPlayer p, packet packet)
     {
         string text = packet.ReadstringUNICODE();
-        float clienttime = packet.Readfloat();
+        long clienttime = packet.Readlong();
         if (text == PacketSend.TestRandomUnicode)
         {
             Debug.Log($"Confirmed {p.SteamName}, successfully connected, delay:{(DateTime.Now.Ticks - clienttime)/10000}ms");
@@ -34,7 +34,7 @@ public class PacketHandles_Method
     {
         int NetworkID = packet.Readint();
         string text = packet.ReadstringUNICODE();
-        float Servertime = packet.Readfloat();
+        long Servertime = packet.Readlong();
 
         if (text == PacketSend.TestRandomUnicode)
         {
@@ -57,7 +57,7 @@ public class PacketHandles_Method
         {
             int NetworkID = packet.Readint();
             ulong steamid = packet.Readulong();
-            
+            Debug.Log($"Spawning Player {NetworkID} {steamid}");
             GameSystem.instance.SpawnPlayer(client.IsLocal(NetworkID), NetworkID,steamid);
 
 
