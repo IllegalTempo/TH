@@ -74,7 +74,7 @@ public class PacketSend
     }
     private static Result BroadcastPacket(int excludeid, packet p)
     {
-        for (int i = 0; i < SteamManager.server.currentplayer; i++)
+        for (int i = 1; i < SteamManager.server.currentplayer; i++)
         {
             NetworkPlayer sendtarget = SteamManager.server.GetPlayer(i);
             if (sendtarget.NetworkID != excludeid)
