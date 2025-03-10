@@ -11,10 +11,10 @@ public class PacketHandles_Method
     public static void Server_Handle_test(NetworkPlayer p, packet packet)
     {
         string text = packet.ReadstringUNICODE();
-        float clienttime = packet.Readfloat();
+        long clienttime = packet.Readlong();
         if (text == PacketSend.TestRandomUnicode)
         {
-            Debug.Log($"Confirmed {p.SteamName}, successfully connected, delay:{(DateTime.Now.Ticks - clienttime)/10000}ms");
+            Debug.Log($"{clienttime} Confirmed {p.SteamName}, successfully connected, delay:{(DateTime.Now.Ticks - clienttime)/10000}ms");
 
         } else
         {
@@ -34,11 +34,11 @@ public class PacketHandles_Method
     {
         int NetworkID = packet.Readint();
         string text = packet.ReadstringUNICODE();
-        float Servertime = packet.Readfloat();
+        long Servertime = packet.Readlong();
 
         if (text == PacketSend.TestRandomUnicode)
         {
-            Debug.Log($"Confirmed connected from server. delay:{(DateTime.Now.Ticks - Servertime)/10000}ms");
+            Debug.Log($"{Servertime} Confirmed connected from server. delay:{(DateTime.Now.Ticks - Servertime)/10000}ms");
 
         } else {
             Debug.Log($"Check Code Mismatched Server Message: {text}");

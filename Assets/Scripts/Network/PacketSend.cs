@@ -24,7 +24,8 @@ public class PacketSend
         {
             p.Write(pl.NetworkID);
             p.WriteUNICODE(TestRandomUnicode);
-            p.Write((float)DateTime.Now.Ticks);
+            Debug.Log("sending: " + DateTime.Now.Ticks);
+            p.Write(DateTime.Now.Ticks);
             return pl.SendPacket(p);
 
         };
@@ -117,7 +118,9 @@ public class PacketSend
         using (packet p = new packet((int)ClientPackets.Test_Packet))
         {
             p.WriteUNICODE(TestRandomUnicode);
-            p.Write((float)DateTime.Now.Ticks);
+            p.Write(DateTime.Now.Ticks);
+            Debug.Log("sending: " + DateTime.Now.Ticks);
+
             return SendToServer(p);
 
 
