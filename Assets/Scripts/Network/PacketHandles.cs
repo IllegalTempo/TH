@@ -11,7 +11,7 @@ public class PacketHandles_Method
     public static void Server_Handle_test(NetworkPlayer p, packet packet)
     {
         string text = packet.ReadstringUNICODE();
-        long clienttime = packet.Readlong();
+        float clienttime = packet.Readfloat();
         if (text == PacketSend.TestRandomUnicode)
         {
             Debug.Log($"Confirmed {p.SteamName}, successfully connected, delay:{(DateTime.Now.Ticks - clienttime)/10000}ms");
@@ -34,7 +34,7 @@ public class PacketHandles_Method
     {
         int NetworkID = packet.Readint();
         string text = packet.ReadstringUNICODE();
-        long Servertime = packet.Readlong();
+        float Servertime = packet.Readfloat();
 
         if (text == PacketSend.TestRandomUnicode)
         {
