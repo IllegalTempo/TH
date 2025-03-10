@@ -14,7 +14,7 @@ public class PacketHandles_Method
         float clienttime = packet.Readfloat();
         if (text == PacketSend.TestRandomUnicode)
         {
-            Debug.Log($"Confirmed {p.SteamName}, successfully connected, delay:{DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond - clienttime}ms");
+            Debug.Log($"Confirmed {p.SteamName}, successfully connected, delay:{(DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - clienttime}ms");
 
         } else
         {
@@ -38,7 +38,7 @@ public class PacketHandles_Method
 
         if (text == PacketSend.TestRandomUnicode)
         {
-            Debug.Log($"Confirmed connected from server. delay:{DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond - Servertime}ms");
+            Debug.Log($"Confirmed connected from server. delay:{(DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - Servertime}ms");
 
         } else {
             Debug.Log($"Check Code Mismatched Server Message: {text}");
