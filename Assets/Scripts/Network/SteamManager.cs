@@ -132,7 +132,6 @@ public class SteamManager : MonoBehaviour
         server = SteamNetworkingSockets.CreateRelaySocket<GameServer>(1111);
         server.GetSteamID.Add(0, SteamClient.SteamId);
 
-        Debug.Log($"Server Variable Setted: {new Friend(server.GetSteamID[0]).Name}");
 
 
         l.SetGameServer(SteamClient.SteamId);
@@ -148,7 +147,7 @@ public class SteamManager : MonoBehaviour
     }
     private void OnLobbyEntered(Lobby l)
     {
-        if (l.Owner.Id == SteamClient.SteamId) { Debug.Log("Go into your own lobby????"); return; }
+        if (l.Owner.Id == SteamClient.SteamId) { return; }
         if(client == null)
         {
             SteamId serverid = new SteamId();
