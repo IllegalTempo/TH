@@ -148,7 +148,7 @@ public class SteamManager : MonoBehaviour
     }
     private void OnLobbyEntered(Lobby l)
     {
-        if (l.Owner.Id == SteamClient.SteamId) return;
+        if (l.Owner.Id == SteamClient.SteamId) { Debug.Log("Go into your own lobby????"); return; }
         if(client == null)
         {
             SteamId serverid = new SteamId();

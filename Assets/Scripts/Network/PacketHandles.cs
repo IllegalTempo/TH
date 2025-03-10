@@ -18,7 +18,12 @@ public class PacketHandles_Method
 
         }
     }
-
+    public static void Server_Handle_PosUpdate(NetworkPlayer p, packet packet)
+    {
+        Vector3 pos = packet.Readvector3();
+        p.player.transform.position = pos;
+        PacketSend.Server_DistributeMovement(p.NetworkID,pos);
+    }
 
 
 

@@ -40,6 +40,7 @@ public class GameServer : SocketManager
         ServerPacketHandles = new Dictionary<int, PacketHandle>()
         {
             { (int)PacketSend.ClientPackets.Test_Packet,PacketHandles_Method.Server_Handle_test },
+            { (int)PacketSend.ClientPackets.SendPosition,PacketHandles_Method.Server_Handle_PosUpdate},
         };
     }
 
