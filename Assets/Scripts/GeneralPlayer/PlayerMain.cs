@@ -53,6 +53,7 @@ public class PlayerMain : MonoBehaviour
     {
         IsLocal = true;
         GameInformation.instance.LocalPlayer = gameObject;
+        GameInformation.instance.ui.gameObject.SetActive(true);
     }
     public void DeLocalisation()
     {
