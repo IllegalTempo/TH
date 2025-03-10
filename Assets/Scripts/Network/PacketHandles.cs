@@ -16,6 +16,9 @@ public class PacketHandles_Method
         {
             Debug.Log($"Confirmed {p.SteamName}, successfully connected, delay:{DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond - clienttime}ms");
 
+        } else
+        {
+            Debug.Log($"Check Code Mismatched Client Message: {text}");
         }
     }
     public static void Server_Handle_PosUpdate(NetworkPlayer p, packet packet)
@@ -36,6 +39,9 @@ public class PacketHandles_Method
         if (text == PacketSend.TestRandomUnicode)
         {
             Debug.Log($"Confirmed connected from server. delay:{DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond - Servertime}ms");
+
+        } else {
+            Debug.Log($"Check Code Mismatched Server Message: {text}");
 
         }
         await Task.Delay(5);
