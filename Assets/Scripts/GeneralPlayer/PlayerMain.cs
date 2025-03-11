@@ -59,6 +59,7 @@ public class PlayerMain : MonoBehaviour
         GameInformation.instance.LocalPlayer = gameObject;
         GameInformation.instance.ui.gameObject.SetActive(true);
         GameInformation.instance.ui.invUI.Initialize(playermovement, soul);
+        GameInformation.instance.MainNetwork.Connected = true;
 
     }
     public void DeLocalisation()

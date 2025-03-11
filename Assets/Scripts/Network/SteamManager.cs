@@ -64,7 +64,6 @@ public class SteamManager : MonoBehaviour
     private void NewLobby()
     {
         GameSystem.instance.RemoveAllPlayerObject();
-        Connected = true;
     }
 #if UNITY_EDITOR
     private void OnExit(PlayModeStateChange change)
@@ -132,9 +131,9 @@ public class SteamManager : MonoBehaviour
         }
     }
 
-    public static GameServer server;
-    public static GameClient client;
-    public static bool IsServer = false;
+    public GameServer server;
+    public GameClient client;
+    public bool IsServer = false;
     private void OnLobbyCreated(Result r,Lobby l)
     {
         l.SetFriendsOnly();
