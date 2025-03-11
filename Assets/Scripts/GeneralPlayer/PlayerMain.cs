@@ -39,7 +39,7 @@ public class PlayerMain : MonoBehaviour
     public void SwitchScene(string newscenename,Vector3 spawnpoint)
     {
 
-        bool IsCutScene = newscenename.Contains("CUTSCENE");
+        bool IsCutScene = newscenename.Contains("CUTSCENE") || newscenename == "StartScreen";
         bool IsBattle = newscenename == "InBattle";
         Debug.Log("In Battle: " + IsBattle);
 
@@ -60,6 +60,7 @@ public class PlayerMain : MonoBehaviour
         IsLocal = true;
         GameInformation.instance.LocalPlayer = gameObject;
         GameInformation.instance.ui.gameObject.SetActive(true);
+        playermovement.cam.gameObject.SetActive(false);
     }
     public void DeLocalisation()
     {
