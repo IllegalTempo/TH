@@ -64,7 +64,6 @@ public class GameClient : ConnectionManager
         using (packet packet = new packet(bytedata))
         {
             int packetid = packet.Readint();
-            Debug.Log("Received packet: " + packetid);
             ClientPacketHandles[packetid](Connection, packet);
 
         }

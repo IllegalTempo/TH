@@ -92,7 +92,6 @@ public class PacketHandles_Method
     public static void Client_Handle_ReceivedPlayerMovement(Connection c,packet packet)
     {
         int NetworkID = packet.Readint();
-        Debug.Log($"Updating {NetworkID} Position.");
 
         Vector3 pos = packet.Readvector3();
         Quaternion headrot = packet.Readquaternion();
