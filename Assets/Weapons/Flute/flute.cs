@@ -23,8 +23,8 @@ public class flute : GeneralWeapon
     private Dictionary<string, object> GetAnimationCDvar;
 
 
-    [Header("Attack Colliders")]
-    public Collider Attack1_Weapon_Collider;
+    //[Header("Attack Colliders")]
+    //public Collider Attack1_Weapon_Collider;
     public float WeaponActionSpeed
     {
         get

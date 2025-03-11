@@ -49,7 +49,11 @@ public class PlayerMain : MonoBehaviour
 
             OnEnterBattle(spawnpoint);
         }
+        if(!IsCutScene)
+        {
+            playermovement.cam.gameObject.SetActive(true);
 
+        }
         rb.velocity = Vector3.zero;
         transform.position = spawnpoint;
     }
@@ -168,7 +172,6 @@ public class PlayerMain : MonoBehaviour
     }
     public void OnEnterBattle(Vector3 SpawnPoint)
     {
-        playermovement.cam.gameObject.SetActive(true);
         transform.position = SpawnPoint;
         rb.useGravity = false;
         rb.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
