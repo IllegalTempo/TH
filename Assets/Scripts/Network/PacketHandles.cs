@@ -31,7 +31,7 @@ public class PacketHandles_Method
     {
         Vector3 pos = packet.Readvector3();
         Quaternion rot = packet.Readquaternion();
-        float yrot = packet.Readfloat();
+        Quaternion yrot = packet.Readquaternion();
         p.player.playermovement.SetMovement(pos,rot,yrot);
         PacketSend.Server_DistributeMovement(p.NetworkID,pos,rot,yrot);
     }
@@ -96,8 +96,8 @@ public class PacketHandles_Method
 
         Vector3 pos = packet.Readvector3();
         Quaternion headrot = packet.Readquaternion();
-        float yrot = packet.Readfloat();
-        GameInformation.instance.MainNetwork.client.GetPlayerByNetworkID[NetworkID].playermovement.SetMovement(pos, headrot, yrot);
+        Quaternion bodyrot = packet.Readquaternion();
+        GameInformation.instance.MainNetwork.client.GetPlayerByNetworkID[NetworkID].playermovement.SetMovement(pos, headrot, bodyrot);
     }
 }
 

@@ -79,11 +79,11 @@ public class Movement : MonoBehaviour
         {
             if(!GameInformation.instance.MainNetwork.IsServer)
             {
-                PacketSend.Client_Send_Position(transform.position, Head.transform.rotation, yrot);
+                PacketSend.Client_Send_Position(transform.position, Head.transform.rotation, transform.rotation);
 
             } else
             {
-                PacketSend.Server_DistributeMovement(0, transform.position, Head.transform.rotation, yrot);
+                PacketSend.Server_DistributeMovement(0, transform.position, Head.transform.rotation, transform.rotation);
 
             }
                 
@@ -259,7 +259,7 @@ public class Movement : MonoBehaviour
         }
         else
         {
-            transform.localRotation = Quaternion.Euler(0, NetworkYrot, 0);
+            transform.rotation = NetworkBodyrot;
             transform.position = Vector3.MoveTowards(transform.position,NetworkPos,100*Time.deltaTime);
         }
 
@@ -297,12 +297,12 @@ public class Movement : MonoBehaviour
     private Vector3 HeadRotation = Vector3.zero;
     public Vector3 NetworkPos;
     public Quaternion NetworkRot = Quaternion.identity;
-    public float NetworkYrot = 0;
-    public void SetMovement(Vector3 pos, Quaternion Headrot, float yrot)
+    public Quaternion NetworkBodyrot = Quaternion.identity;
+    public void SetMovement(Vector3 pos, Quaternion Headrot, Quaternion bodyrot)
     {
         NetworkPos = pos;
         NetworkRot = Headrot;
-        NetworkYrot = yrot;
+        NetworkBodyrot = bodyrot;
     }
     private void LateUpdate()
     {

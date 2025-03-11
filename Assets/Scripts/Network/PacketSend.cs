@@ -30,14 +30,14 @@ public class PacketSend
 
         };
     }
-    public static Result Server_DistributeMovement(int SourceNetworkID, Vector3 pos, Quaternion headrot, float yrot)
+    public static Result Server_DistributeMovement(int SourceNetworkID, Vector3 pos, Quaternion headrot, Quaternion bodyrot)
     {
         using (packet p = new packet((int)ServerPackets.DistributeMovement))
         {
             p.Write(SourceNetworkID);
             p.Write(pos);
             p.Write(headrot);
-            p.Write(yrot);
+            p.Write(bodyrot);
             return BroadcastPacketToReady(SourceNetworkID,p);
 
         };
@@ -156,13 +156,13 @@ public class PacketSend
 
         };
     }
-    public static Result Client_Send_Position(Vector3 pos,Quaternion cameraRotation, float yrot)
+    public static Result Client_Send_Position(Vector3 pos,Quaternion cameraRotation, Quaternion BodyRotation)
     {
         using (packet p = new packet((int)ClientPackets.SendPosition))
         {
             p.Write(pos);
             p.Write(cameraRotation);
-            p.Write(yrot);
+            p.Write(BodyRotation);
             return SendToServer(p);
         }
     }
