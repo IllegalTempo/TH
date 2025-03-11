@@ -42,6 +42,17 @@ public class PacketSend
 
         };
     }
+    public static Result Server_DistributePlayerAnimationState(int SourceNetworkID,float movementx,float movementy)
+    {
+        using (packet p = new packet((int)ServerPackets.DistributeMovement))
+        {
+            p.Write(SourceNetworkID);
+            p.Write(movementx);
+            p.Write(movementy);
+
+            return BroadcastPacketToReady(SourceNetworkID, p);
+        };
+    }
     public static Result Server_Send_NewPlayerJoined(ConnectionInfo newplayer)
     {
         using (packet p = new packet((int)ServerPackets.UpdatePlayerEnterRoomForExistingPlayer))
@@ -130,7 +141,17 @@ public class PacketSend
         Test_Packet = 0,
         SendPosition = 1,
         Ready = 2,
+        SendAnimationState = 3,
     };
+    public static Result Client_Send_AnimationState(float movementx,float movementy)
+    {
+        using (packet p = new packet((int)ClientPackets.SendAnimationState))
+        {
+            p.Write(movementx);
+            p.Write(movementy);
+            return SendToServer(p);
+        }
+    }
     public static Result Client_Send_test()
     {
         using (packet p = new packet((int)ClientPackets.Test_Packet))
