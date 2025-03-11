@@ -57,7 +57,7 @@ public class PacketHandles_Method
             int NetworkID = packet.Readint();
             ulong steamid = packet.Readulong();
             Debug.Log($"Spawning Player {NetworkID} {steamid}");
-            GameSystem.instance.SpawnPlayer(client.IsLocal(NetworkID), NetworkID,steamid);
+            SteamManager.client.GetPlayerByNetworkID.Add(NetworkID,GameSystem.instance.SpawnPlayer(client.IsLocal(NetworkID), NetworkID,steamid));
 
 
         }
