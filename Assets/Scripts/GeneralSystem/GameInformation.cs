@@ -14,7 +14,7 @@ public class GameInformation : MonoBehaviour
     public GameUIManager ui;
     public GridSystem gd;
     public Wishboard missionsystem;
-
+    public PlayerInventory inventory;
     //General
     public GameObject LocalPlayer;
     public Save currentsave;

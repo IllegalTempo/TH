@@ -22,7 +22,6 @@ public class PlayerMain : MonoBehaviour
     public int CurrentWeaponID;
     public Animator animator;
     public Movement playermovement;
-    public PlayerInventory inventory;
     public GameObject soul;
     public Transform hand;
     public Transform HighLightObject;

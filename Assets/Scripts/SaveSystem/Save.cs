@@ -78,7 +78,7 @@ public class Save
         GameInformation.instance.MainNetwork.CreateGameLobby();
         GameSystem.instance.LoadSceneAction(LastSceneName,true);
 
-        GameInformation.instance.LocalPlayer.GetComponent<PlayerMain>().inventory = Inventory;
+        GameInformation.instance.inventory = Inventory;
         GameInformation.instance.ui.StartPlayerControl();
     }
     public static string CreateNewSave(string savename)
