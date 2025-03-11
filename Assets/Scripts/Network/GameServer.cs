@@ -57,7 +57,7 @@ public class GameServer : SocketManager
         PacketSend.Server_Send_InitRoomInfo(connectedPlayer, currentplayer); //Send packet to the one who connects to the server, with room info
 
         PacketSend.Server_Send_NewPlayerJoined(info); // Broadcast a message to inform all players that a new player has joined
-        GameSystem.instance.SpawnPlayer(false,connectedPlayer.NetworkID,connectedPlayer.steamId);
+        players[connectedPlayer.steamId].player = GameSystem.instance.SpawnPlayer(false,connectedPlayer.NetworkID,connectedPlayer.steamId);
     }
     public NetworkPlayer GetPlayer(ConnectionInfo info)
     {
