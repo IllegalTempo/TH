@@ -295,9 +295,9 @@ public class Movement : MonoBehaviour
     }
     private Vector3 bodyrotation = new Vector3(0, 0, 0);
     private Vector3 HeadRotation = Vector3.zero;
-    private Vector3 NetworkPos;
-    private Quaternion NetworkRot = Quaternion.identity;
-    private float NetworkYrot = 0;
+    public Vector3 NetworkPos;
+    public Quaternion NetworkRot = Quaternion.identity;
+    public float NetworkYrot = 0;
     public void SetMovement(Vector3 pos, Quaternion Headrot, float yrot)
     {
         NetworkPos = pos;

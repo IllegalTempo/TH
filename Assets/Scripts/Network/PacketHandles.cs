@@ -25,6 +25,7 @@ public class PacketHandles_Method
     {
         bool ready = packet.Readbool();
         p.MovementUpdateReady = ready;
+        Debug.Log($"Player {p.SteamName} is ready for receiving pos informations!");
     }
     public static void Server_Handle_PosUpdate(NetworkPlayer p, packet packet)
     {
