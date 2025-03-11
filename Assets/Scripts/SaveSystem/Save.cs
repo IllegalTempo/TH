@@ -77,7 +77,6 @@ public class Save
     {
         GameInformation.instance.MainNetwork.CreateGameLobby();
         GameSystem.instance.LoadSceneAction(LastSceneName,true);
-        GameInformation.instance.LocalPlayer.transform.position = LastLocation;
 
         GameInformation.instance.LocalPlayer.GetComponent<PlayerMain>().inventory = Inventory;
         GameInformation.instance.ui.StartPlayerControl();
