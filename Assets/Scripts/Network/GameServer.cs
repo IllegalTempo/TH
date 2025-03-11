@@ -41,6 +41,8 @@ public class GameServer : SocketManager
         {
             { (int)PacketSend.ClientPackets.Test_Packet,PacketHandles_Method.Server_Handle_test },
             { (int)PacketSend.ClientPackets.SendPosition,PacketHandles_Method.Server_Handle_PosUpdate},
+            { (int)PacketSend.ClientPackets.Ready,PacketHandles_Method.Server_Handle_ReadyUpdate},
+
         };
     }
 

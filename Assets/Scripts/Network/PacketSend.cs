@@ -37,7 +37,7 @@ public class PacketSend
             p.Write(SourceNetworkID);
             p.Write(pos);
 
-            return BroadcastPacket(SourceNetworkID,p);
+            return BroadcastPacketToReady(SourceNetworkID,p);
 
         };
     }
@@ -90,7 +90,23 @@ public class PacketSend
         }
         return Result.OK;
     }
+    private static Result BroadcastPacketToReady(int excludeid, packet p)
+    {
+        for (int i = 1; i < SteamManager.server.currentplayer; i++)
+        {
+            NetworkPlayer sendtarget = SteamManager.server.GetPlayer(i);
+            if (sendtarget.NetworkID != excludeid && sendtarget.MovementUpdateReady)
+            {
+                if (sendtarget.SendPacket(p) != Result.OK)
+                {
+                    Debug.Log("Result Error when broadcasting packet");
+                    return Result.Cancelled;
+                }
+            }
 
+        }
+        return Result.OK;
+    }
     public static Result Server_Send_InitRoomInfo(NetworkPlayer target, int NumPlayer)
     {
         using (packet p = new packet((int)ServerPackets.RoomInfoOnPlayerEnterRoom))
@@ -112,6 +128,7 @@ public class PacketSend
     {
         Test_Packet = 0,
         SendPosition = 1,
+        Ready = 2,
     };
     public static Result Client_Send_test()
     {
@@ -120,6 +137,17 @@ public class PacketSend
             p.WriteUNICODE(TestRandomUnicode);
             p.Write(DateTime.Now.Ticks);
             Debug.Log("sending: " + DateTime.Now.Ticks);
+
+            return SendToServer(p);
+
+
+        };
+    }
+    public static Result Client_Send_ReadyUpdate()
+    {
+        using (packet p = new packet((int)ClientPackets.Ready))
+        {
+            p.Write(true);
 
             return SendToServer(p);
 

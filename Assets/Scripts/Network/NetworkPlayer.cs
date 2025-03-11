@@ -13,7 +13,7 @@ public class NetworkPlayer
     public SteamId steamId;
     public PlayerMain player;
     public int NetworkID;
-    
+    public bool MovementUpdateReady;
     public NetworkPlayer(SteamId steamid,int NetworkID,Connection connection)
     {
         this.NetworkID = NetworkID;

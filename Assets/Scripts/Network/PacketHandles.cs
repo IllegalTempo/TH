@@ -21,6 +21,11 @@ public class PacketHandles_Method
             Debug.Log($"Check Code Mismatched Client Message: {text}");
         }
     }
+    public static void Server_Handle_ReadyUpdate(NetworkPlayer p, packet packet)
+    {
+        bool ready = packet.Readbool();
+        p.MovementUpdateReady = ready;
+    }
     public static void Server_Handle_PosUpdate(NetworkPlayer p, packet packet)
     {
         Vector3 pos = packet.Readvector3();
