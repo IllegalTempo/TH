@@ -1,3 +1,4 @@
+using Steamworks;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -86,8 +87,11 @@ public class GameSystem : MonoBehaviour
             GameInformation.instance.ui.EnterBattleState();
         }
         Cursor.lockState = CursorLockMode.Locked;
+        if(GameInformation.instance.MainNetwork.Connected)
+        {
+            GameInformation.instance.LocalPlayer.GetComponent<PlayerMain>().SwitchScene(scene, spawnpoint.transform.position);
 
-        GameInformation.instance.LocalPlayer.GetComponent<PlayerMain>().SwitchScene(scene,spawnpoint.transform.position);
+        }
         GameInformation.instance.ui.NewPlaceIntro(scene,true);
 
     }

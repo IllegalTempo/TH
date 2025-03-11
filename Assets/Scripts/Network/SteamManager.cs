@@ -13,6 +13,7 @@ using UnityEditor.MemoryProfiler;
 
 public class SteamManager : MonoBehaviour
 {
+    public bool Connected = false;
     // Start is called before the first frame update
     void Awake()
     {
@@ -63,6 +64,7 @@ public class SteamManager : MonoBehaviour
     private void NewLobby()
     {
         GameSystem.instance.RemoveAllPlayerObject();
+        Connected = true;
     }
 #if UNITY_EDITOR
     private void OnExit(PlayModeStateChange change)
