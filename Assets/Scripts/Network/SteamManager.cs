@@ -146,7 +146,8 @@ public class SteamManager : MonoBehaviour
         //Create the local Server Player
         server.GetSteamID.Add(0, SteamClient.SteamId);
         server.currentplayer++;
-        GameSystem.instance.SpawnPlayer(true, 0, SteamClient.SteamId);
+        GameObject g = GameSystem.instance.SpawnPlayer(true, 0, SteamClient.SteamId).gameObject;
+        DontDestroyOnLoad(g);
 
 
         l.SetGameServer(SteamClient.SteamId);
