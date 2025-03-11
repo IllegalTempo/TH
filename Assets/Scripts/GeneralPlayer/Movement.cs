@@ -77,7 +77,7 @@ public class Movement : MonoBehaviour
     {
         if (player.IsLocal)
         {
-            if(!SteamManager.IsServer)
+            if(!GameInformation.instance.MainNetwork.IsServer)
             {
                 PacketSend.Client_Send_Position(transform.position, Head.transform.rotation, yrot);
 
@@ -86,7 +86,7 @@ public class Movement : MonoBehaviour
                 PacketSend.Server_DistributeMovement(0, NetworkPos, NetworkRot, yrot);
 
             }
-
+                
         }
     }
     public void AimDownSight()

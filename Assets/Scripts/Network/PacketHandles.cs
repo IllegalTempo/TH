@@ -42,7 +42,7 @@ public class PacketHandles_Method
         int NetworkID = packet.Readint();
         string text = packet.ReadstringUNICODE();
         long Servertime = packet.Readlong();
-        SteamManager.client.NetworkID = NetworkID;
+        GameInformation.instance.MainNetwork.client.NetworkID = NetworkID;
 
         if (text == PacketSend.TestRandomUnicode)
         {
@@ -58,13 +58,13 @@ public class PacketHandles_Method
     public static async void Client_Handle_InitRoomInfo(Connection c, packet packet)
     {
         int numplayer = packet.Readint();
-        GameClient client = SteamManager.client;
+        GameClient client = GameInformation.instance.MainNetwork.client;
         for (int i = 0; i < numplayer; i++)
         {
             int NetworkID = packet.Readint();
             ulong steamid = packet.Readulong();
             Debug.Log($"Spawning Player {NetworkID} {steamid}");
-            SteamManager.client.GetPlayerByNetworkID.Add(NetworkID,GameSystem.instance.SpawnPlayer(client.IsLocal(NetworkID), NetworkID,steamid));
+            client.GetPlayerByNetworkID.Add(NetworkID,GameSystem.instance.SpawnPlayer(client.IsLocal(NetworkID), NetworkID,steamid));
             
 
         }
@@ -79,13 +79,14 @@ public class PacketHandles_Method
 
         
 
-        SteamManager.client.GetPlayerByNetworkID.Add(supposeNetworkID, GameSystem.instance.SpawnPlayer(false, supposeNetworkID, playerid));
+        GameInformation.instance.MainNetwork.client.GetPlayerByNetworkID.Add(supposeNetworkID, GameSystem.instance.SpawnPlayer(false, supposeNetworkID, playerid));
     }
     public static void Client_Handle_PlayerQuit(Connection c, packet packet)
-    { 
+    {
+        GameClient cl = GameInformation.instance.MainNetwork.client;
         int NetworkID = packet.Readint();
-        SteamManager.client.GetPlayerByNetworkID[NetworkID].Disconnect();
-        SteamManager.client.GetPlayerByNetworkID.Remove(NetworkID);
+        cl.GetPlayerByNetworkID[NetworkID].Disconnect();
+        cl.GetPlayerByNetworkID.Remove(NetworkID);
     }
     public static void Client_Handle_ReceivedPlayerMovement(Connection c,packet packet)
     {
@@ -95,7 +96,7 @@ public class PacketHandles_Method
         Vector3 pos = packet.Readvector3();
         Quaternion headrot = packet.Readquaternion();
         float yrot = packet.Readfloat();
-        SteamManager.client.GetPlayerByNetworkID[NetworkID].playermovement.SetMovement(pos, headrot, yrot);
+        GameInformation.instance.MainNetwork.client.GetPlayerByNetworkID[NetworkID].playermovement.SetMovement(pos, headrot, yrot);
     }
 }
 

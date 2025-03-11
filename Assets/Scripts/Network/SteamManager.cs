@@ -13,6 +13,7 @@ using UnityEditor.MemoryProfiler;
 
 public class SteamManager : MonoBehaviour
 {
+    public bool Connected = false;
     // Start is called before the first frame update
     void Awake()
     {
@@ -130,9 +131,9 @@ public class SteamManager : MonoBehaviour
         }
     }
 
-    public static GameServer server;
-    public static GameClient client;
-    public static bool IsServer = false;
+    public GameServer server;
+    public GameClient client;
+    public bool IsServer = false;
     private void OnLobbyCreated(Result r,Lobby l)
     {
         l.SetFriendsOnly();

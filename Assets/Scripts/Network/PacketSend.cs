@@ -47,7 +47,7 @@ public class PacketSend
         using (packet p = new packet((int)ServerPackets.UpdatePlayerEnterRoomForExistingPlayer))
         {
             p.Write(newplayer.Identity.SteamId);
-            p.Write(SteamManager.server.GetPlayer(newplayer).NetworkID);
+            p.Write(GameInformation.instance.MainNetwork.server.GetPlayer(newplayer).NetworkID);
             return BroadcastPacket(newplayer, p);
 
         };
@@ -66,19 +66,19 @@ public class PacketSend
     {
         return BroadcastPacket(9999, p);
     }
-    private static Result BroadcastPacket(ConnectionInfo i, packet p)
+    private static Result BroadcastPacket(ConnectionInfo i, packet p)               
     {
-        return BroadcastPacket(SteamManager.server.GetPlayer(i).NetworkID, p);
+        return BroadcastPacket( GameInformation.instance.MainNetwork.server.GetPlayer(i).NetworkID, p);
     }
     private static Result BroadcastPacket(ulong ExcludeID, packet p)
     {
-        return BroadcastPacket(SteamManager.server.players[ExcludeID].NetworkID, p);
+        return BroadcastPacket(GameInformation.instance.MainNetwork.server.players[ExcludeID].NetworkID, p);
     }
     private static Result BroadcastPacket(int excludeid, packet p)
     {
-        for (int i = 1; i < SteamManager.server.currentplayer; i++)
+        for (int i = 1; i < GameInformation.instance.MainNetwork.server.currentplayer; i++)
         {
-            NetworkPlayer sendtarget = SteamManager.server.GetPlayer(i);
+            NetworkPlayer sendtarget = GameInformation.instance.MainNetwork.server.GetPlayer(i);
             if (sendtarget.NetworkID != excludeid)
             {
                 if (sendtarget.SendPacket(p) != Result.OK)
@@ -93,9 +93,9 @@ public class PacketSend
     }
     private static Result BroadcastPacketToReady(int excludeid, packet p)
     {
-        for (int i = 1; i < SteamManager.server.currentplayer; i++)
+        for (int i = 1; i < GameInformation.instance.MainNetwork.server.currentplayer; i++)
         {
-            NetworkPlayer sendtarget = SteamManager.server.GetPlayer(i);
+            NetworkPlayer sendtarget = GameInformation.instance.MainNetwork.server.GetPlayer(i);
             if (sendtarget.NetworkID != excludeid && sendtarget.MovementUpdateReady)
             {
                 if (sendtarget.SendPacket(p) != Result.OK)
@@ -115,8 +115,8 @@ public class PacketSend
             p.Write(NumPlayer);
             for (int i = 0; i < NumPlayer; i++)
             {
-                p.Write(SteamManager.server.GetSteamID.ElementAt(i).Key);
-                p.Write(SteamManager.server.GetSteamID[i]); //given information (SteamID)
+                p.Write(GameInformation.instance.MainNetwork.server.GetSteamID.ElementAt(i).Key);
+                p.Write(GameInformation.instance.MainNetwork.server.GetSteamID[i]); //given information (SteamID)
             }
             return target.SendPacket(p);
         }
@@ -168,7 +168,7 @@ public class PacketSend
     }
     private static Result SendToServer(packet p)
     {
-        return PacketSendingUtils.SendPacketToConnection(SteamManager.client.GetServer(), p);
+        return PacketSendingUtils.SendPacketToConnection(GameInformation.instance.MainNetwork.client.GetServer(), p);
     }
 }
 
