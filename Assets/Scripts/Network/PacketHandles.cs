@@ -45,7 +45,6 @@ public class PacketHandles_Method
 
         }
         await Task.Delay(5);
-        Debug.Log("Sending Test Packet");
         PacketSend.Client_Send_test();
         SteamManager.client.NetworkID = NetworkID;
     }
@@ -82,6 +81,8 @@ public class PacketHandles_Method
     public static void Client_Handle_ReceivedPlayerMovement(Connection c,packet packet)
     {
         int NetworkID = packet.Readint();
+        Debug.Log($"Updating {NetworkID} Position.");
+
         Vector3 pos = packet.Readvector3();
         SteamManager.client.GetPlayerByNetworkID[NetworkID].transform.position = pos;
     }

@@ -48,7 +48,6 @@ public class Movement : MonoBehaviour
     public bool IsCrouching = false;
     private void OnEnable()
     {
-        Cursor.lockState = CursorLockMode.Locked;
         TargetCameraOffset = DefaultTargetCameraOffset;
         rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
@@ -75,7 +74,7 @@ public class Movement : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if(player.IsLocal)
+        if(player.IsLocal && !SteamManager.IsServer)
         {
             PacketSend.Client_Send_Position(transform.position);
 
@@ -232,15 +231,15 @@ public class Movement : MonoBehaviour
     }
     private void Update()
     {
+
+        if (!player.IsLocal) return;
+
+        PlayerMovement();
+        CameraMovement();
+        SpeedControl();
         StepMovement();
         StateUpdate();
         fly();
-
-        if (!player.IsLocal) return;
-        SpeedControl();
-
-        CameraMovement();
-        PlayerMovement();
         Jump();
         Aiming();
         if (CameraOffset != TargetCameraOffset)

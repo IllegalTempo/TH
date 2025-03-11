@@ -84,6 +84,8 @@ public class GameSystem : MonoBehaviour
         {
             GameInformation.instance.ui.EnterBattleState();
         }
+        Cursor.lockState = CursorLockMode.Locked;
+
         GameInformation.instance.LocalPlayer.GetComponent<PlayerMain>().SwitchScene(scene,spawnpoint.transform.position);
         GameInformation.instance.ui.NewPlaceIntro(scene,true);
 
@@ -109,6 +111,7 @@ public class GameSystem : MonoBehaviour
     }
     public PlayerMain SpawnPlayer(bool isLocal,int networkid,ulong steamid)
     {
+        Debug.Log("Spawning Player");
         PlayerMain p = Instantiate(PlayerObject, Vector3.zero, Quaternion.identity).GetComponent<PlayerMain>();
         p.NetworkID = networkid;
         p.PlayerID = steamid;

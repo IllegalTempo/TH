@@ -32,6 +32,7 @@ public abstract class AiEnemy : MonoBehaviour
     public bool ReachDestination;
     public float RemainPath;
     public Vector2 InChunk;
+    public Vector3 ChunkCenterWorldPos;
     private Animator animator;
     public bool Stopped;
     public GameObject Head;
@@ -134,8 +135,8 @@ public abstract class AiEnemy : MonoBehaviour
     {
         //agent.isStopped = false;
         //agent.SetDestination(GridSystem.randomLocalPosOnSurface(InChunk));
-        Vector3 Destination = transform.position + Random.insideUnitSphere * 10f * GridSystem.Chunksize.x;
-        Destination.y = 100;
+        Vector3 Destination = ChunkCenterWorldPos + Random.insideUnitSphere * GridSystem.Chunksize.x/2;
+        Destination.y = 50;
         SetDestination(Destination);
     }
     protected abstract void Attack();

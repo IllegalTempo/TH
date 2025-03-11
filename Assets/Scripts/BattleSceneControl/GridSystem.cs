@@ -193,6 +193,7 @@ public class GridSystem : MonoBehaviour
 
         Enemy e = enemy.GetComponent<Enemy>();
         e.AiClass.InChunk = ChunkPos;
+        e.AiClass.ChunkCenterWorldPos = ToWorld(ChunkPos);
         e.AddBoon(prefix);
         GetRoombyLocalPos(ChunkPos).AddEnemy(e);
 

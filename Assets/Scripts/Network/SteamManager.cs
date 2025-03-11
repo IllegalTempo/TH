@@ -56,7 +56,10 @@ public class SteamManager : MonoBehaviour
             Debug.Log("Create Lobby Failed");
         }
     }
+    private void NewLobby()
+    {
 
+    }
 #if UNITY_EDITOR
     private void OnExit(PlayModeStateChange change)
     {
@@ -89,6 +92,8 @@ public class SteamManager : MonoBehaviour
     }
     public async Task<bool> CreateLobby()
     {
+        NewLobby();
+        IsServer = true;
         try
         {
             var createLobbyOutput = await SteamMatchmaking.CreateLobbyAsync(8);
@@ -123,6 +128,7 @@ public class SteamManager : MonoBehaviour
 
     public static GameServer server;
     public static GameClient client;
+    public static bool IsServer = false;
     private void OnLobbyCreated(Result r,Lobby l)
     {
         l.SetFriendsOnly();
@@ -130,8 +136,12 @@ public class SteamManager : MonoBehaviour
         Debug.Log($"Lobby ID: {l} Result: {r} Starting Game Server...");
 
         server = SteamNetworkingSockets.CreateRelaySocket<GameServer>(1111);
-        server.GetSteamID.Add(0, SteamClient.SteamId);
 
+
+        //Create the local Server Player
+        server.GetSteamID.Add(0, SteamClient.SteamId);
+        server.currentplayer++;
+        GameSystem.instance.SpawnPlayer(true, 0, SteamClient.SteamId);
 
 
         l.SetGameServer(SteamClient.SteamId);
@@ -148,7 +158,10 @@ public class SteamManager : MonoBehaviour
     private void OnLobbyEntered(Lobby l)
     {
         if (l.Owner.Id == SteamClient.SteamId) { return; }
-        if(client == null)
+        NewLobby();
+        IsServer = false;
+
+        if (client == null)
         {
             SteamId serverid = new SteamId();
             uint ip = 0;
@@ -166,9 +179,11 @@ public class SteamManager : MonoBehaviour
             server.Close();
         }
         RoomEnter result = await lobby.Join();
+
         if(result != RoomEnter.Success)
         {
             Debug.Log($"Failed To Join Lobby from {(new Friend(id)).Name}");
         }
+
     }
 }

@@ -38,16 +38,20 @@ public class PlayerMain : MonoBehaviour
     }
     public void SwitchScene(string newscenename,Vector3 spawnpoint)
     {
+
         bool IsCutScene = newscenename.Contains("CUTSCENE");
-        bool IsBattle = newscenename.Contains("InBattle");
-        GameInformation.instance.LocalPlayer.SetActive(!IsCutScene);
-        if (InBattle)
+        bool IsBattle = newscenename == "InBattle";
+        Debug.Log("In Battle: " + IsBattle);
+
+        gameObject.SetActive(!IsCutScene);
+        if (IsBattle)
         {
+
             OnEnterBattle(spawnpoint);
         }
 
-        GameInformation.instance.LocalPlayer.GetComponent<Rigidbody>().velocity = Vector3.zero;
-        GameInformation.instance.LocalPlayer.transform.position = spawnpoint;
+        rb.velocity = Vector3.zero;
+        transform.position = spawnpoint;
     }
     public void Localisation()
     {
@@ -58,6 +62,7 @@ public class PlayerMain : MonoBehaviour
     public void DeLocalisation()
     {
         IsLocal = false;
+        rb.useGravity = false;
         Destroy(playermovement.cam.gameObject);
     }
     public void LevelUP()

@@ -14,7 +14,7 @@ using Unity.VisualScripting;
 public class GameServer : SocketManager
 {
     public int maxplayer;
-    public int currentplayer;
+    public int currentplayer = 0;
     public Dictionary<ulong, NetworkPlayer> players = new Dictionary<ulong, NetworkPlayer>(); //This does not include the server player
     public Dictionary<int, ulong> GetSteamID = new Dictionary<int, ulong>();
     private delegate void PacketHandle(NetworkPlayer n, packet p);
