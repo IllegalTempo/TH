@@ -90,6 +90,7 @@ public class PlayerMain : MonoBehaviour
     }
     private void Update()
     {
+        if (!IsLocal) return;
         if (HighLightObject != null)
         {
             HighLightObject.gameObject.GetComponent<Outline>().enabled = false;
