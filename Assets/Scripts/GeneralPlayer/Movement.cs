@@ -83,7 +83,7 @@ public class Movement : MonoBehaviour
 
             } else
             {
-                PacketSend.Server_DistributeMovement(0, NetworkPos, NetworkRot, yrot);
+                PacketSend.Server_DistributeMovement(0, transform.position, Head.transform.rotation, yrot);
 
             }
                 
