@@ -14,7 +14,6 @@ using Unity.VisualScripting;
 public class GameServer : SocketManager
 {
     public int maxplayer;
-    public int currentplayer = 0;
     public Dictionary<ulong, NetworkPlayer> players = new Dictionary<ulong, NetworkPlayer>(); //This does not include the server player
     public Dictionary<int, ulong> GetSteamID = new Dictionary<int, ulong>();
     private delegate void PacketHandle(NetworkPlayer n, packet p);
@@ -22,6 +21,10 @@ public class GameServer : SocketManager
     public GameServer()
     {
         this.maxplayer = 8;
+    }
+    public int GetPlayerCount()
+    {
+        return GetSteamID.Count;
     }
     public void DisconnectAll()
     {
@@ -56,7 +59,7 @@ public class GameServer : SocketManager
         NetworkPlayer connectedPlayer = GetPlayer(info);
         PacketSend.Server_Send_test(connectedPlayer); // Send a test to the player along with his networkid
         //When a player enter the server, send them the room info including all current players including himself;
-        PacketSend.Server_Send_InitRoomInfo(connectedPlayer, currentplayer); //Send packet to the one who connects to the server, with room info
+        PacketSend.Server_Send_InitRoomInfo(connectedPlayer, GetPlayerCount()); //Send packet to the one who connects to the server, with room info
 
         PacketSend.Server_Send_NewPlayerJoined(info); // Broadcast a message to inform all players that a new player has joined
         players[connectedPlayer.steamId].player = GameSystem.instance.SpawnPlayer(false,connectedPlayer.NetworkID,connectedPlayer.steamId);
@@ -73,9 +76,8 @@ public class GameServer : SocketManager
     {
         base.OnConnecting(connection, info);
 
-        if (currentplayer < maxplayer)
+        if (GameInformation.instance.MainNetwork.server.GetPlayerCount() < maxplayer)
         {
-            currentplayer++;
 
             Debug.Log(new Friend(info.Identity.SteamId).Name + " is connecting");
             int networkid = GetSteamID.Count;
@@ -101,9 +103,9 @@ public class GameServer : SocketManager
         
         players.Remove(info.Identity.SteamId.Value);
         GetSteamID.Remove(networkid);
+
         PacketSend.Server_Send_PlayerQuit(networkid);
 
-        currentplayer--;
     }
     public override unsafe void OnMessage(Connection connection, NetIdentity identity, IntPtr data, int size, long messageNum, long recvTime, int channel)
     {

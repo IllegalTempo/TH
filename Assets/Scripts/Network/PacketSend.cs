@@ -76,7 +76,7 @@ public class PacketSend
     }
     private static Result BroadcastPacket(int excludeid, packet p)
     {
-        for (int i = 1; i < GameInformation.instance.MainNetwork.server.currentplayer; i++)
+        for (int i = 1; i < GameInformation.instance.MainNetwork.server.GetPlayerCount(); i++)
         {
             NetworkPlayer sendtarget = GameInformation.instance.MainNetwork.server.GetPlayer(i);
             if (sendtarget.NetworkID != excludeid)
@@ -93,7 +93,7 @@ public class PacketSend
     }
     private static Result BroadcastPacketToReady(int excludeid, packet p)
     {
-        for (int i = 1; i < GameInformation.instance.MainNetwork.server.currentplayer; i++)
+        for (int i = 1; i < GameInformation.instance.MainNetwork.server.GetPlayerCount(); i++)
         {
             NetworkPlayer sendtarget = GameInformation.instance.MainNetwork.server.GetPlayer(i);
             if (sendtarget.NetworkID != excludeid && sendtarget.MovementUpdateReady)
