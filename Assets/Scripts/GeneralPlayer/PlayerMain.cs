@@ -139,6 +139,7 @@ public class PlayerMain : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         playermovement = GetComponent<Movement>();
         ChooseWeapon((int)GameInformation.Weapon.HAKUREI_FLUTE);
+        
     }
     private void ChangeInHealth()
     {
