@@ -49,7 +49,6 @@ public class PlayerMain : MonoBehaviour
 
             OnEnterBattle(spawnpoint);
         }
-        playermovement.cam.gameObject.SetActive(!IsCutScene);
 
         
         rb.velocity = Vector3.zero;
@@ -60,7 +59,6 @@ public class PlayerMain : MonoBehaviour
         IsLocal = true;
         GameInformation.instance.LocalPlayer = gameObject;
         GameInformation.instance.ui.gameObject.SetActive(true);
-        playermovement.cam.gameObject.SetActive(false);
     }
     public void DeLocalisation()
     {

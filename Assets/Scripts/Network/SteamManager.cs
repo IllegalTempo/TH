@@ -18,7 +18,7 @@ public class SteamManager : MonoBehaviour
     {
         
     }
-    private async void Start()
+    private void Start()
     {
         if (GameInformation.instance.MainNetwork == null)
         {
@@ -50,8 +50,12 @@ public class SteamManager : MonoBehaviour
         SteamMatchmaking.OnLobbyGameCreated += OnLobbyGameCreated;
         SteamMatchmaking.OnLobbyEntered += OnLobbyEntered;
         SteamFriends.OnGameLobbyJoinRequested += OnFriendJoinLobby;
+        
+    }
+    public async void CreateGameLobby()
+    {
         bool success = await CreateLobby();
-        if(!success)
+        if (!success)
         {
             Debug.Log("Create Lobby Failed");
         }

@@ -75,7 +75,7 @@ public class Save
     */
     public void UtilizeSave()
     {
-        
+        GameInformation.instance.MainNetwork.CreateGameLobby();
         GameSystem.instance.LoadSceneAction(LastSceneName,true);
         GameInformation.instance.LocalPlayer.transform.position = LastLocation;
 
