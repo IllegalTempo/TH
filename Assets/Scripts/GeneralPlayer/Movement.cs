@@ -83,7 +83,7 @@ public class Movement : MonoBehaviour
 
             } else
             {
-                PacketSend.Server_DistributeMovement(0, transform.position, NetworkRot, yrot);
+                PacketSend.Server_DistributeMovement(0, NetworkPos, NetworkRot, yrot);
 
             }
 
@@ -215,7 +215,7 @@ public class Movement : MonoBehaviour
             }
             if (IsFlying)
             {
-                rb.AddForce(Vector3.up * JumpConstant * 0.1f, ForceMode.Force);
+                rb.AddForce(Vector3.up * JumpConstant * Time.deltaTime * 10f, ForceMode.Force);
 
             }
         }
@@ -261,7 +261,6 @@ public class Movement : MonoBehaviour
         {
             transform.localRotation = Quaternion.Euler(0, NetworkYrot, 0);
             transform.position = Vector3.MoveTowards(transform.position,NetworkPos,100*Time.deltaTime);
-            Head.transform.rotation = NetworkRot;
         }
 
 
