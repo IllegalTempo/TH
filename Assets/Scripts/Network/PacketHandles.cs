@@ -29,8 +29,10 @@ public class PacketHandles_Method
     public static void Server_Handle_PosUpdate(NetworkPlayer p, packet packet)
     {
         Vector3 pos = packet.Readvector3();
-        p.player.transform.position = pos;
-        PacketSend.Server_DistributeMovement(p.NetworkID,pos);
+        Quaternion rot = packet.Readquaternion();
+        float yrot = packet.Readfloat();
+        p.player.playermovement.SetMovement(pos,rot,yrot);
+        PacketSend.Server_DistributeMovement(p.NetworkID,pos,rot,yrot);
     }
 
 
@@ -53,7 +55,7 @@ public class PacketHandles_Method
         await Task.Delay(5);
         PacketSend.Client_Send_test();
     }
-    public static void Client_Handle_InitRoomInfo(Connection c, packet packet)
+    public static async void Client_Handle_InitRoomInfo(Connection c, packet packet)
     {
         int numplayer = packet.Readint();
         GameClient client = SteamManager.client;
@@ -63,9 +65,11 @@ public class PacketHandles_Method
             ulong steamid = packet.Readulong();
             Debug.Log($"Spawning Player {NetworkID} {steamid}");
             SteamManager.client.GetPlayerByNetworkID.Add(NetworkID,GameSystem.instance.SpawnPlayer(client.IsLocal(NetworkID), NetworkID,steamid));
-
+            
 
         }
+        await Task.Delay(1000);
+        PacketSend.Client_Send_ReadyUpdate();
     }
     public static void Client_Handle_NewPlayerJoin(Connection c, packet packet)
     {
@@ -89,7 +93,9 @@ public class PacketHandles_Method
         Debug.Log($"Updating {NetworkID} Position.");
 
         Vector3 pos = packet.Readvector3();
-        SteamManager.client.GetPlayerByNetworkID[NetworkID].transform.position = pos;
+        Quaternion headrot = packet.Readquaternion();
+        float yrot = packet.Readfloat();
+        SteamManager.client.GetPlayerByNetworkID[NetworkID].playermovement.SetMovement(pos, headrot, yrot);
     }
 }
 

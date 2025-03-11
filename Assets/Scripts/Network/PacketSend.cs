@@ -30,13 +30,14 @@ public class PacketSend
 
         };
     }
-    public static Result Server_DistributeMovement(int SourceNetworkID, Vector3 pos)
+    public static Result Server_DistributeMovement(int SourceNetworkID, Vector3 pos, Quaternion headrot, float yrot)
     {
         using (packet p = new packet((int)ServerPackets.DistributeMovement))
         {
             p.Write(SourceNetworkID);
             p.Write(pos);
-
+            p.Write(headrot);
+            p.Write(yrot);
             return BroadcastPacketToReady(SourceNetworkID,p);
 
         };
@@ -145,6 +146,7 @@ public class PacketSend
     }
     public static Result Client_Send_ReadyUpdate()
     {
+        Debug.Log("Send Ready");
         using (packet p = new packet((int)ClientPackets.Ready))
         {
             p.Write(true);
@@ -154,11 +156,13 @@ public class PacketSend
 
         };
     }
-    public static Result Client_Send_Position(Vector3 pos)
+    public static Result Client_Send_Position(Vector3 pos,Quaternion cameraRotation, float yrot)
     {
         using (packet p = new packet((int)ClientPackets.SendPosition))
         {
             p.Write(pos);
+            p.Write(cameraRotation);
+            p.Write(yrot);
             return SendToServer(p);
         }
     }

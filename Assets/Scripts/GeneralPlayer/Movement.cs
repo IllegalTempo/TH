@@ -52,10 +52,11 @@ public class Movement : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
         player = GetComponent<PlayerMain>();
+        NetworkPos = transform.position;
     }
     private void StateUpdate()
     {
-        if(player.IsLocal)
+        if (player.IsLocal)
         {
             if (Input.GetKeyDown(KeyMap.CrouchKey))
             {
@@ -66,7 +67,7 @@ public class Movement : MonoBehaviour
                 IsCrouching = false;
             }
         }
-        
+
         float targety = 0;
         if (IsFlying) targety = -1;
         if (IsCrouching) targety = 1;
@@ -74,14 +75,18 @@ public class Movement : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if(player.IsLocal && !SteamManager.IsServer)
+        if (player.IsLocal)
         {
-            PacketSend.Client_Send_Position(transform.position);
+            if(!SteamManager.IsServer)
+            {
+                PacketSend.Client_Send_Position(transform.position, Head.transform.rotation, yrot);
 
-        }
-        if(player.IsLocal && SteamManager.IsServer)
-        {
-            PacketSend.Server_DistributeMovement(0, transform.position);
+            } else
+            {
+                PacketSend.Server_DistributeMovement(0, transform.position, NetworkRot, yrot);
+
+            }
+
         }
     }
     public void AimDownSight()
@@ -236,21 +241,29 @@ public class Movement : MonoBehaviour
     private void Update()
     {
 
-        if (!player.IsLocal) return;
-
-        PlayerMovement();
-        CameraMovement();
-        SpeedControl();
-        StepMovement();
-        StateUpdate();
-        fly();
-        Jump();
-        Aiming();
-        if (CameraOffset != TargetCameraOffset)
+        if (player.IsLocal)
         {
-            CameraOffset = Vector3.MoveTowards(CameraOffset, TargetCameraOffset, 30 * Time.deltaTime);
+            PlayerMovement();
+            CameraMovement();
+            SpeedControl();
+            StepMovement();
+            StateUpdate();
+            fly();
+            Jump();
+            Aiming();
+            if (CameraOffset != TargetCameraOffset)
+            {
+                CameraOffset = Vector3.MoveTowards(CameraOffset, TargetCameraOffset, 30 * Time.deltaTime);
 
+            }
         }
+        else
+        {
+            transform.localRotation = Quaternion.Euler(0, NetworkYrot, 0);
+            transform.position = Vector3.MoveTowards(transform.position,NetworkPos,100*Time.deltaTime);
+            Head.transform.rotation = NetworkRot;
+        }
+
 
 
     }
@@ -283,15 +296,32 @@ public class Movement : MonoBehaviour
     }
     private Vector3 bodyrotation = new Vector3(0, 0, 0);
     private Vector3 HeadRotation = Vector3.zero;
+    private Vector3 NetworkPos;
+    private Quaternion NetworkRot = Quaternion.identity;
+    private float NetworkYrot = 0;
+    public void SetMovement(Vector3 pos, Quaternion Headrot, float yrot)
+    {
+        NetworkPos = pos;
+        NetworkRot = Headrot;
+        NetworkYrot = yrot;
+    }
     private void LateUpdate()
     {
-        if (aiming && !player.CurrentWeapon.Weaponized)
+        if (player.IsLocal)
         {
-            Head.transform.rotation = Quaternion.Euler(xrot, yrot, 0);
+            if (aiming && !player.CurrentWeapon.Weaponized)
+            {
+                Head.transform.rotation = Quaternion.Euler(xrot, yrot, 0);
 
 
 
 
+            }
         }
+        else
+        {
+            Head.transform.rotation = NetworkRot;
+        }
+
     }
 }
