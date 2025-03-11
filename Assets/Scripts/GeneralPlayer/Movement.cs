@@ -79,6 +79,10 @@ public class Movement : MonoBehaviour
             PacketSend.Client_Send_Position(transform.position);
 
         }
+        if(player.IsLocal && SteamManager.IsServer)
+        {
+            PacketSend.Server_DistributeMovement(0, transform.position);
+        }
     }
     public void AimDownSight()
     {
