@@ -16,6 +16,7 @@ public class GameSystem : MonoBehaviour
     private GameObject PlayerObject;
     public NPCinform npcs = new NPCinform();
     public static int saveindex;
+    private List<GameObject> allplayerobject = new List<GameObject>();
     public void SpawnPowerDrops(Vector3 CenterPosition)
     {
         GameObject powerinstance = GameInformation.instance.powerDropInstance;
@@ -109,12 +110,20 @@ public class GameSystem : MonoBehaviour
     {
         
     }
+    public void RemoveAllPlayerObject()
+    {
+        foreach(GameObject g in allplayerobject)
+        {
+            Destroy(g);
+        }
+    }
     public PlayerMain SpawnPlayer(bool isLocal,int networkid,ulong steamid)
     {
         Debug.Log("Spawning Player");
         PlayerMain p = Instantiate(PlayerObject, Vector3.zero, Quaternion.identity).GetComponent<PlayerMain>();
         p.NetworkID = networkid;
         p.PlayerID = steamid;
+        allplayerobject.Add(p.gameObject);
         if(isLocal)
         {
             p.Localisation();

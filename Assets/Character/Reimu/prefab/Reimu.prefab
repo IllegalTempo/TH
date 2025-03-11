@@ -5709,7 +5709,7 @@ MonoBehaviour:
   soul: {fileID: 4522045334762078357}
   hand: {fileID: 3929773476179268116}
   HighLightObject: {fileID: 0}
-  rb: {fileID: 0}
+  rb: {fileID: 7444181260749001533}
   OnHitEffect: {fileID: 6387921236447173619}
   InBattle: 0
   CanChooseNewBoon: 0

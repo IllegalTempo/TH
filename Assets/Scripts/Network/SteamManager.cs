@@ -58,7 +58,7 @@ public class SteamManager : MonoBehaviour
     }
     private void NewLobby()
     {
-
+        GameSystem.instance.RemoveAllPlayerObject();
     }
 #if UNITY_EDITOR
     private void OnExit(PlayModeStateChange change)
