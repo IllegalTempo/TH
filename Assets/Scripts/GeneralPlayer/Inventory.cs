@@ -9,14 +9,15 @@ public class Inventory : MonoBehaviour
     private GameObject InventoryObject;
     private GameObject soul;
     private bool opening = false;
-    private Animator animator;
 
     private Movement playerMovement;
     private void Start()
     {
-        soul = GameInformation.instance.LocalPlayer.GetComponent<PlayerMain>().soul;
-        playerMovement = GameInformation.instance.LocalPlayer.GetComponent<Movement>();
-        animator = GetComponent<Animator>();
+    }
+    public void Initialize(Movement pm,GameObject s)
+    {
+        playerMovement = pm;
+        soul = s;
     }
     private void Update()
     {

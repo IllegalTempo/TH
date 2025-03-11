@@ -59,7 +59,7 @@ public class GameUIManager : MonoBehaviour
     public GameObject InBattleUIObject;
     public GameObject RandomRoomDisplay;
     public GameObject BoonsDisplay;
-
+    public Inventory invUI;
     public bool prefixsetted = true;
     public bool corefixsetted = true;
     public bool suffixsetted = true;
