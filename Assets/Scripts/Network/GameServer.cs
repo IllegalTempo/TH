@@ -93,8 +93,12 @@ public class GameServer : SocketManager
     {
         base.OnDisconnected(connection, info);
         Debug.Log(new Friend(info.Identity.SteamId).Name + " is Disconnected.");
-        int networkid = players[info.Identity.SteamId].NetworkID;
+        NetworkPlayer whodis = players[info.Identity.SteamId];
+        int networkid = whodis.NetworkID;
+        whodis.player.Disconnect();
+        
         players.Remove(info.Identity.SteamId.Value);
+        GetSteamID.Remove(networkid);
         PacketSend.Server_Send_PlayerQuit(networkid);
 
         currentplayer--;

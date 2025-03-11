@@ -35,6 +35,7 @@ public class PacketHandles_Method
         int NetworkID = packet.Readint();
         string text = packet.ReadstringUNICODE();
         long Servertime = packet.Readlong();
+        SteamManager.client.NetworkID = NetworkID;
 
         if (text == PacketSend.TestRandomUnicode)
         {
@@ -46,7 +47,6 @@ public class PacketHandles_Method
         }
         await Task.Delay(5);
         PacketSend.Client_Send_test();
-        SteamManager.client.NetworkID = NetworkID;
     }
     public static void Client_Handle_InitRoomInfo(Connection c, packet packet)
     {

@@ -58,6 +58,7 @@ public class PlayerMain : MonoBehaviour
         IsLocal = true;
         GameInformation.instance.LocalPlayer = gameObject;
         GameInformation.instance.ui.gameObject.SetActive(true);
+        playermovement.cam.gameObject.SetActive(false);
     }
     public void DeLocalisation()
     {
@@ -136,7 +137,6 @@ public class PlayerMain : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         playermovement = GetComponent<Movement>();
         ChooseWeapon((int)GameInformation.Weapon.HAKUREI_FLUTE);
-        gameObject.SetActive(false);
     }
     private void ChangeInHealth()
     {
@@ -168,6 +168,7 @@ public class PlayerMain : MonoBehaviour
     }
     public void OnEnterBattle(Vector3 SpawnPoint)
     {
+        playermovement.cam.gameObject.SetActive(true);
         transform.position = SpawnPoint;
         rb.useGravity = false;
         rb.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
