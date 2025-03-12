@@ -15,4 +15,5 @@ public class KeyMap
     public static KeyCode Aim = KeyCode.LeftAlt;
     public static KeyCode Interact2 = KeyCode.E;
     public static KeyCode SwitchWeaponized = KeyCode.Q;
+    public static KeyCode Escape = KeyCode.Escape;
 }

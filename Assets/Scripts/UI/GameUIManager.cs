@@ -1,3 +1,6 @@
+using Steamworks;
+using Steamworks.Data;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -53,16 +56,65 @@ public class GameUIManager : MonoBehaviour
     public GameObject BoonsLayoutGroup;
     private GameObject[] BoonsObject = new GameObject[0];
 
+    [Header("<9> UI Element for Multiplayer UI")]
+    public TMP_Text RoomID;
+    public Button RoomIDCopy;
+    public Button JoinButton;
+    public TMP_InputField enterWorldID;
+    public TMP_Text StatusText;
+
     [Header("<;> Grouping Canvas")]
     public GameObject Mission;
     public GameObject Inventory;
     public GameObject InBattleUIObject;
     public GameObject RandomRoomDisplay;
     public GameObject BoonsDisplay;
+    public GameObject NetworkUI;
     public Inventory invUI;
     public bool prefixsetted = true;
     public bool corefixsetted = true;
     public bool suffixsetted = true;
+
+    public ulong UIRoomIDBuffer;
+
+    private System.Random r = new System.Random();
+    private string rs = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890,./;'[]-=!@#$%^&*)";
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.M))
+        {
+            OpenNetworkUI();
+        }
+    }
+    public void CopyRoomID()
+    {
+        GUIUtility.systemCopyBuffer = UIRoomIDBuffer.ToString();
+    }
+    public void OpenNetworkUI()
+    {
+        ulong roomID = GameInformation.instance.CurrentLobby.Id;
+        Cursor.lockState = CursorLockMode.None;
+        NetworkUI.SetActive(true);
+        UIRoomIDBuffer = roomID;
+        RoomID.text = roomID.ToString();
+    }
+    public async void OnClickJoinWorld()
+    {
+        ulong WorldID;
+        bool success = ulong.TryParse(enterWorldID.text,out WorldID);
+        if(success)
+        {
+            Lobby lobby = new(WorldID);
+            StatusText.text = $"Enter Room Created by {lobby.Owner.Name}";
+
+            RoomEnter result = await lobby.Join();
+            StatusText.text = result.ToString();
+            
+        } else
+        {
+            StatusText.text = "Error not a valid World ID Format";
+        }
+    }
     public void StartRollRoom()
     {
         RandomRoomDisplay.SetActive(true);
@@ -70,8 +122,6 @@ public class GameUIManager : MonoBehaviour
         suffixsetted = false;
         corefixsetted = false;
     }
-    private System.Random r = new System.Random();
-    private string rs = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890,./;'[]-=!@#$%^&*)";
     private string RandomString(int length)
     {
         string result = "";
@@ -113,6 +163,7 @@ public class GameUIManager : MonoBehaviour
         PlaceIntro.gameObject.SetActive(false);
         Mission.gameObject.SetActive(false);
         Inventory.SetActive(false);
+        NetworkUI.SetActive(false);
         clicktips.SetActive(false);
         LoadingScreenGameObject.SetActive(false);
         RandomRoomDisplay.SetActive(false);

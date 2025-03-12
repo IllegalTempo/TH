@@ -81,7 +81,6 @@ public class Save
 
         GameInformation.instance.inventory = Inventory;
         GameInformation.instance.ui.StartPlayerControl();
-        GameObject g = GameSystem.instance.SpawnPlayer(true, 0, SteamClient.SteamId).gameObject;
 
     }
     public static string CreateNewSave(string savename)

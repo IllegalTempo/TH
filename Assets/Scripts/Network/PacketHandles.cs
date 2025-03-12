@@ -8,6 +8,8 @@ using UnityEngine.UIElements;
 
 public class PacketHandles_Method
 {
+    public static GameServer server;
+    public static GameClient client;
     public static void Server_Handle_test(NetworkPlayer p, packet packet)
     {
         string text = packet.ReadstringUNICODE();
@@ -26,6 +28,13 @@ public class PacketHandles_Method
         bool ready = packet.Readbool();
         p.MovementUpdateReady = ready;
         Debug.Log($"Player {p.SteamName} is ready for receiving pos informations!");
+    }
+    public static void Server_Handle_AnimationState(NetworkPlayer p, packet packet)
+    {
+        float movex = packet.Readfloat();
+        float movey = packet.Readfloat();
+        p.player.playermovement.SetAnimation(movex, movey);
+        PacketSend.Server_DistributePlayerAnimationState(p.NetworkID,movex,movey);
     }
     public static void Server_Handle_PosUpdate(NetworkPlayer p, packet packet)
     {
@@ -97,6 +106,13 @@ public class PacketHandles_Method
         Quaternion headrot = packet.Readquaternion();
         Quaternion bodyrot = packet.Readquaternion();
         GameInformation.instance.MainNetwork.client.GetPlayerByNetworkID[NetworkID].playermovement.SetMovement(pos, headrot, bodyrot);
+    }
+    public static void Client_Handle_ReceivedPlayerAnimation(Connection c,packet packet)
+    {
+        int NetworkID = packet.Readint();
+        float x = packet.Readfloat();
+        float y = packet.Readfloat();
+        GameInformation.instance.MainNetwork.client.GetPlayerByNetworkID[NetworkID].playermovement.SetAnimation(x, y);
     }
 }
 

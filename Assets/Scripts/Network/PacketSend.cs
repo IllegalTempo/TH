@@ -104,7 +104,8 @@ public class PacketSend
     }
     private static Result BroadcastPacketToReady(int excludeid, packet p)
     {
-        for (int i = 1; i < GameInformation.instance.MainNetwork.server.GetPlayerCount(); i++)
+        int playercount = GameInformation.instance.MainNetwork.server.GetPlayerCount();
+        for (int i = 1; i < playercount; i++)
         {
             NetworkPlayer sendtarget = GameInformation.instance.MainNetwork.server.GetPlayer(i);
             if (sendtarget.NetworkID != excludeid && sendtarget.MovementUpdateReady)

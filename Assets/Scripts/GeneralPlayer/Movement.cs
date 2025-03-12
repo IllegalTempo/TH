@@ -42,7 +42,10 @@ public class Movement : MonoBehaviour
     public bool OpeningInventory;
     public bool IsGrounded;
     public bool IsFlying;
-    private float TargetX = 0;
+    public float TargetX = 0;
+    public float targety = 0;
+
+
     private Vector3 height = new Vector3(0, 3, 0);
     private PlayerMain player;
     public bool IsCrouching = false;
@@ -54,39 +57,51 @@ public class Movement : MonoBehaviour
         player = GetComponent<PlayerMain>();
         NetworkPos = transform.position;
     }
+
     private void StateUpdate()
     {
-        if (player.IsLocal)
+
+        if (Input.GetKeyDown(KeyMap.CrouchKey))
         {
-            if (Input.GetKeyDown(KeyMap.CrouchKey))
-            {
-                IsCrouching = true;
-            }
-            if (Input.GetKeyUp(KeyMap.CrouchKey))
-            {
-                IsCrouching = false;
-            }
+            IsCrouching = true;
+        }
+        if (Input.GetKeyUp(KeyMap.CrouchKey))
+        {
+            IsCrouching = false;
         }
 
-        float targety = 0;
-        if (IsFlying) targety = -1;
-        if (IsCrouching) targety = 1;
+        if (IsFlying)
+        {
+            targety = -1;
+        } else if(IsCrouching)
+        {
+            targety = 1;
+        } else
+        {
+            targety = 0;
+        }
         animator.SetFloat("Y", Mathf.MoveTowards(animator.GetFloat("Y"), targety, 0.05f));
+        animator.SetFloat("X", Mathf.MoveTowards(animator.GetFloat("X"), TargetX, 0.1f));
+
+
+
+
     }
     private void FixedUpdate()
     {
         if (player.IsLocal)
         {
-            if(!GameInformation.instance.MainNetwork.IsServer)
+            if (!GameInformation.instance.MainNetwork.IsServer)
             {
                 PacketSend.Client_Send_Position(transform.position, Head.transform.rotation, transform.rotation);
-
-            } else
+                PacketSend.Client_Send_AnimationState(TargetX, targety);
+            }
+            else
             {
                 PacketSend.Server_DistributeMovement(0, transform.position, Head.transform.rotation, transform.rotation);
-
+                PacketSend.Server_DistributePlayerAnimationState(0, TargetX, targety);
             }
-                
+
         }
     }
     public void AimDownSight()
@@ -154,7 +169,6 @@ public class Movement : MonoBehaviour
             TargetX = 1 - TargetX;
         }
 
-        animator.SetFloat("X", Mathf.MoveTowards(animator.GetFloat("X"), TargetX, 0.1f));
         MoveDirection = cam.transform.forward * inputs.y + cam.transform.right * inputs.x;
         MoveDirection.y = 0;
         //transform.RotateAround(transform.position,transform.up, Vector3.SignedAngle(transform.forward, MoveDirection, transform.position));
@@ -169,7 +183,7 @@ public class Movement : MonoBehaviour
         {
             transform.forward = Vector3.Scale(MoveDirection, twodmask);
 
-            rb.AddForce(transform.forward * MoveDirection.magnitude * WalkSpeed * 10, ForceMode.Force);
+            rb.AddForce(transform.forward * MoveDirection.magnitude * WalkSpeed * 500 * Time.deltaTime, ForceMode.Force);
 
             //transform.rotation = Quaternion.RotateTowards(transform.rotation, CharacterRotation, Time.deltaTime * Quaternion.Angle(transform.rotation, CharacterRotation) * 60);
 
@@ -197,7 +211,6 @@ public class Movement : MonoBehaviour
         }
         else
         {
-            if (!player.IsLocal) return;
 
             if (!IsGrounded && Input.GetKeyDown(KeyMap.JumpKey))
             {
@@ -260,7 +273,9 @@ public class Movement : MonoBehaviour
         else
         {
             transform.rotation = NetworkBodyrot;
-            transform.position = Vector3.MoveTowards(transform.position,NetworkPos,100*Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, NetworkPos, 100 * Time.deltaTime);
+            animator.SetFloat("X", Mathf.MoveTowards(animator.GetFloat("X"), NetworkAnimationX, 0.1f));
+            animator.SetFloat("Y", Mathf.MoveTowards(animator.GetFloat("Y"), NetworkAnimationY, 0.05f));
         }
 
 
@@ -295,14 +310,23 @@ public class Movement : MonoBehaviour
     }
     private Vector3 bodyrotation = new Vector3(0, 0, 0);
     private Vector3 HeadRotation = Vector3.zero;
+
+
     public Vector3 NetworkPos;
     public Quaternion NetworkRot = Quaternion.identity;
     public Quaternion NetworkBodyrot = Quaternion.identity;
+    public float NetworkAnimationX = 0;
+    public float NetworkAnimationY = 0;
     public void SetMovement(Vector3 pos, Quaternion Headrot, Quaternion bodyrot)
     {
         NetworkPos = pos;
         NetworkRot = Headrot;
         NetworkBodyrot = bodyrot;
+    }
+    public void SetAnimation(float x, float y)
+    {
+        NetworkAnimationX = x;
+        NetworkAnimationY = y;
     }
     private void LateUpdate()
     {

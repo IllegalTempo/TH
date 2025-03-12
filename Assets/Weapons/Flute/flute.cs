@@ -64,8 +64,8 @@ public class flute : GeneralWeapon
     void Update()
     {
         base.BaseUpdate();
-        
-        
+
+        if (!player.IsLocal) return;
         //Inputs
         if (WeaponActionCD <= 0)
         {

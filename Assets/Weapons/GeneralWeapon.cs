@@ -23,7 +23,7 @@ public class GeneralWeapon : MonoBehaviour
     }
     protected void BaseUpdate()
     {
-
+        if (!player.IsLocal) return;
         if (WeaponActionCD > 0)
         {
             WeaponActionCD -= Time.deltaTime;

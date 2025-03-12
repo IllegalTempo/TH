@@ -17,7 +17,7 @@ public class SteamManager : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        
+
     }
     private void Start()
     {
@@ -51,7 +51,7 @@ public class SteamManager : MonoBehaviour
         SteamMatchmaking.OnLobbyGameCreated += OnLobbyGameCreated;
         SteamMatchmaking.OnLobbyEntered += OnLobbyEntered;
         SteamFriends.OnGameLobbyJoinRequested += OnFriendJoinLobby;
-        
+
     }
     public async void CreateGameLobby()
     {
@@ -68,7 +68,7 @@ public class SteamManager : MonoBehaviour
 #if UNITY_EDITOR
     private void OnExit(PlayModeStateChange change)
     {
-        if(change == PlayModeStateChange.ExitingPlayMode)
+        if (change == PlayModeStateChange.ExitingPlayMode)
         {
             OnDestroy();
         }
@@ -85,10 +85,11 @@ public class SteamManager : MonoBehaviour
 
         if (server != null)
         {
+            Debug.Log("Destroyed Server");
             server.DisconnectAll();
             server = null;
         }
-        if(client != null)
+        if (client != null)
         {
             client.Close();
             client = null;
@@ -121,11 +122,11 @@ public class SteamManager : MonoBehaviour
     }
     private void Update()
     {
-        if(server!=null)
+        if (server != null)
         {
             server.Receive();
         }
-        if(client != null)
+        if (client != null)
         {
             client.Receive();
         }
@@ -134,21 +135,21 @@ public class SteamManager : MonoBehaviour
     public GameServer server;
     public GameClient client;
     public bool IsServer = false;
-    private void OnLobbyCreated(Result r,Lobby l)
+    private void OnLobbyCreated(Result r, Lobby l)
     {
         l.SetFriendsOnly();
         l.SetJoinable(true);
+        l.Owner = new Friend(SteamClient.SteamId);
         Debug.Log($"Lobby ID: {l} Result: {r} Starting Game Server...");
+        l.SetGameServer(SteamClient.SteamId);
+        GameInformation.instance.CurrentLobby = l;
 
         server = SteamNetworkingSockets.CreateRelaySocket<GameServer>(1111);
+        Debug.Log($"Server: {server}");
 
 
         //Create the local Server Player
-        server.GetSteamID.Add(0, SteamClient.SteamId);
-       
 
-
-        l.SetGameServer(SteamClient.SteamId);
     }
     private void OnLobbyGameCreated(Lobby lobby, uint ip, ushort port, SteamId id)
     {
@@ -157,6 +158,7 @@ public class SteamManager : MonoBehaviour
         if (client == null)
         {
             client = SteamNetworkingSockets.ConnectRelay<GameClient>(id);
+            GameInformation.instance.CurrentLobby = lobby;
         }
     }
     private void OnLobbyEntered(Lobby l)
@@ -170,23 +172,40 @@ public class SteamManager : MonoBehaviour
             SteamId serverid = new SteamId();
             uint ip = 0;
             ushort port = 0;
-            bool haveserver = l.GetGameServer(ref ip,ref port,ref serverid);
-            Debug.Log($"{haveserver}|Connecting To Relay Server: {ip}:{port}, {serverid}");
+            bool haveserver = l.GetGameServer(ref ip, ref port, ref serverid);
+            if (haveserver)
+            {
+                Debug.Log($"Connecting To Relay Server: {ip}:{port}, {serverid}");
+                GameInformation.instance.CurrentLobby = l;
+                client = SteamNetworkingSockets.ConnectRelay<GameClient>(serverid, 1111);
 
-            client = SteamNetworkingSockets.ConnectRelay<GameClient>(serverid, 1111);
+            }
+            else
+            {
+                Debug.Log($"No Server: {ip}:{port}, {serverid}");
+
+            }
+
+
+
         }
     }
     private async void OnFriendJoinLobby(Lobby lobby, SteamId id)
     {
-        if(server != null)
+        if (server != null)
         {
             server.Close();
         }
         RoomEnter result = await lobby.Join();
 
-        if(result != RoomEnter.Success)
+        if (result != RoomEnter.Success)
         {
             Debug.Log($"Failed To Join Lobby from {(new Friend(id)).Name}");
+        }
+        else
+        {
+            Debug.Log($"Joined Lobby from {(new Friend(id)).Name}");
+
         }
 
     }

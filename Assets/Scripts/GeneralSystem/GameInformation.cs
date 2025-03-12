@@ -1,3 +1,4 @@
+using Steamworks.Data;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -25,6 +26,7 @@ public class GameInformation : MonoBehaviour
     public world CurrentWorld;
     public int State;
     public float ItemPickUpRange = 1f;
+    public Lobby CurrentLobby;
     public enum GameState
     {
         StartScreen = 0,
