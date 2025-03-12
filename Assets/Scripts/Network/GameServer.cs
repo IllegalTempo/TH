@@ -58,9 +58,10 @@ public class GameServer : SocketManager
         initiatelizePacketHandler();
         base.OnConnected(connection, info);
         Debug.Log(new Friend(info.Identity.SteamId).Name + " is Connected!");
-        await Task.Delay(5);
+        await Task.Delay(1000);
         Debug.Log("Sending Test Packet");
         NetworkPlayer connectedPlayer = GetPlayer(info);
+
         PacketSend.Server_Send_test(connectedPlayer); // Send a test to the player along with his networkid
         //When a player enter the server, send them the room info including all current players including himself;
         PacketSend.Server_Send_InitRoomInfo(connectedPlayer, GetPlayerCount()); //Send packet to the one who connects to the server, with room info
