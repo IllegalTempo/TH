@@ -29,7 +29,8 @@ public class GameClient : ConnectionManager
             { (int)PacketSend.ServerPackets.RoomInfoOnPlayerEnterRoom,PacketHandles_Method.Client_Handle_InitRoomInfo },
             { (int)PacketSend.ServerPackets.UpdatePlayerEnterRoomForExistingPlayer,PacketHandles_Method.Client_Handle_NewPlayerJoin },
             { (int)PacketSend.ServerPackets.PlayerQuit,PacketHandles_Method.Client_Handle_PlayerQuit },
-            { (int)PacketSend.ServerPackets.DistributeMovement,PacketHandles_Method.Client_Handle_ReceivedPlayerMovement}
+            { (int)PacketSend.ServerPackets.DistributeMovement,PacketHandles_Method.Client_Handle_ReceivedPlayerMovement},
+            { (int)PacketSend.ServerPackets.DistributeAnimation,PacketHandles_Method.Client_Handle_ReceivedPlayerAnimation}
 
         };
     }
