@@ -6,6 +6,13 @@ public class GateInteraction : InteractableCollider
 {
     protected override void OnInteract()
     {
-        GameSystem.instance.LoadSceneAction("InBattle",false);
+        if(GameInformation.instance.MainNetwork.IsServer)
+        {
+            GameSystem.instance.LoadSceneAction("InBattle", false);
+
+        } else
+        {
+            GameUIManager.instance.NewMessage("You are not the owner of the world!");
+        }
     }
 }

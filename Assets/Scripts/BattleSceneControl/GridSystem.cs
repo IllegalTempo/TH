@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Security;
 using System.Threading.Tasks;
 using Unity.AI.Navigation;
 using Unity.VisualScripting;
@@ -212,12 +213,24 @@ public class GridSystem : MonoBehaviour
     }
     private void Start()
     {
-        UnityEngine.Random.InitState(seed);
-        seed = (int)Time.time;
         GameInformation.instance.gd = this;
+
+        if (GameInformation.instance.MainNetwork.IsServer)
+        {
+            seed = (int)Time.time;
+            PacketSend.Server_Send_TransferBattle(seed);
+            Random.InitState(seed);
+            StartCoroutine(genchunks(true));
+        }
+
+
+
+    }
+    public void ClientInitGridSystem(int seed)
+    {
+        this.seed = seed;
+        Random.InitState(seed);
         StartCoroutine(genchunks(true));
-
-
 
     }
     public NavMeshSurface sur;
@@ -244,16 +257,16 @@ public class GridSystem : MonoBehaviour
         ranPrefix = GameInformation.instance.PrefixBoonSetupMatch.Keys.ElementAt(Random.Range(0, GameInformation.instance.PrefixBoonSetupMatch.Count));
         ranCorefix = GameInformation.instance.CoreEnemySpawnSetupMatch.Keys.ElementAt(Random.Range(0, GameInformation.instance.CoreEnemySpawnSetupMatch.Count));
         ranSuffix = GameInformation.instance.SuffixRoomRewardMatch.Keys.ElementAt(Random.Range(0, GameInformation.instance.SuffixRoomRewardMatch.Count));
-        StartCoroutine(GameInformation.instance.ui.SetRoomArgument(ranPrefix,ranCorefix,ranSuffix));
+        StartCoroutine(GameUIManager.instance.SetRoomArgument(ranPrefix, ranCorefix, ranSuffix));
     }
     public void GenerateNextRoom()
     {
         CurrentRoomCompleted = false;
-        for(int i = 0; i < BarrierGroup.childCount;i++)
+        for (int i = 0; i < BarrierGroup.childCount; i++)
         {
             Destroy(BarrierGroup.GetChild(i).gameObject);
         }
-        GameInformation.instance.ui.ConfirmClickNextRoom();
+        GameUIManager.instance.ConfirmClickNextRoom();
         SpawnChunk(currentpos, ChunkType.GrassPlane, ranPrefix, ranCorefix, ranSuffix);
         GenerateBarrierChunks();
         currentpos = NextPos();
@@ -261,7 +274,7 @@ public class GridSystem : MonoBehaviour
     }
     private void Update()
     {
-        if(Input.GetKeyDown(KeyMap.Interact2) && CurrentRoomCompleted)
+        if (Input.GetKeyDown(KeyMap.Interact2) && CurrentRoomCompleted)
         {
             GenerateNextRoom();
         }
@@ -289,7 +302,7 @@ public class GridSystem : MonoBehaviour
         //    }
 
         //SpawnChunk(currentpos, ChunkType.GrassPlane, EnemiesVariance, 50, spawntree, spawnenmeies);
-        GameInformation.instance.ui.StartRollRoom();
+        GameUIManager.instance.StartRollRoom();
 
         RollRoomArguments();
 

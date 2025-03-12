@@ -17,7 +17,7 @@ public abstract class InteractableCollider : MonoBehaviour
         if(other.gameObject == GameInformation.instance.LocalPlayer)
         {
             inRange = true;
-            GameInformation.instance.ui.StartInteraction();
+            GameUIManager.instance.StartInteraction();
         }
     }
     private void OnTriggerExit(Collider collision)
@@ -26,7 +26,7 @@ public abstract class InteractableCollider : MonoBehaviour
         {
             inRange = false;
             //
-            GameInformation.instance.ui.EndInteractionTips();
+            GameUIManager.instance.EndInteractionTips();
         }
     }
     protected abstract void OnInteract();

@@ -6,7 +6,12 @@ using System.Security.Cryptography;
 using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
-
+[Serializable]
+public class ItemInfo
+{
+    public int ItemID;
+    public float DropWeight;
+}
 public class Enemy : MonoBehaviour
 {
     //values of enemy
@@ -20,6 +25,8 @@ public class Enemy : MonoBehaviour
     public ParticleSystem OnHitEffect;
     public Renderer SoulRenderer;
     public int[] UsedProjectileList = new int[0];
+    public ItemInfo[] ItemDropTable;
+    private float DropTableTotalWeight;
     public EnemyBulletPool[] ProjectilePools;
     public Room BelongTo;
     public AiEnemy AiClass;

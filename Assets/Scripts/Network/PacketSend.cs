@@ -17,6 +17,7 @@ public class PacketSend
         PlayerQuit = 3,
         DistributeMovement = 4,
         DistributeAnimation = 5,
+        SendTransferWorld = 6,
     };
     public static string TestRandomUnicode = "幻想鄉是一個與外界隔絕的神秘之地，其存在自古以來便被視為傳說而流傳。";
     public static Result Server_Send_test(NetworkPlayer pl)
@@ -28,6 +29,15 @@ public class PacketSend
             Debug.Log("sending: " + DateTime.Now.Ticks);
             p.Write(DateTime.Now.Ticks);
             return pl.SendPacket(p);
+
+        };
+    }
+    public static Result Server_Send_TransferBattle(int seed)
+    {
+        using (packet p = new packet((int)ServerPackets.SendTransferWorld))
+        {
+            p.Write(seed);
+            return BroadcastPacket(p);
 
         };
     }

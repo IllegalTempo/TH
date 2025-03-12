@@ -65,10 +65,10 @@ public class GameSystem : MonoBehaviour
     TMP_Text loadingtext;
     private IEnumerator LoadScene(string scene,bool init)
     {
-        loadingtext = GameInformation.instance.ui.progressloading;
+        loadingtext = GameUIManager.instance.progressloading;
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(scene);
         asyncLoad.allowSceneActivation = false;
-        GameInformation.instance.ui.LoadingScreenGameObject.SetActive(true);
+        GameUIManager.instance.LoadingScreenGameObject.SetActive(true);
         while (!asyncLoad.isDone)
         {
 
@@ -79,12 +79,13 @@ public class GameSystem : MonoBehaviour
             }
             yield return null;
         }
-        GameInformation.instance.ui.LoadingScreenGameObject.SetActive(false);
+        GameUIManager.instance.LoadingScreenGameObject.SetActive(false);
 
         GameObject spawnpoint = GameObject.Find("SpawnPoint");
         if(scene == "InBattle")
         {
-            GameInformation.instance.ui.EnterBattleState();
+            GameUIManager.instance.EnterBattleState();
+
         }
         Cursor.lockState = CursorLockMode.Locked;
         if(GameInformation.instance.MainNetwork.Connected)
@@ -92,7 +93,7 @@ public class GameSystem : MonoBehaviour
             GameInformation.instance.LocalPlayer.GetComponent<PlayerMain>().SwitchScene(scene, spawnpoint.transform.position);
 
         }
-        GameInformation.instance.ui.NewPlaceIntro(scene,true);
+        GameUIManager.instance.NewPlaceIntro(scene,true);
 
     }
     public delegate void SceneAction(int missionID);

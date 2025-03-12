@@ -57,8 +57,8 @@ public class PlayerMain : MonoBehaviour
     {
         IsLocal = true;
         GameInformation.instance.LocalPlayer = gameObject;
-        GameInformation.instance.ui.gameObject.SetActive(true);
-        GameInformation.instance.ui.invUI.Initialize(playermovement, soul);
+        GameUIManager.instance.gameObject.SetActive(true);
+        GameUIManager.instance.invUI.Initialize(playermovement, soul);
         GameInformation.instance.MainNetwork.Connected = true;
 
     }
@@ -75,14 +75,14 @@ public class PlayerMain : MonoBehaviour
 
         CurrentLevelMaxXP = GameInformation.instance.GetMaxXP(level+1);
         level++;
-        GameInformation.instance.ui.LevelText.text = "Level " + level;
+        GameUIManager.instance.LevelText.text = "Level " + level;
         int[] boons = { UnityEngine.Random.Range(0, GameInformation.instance.BoonInforms.Length - 1) };
-        GameInformation.instance.ui.StartBoonsChoosingMenu(boons);
+        GameUIManager.instance.StartBoonsChoosingMenu(boons);
     }
     public void AddXP()
     {
         CurrentLevelXP++;
-        GameInformation.instance.ui.SetXP(((float)CurrentLevelXP / (float)CurrentLevelMaxXP));
+        GameUIManager.instance.SetXP(((float)CurrentLevelXP / (float)CurrentLevelMaxXP));
         if (CurrentLevelXP >= CurrentLevelMaxXP)
         {
             LevelUP();
@@ -115,7 +115,7 @@ public class PlayerMain : MonoBehaviour
     public void AddBoons(int BoonID)
     {
         CanChooseNewBoon = false;
-        GameInformation.instance.ui.BoonsDisplay.SetActive(false);
+        GameUIManager.instance.BoonsDisplay.SetActive(false);
         BoonInform info;
         Baseboon b = (Baseboon)gameObject.AddComponent(GameInformation.instance.GetBoon(BoonID, out info));
         b.inform = info;
@@ -144,8 +144,8 @@ public class PlayerMain : MonoBehaviour
     }
     private void ChangeInHealth()
     {
-        GameInformation.instance.ui.Healthnumber.text = health.ToString();
-        GameInformation.instance.ui.HealthBar.value = health / maxHealth;
+        GameUIManager.instance.Healthnumber.text = health.ToString();
+        GameUIManager.instance.HealthBar.value = health / maxHealth;
     }
 
 
@@ -217,11 +217,11 @@ public class PlayerMain : MonoBehaviour
     }
     private void ChangeInPower()
     {
-        GameInformation.instance.ui.PowerNumber.text = power + "";
+        GameUIManager.instance.PowerNumber.text = power + "";
     }
     private void CHangeInPoint()
     {
-        GameInformation.instance.ui.PointNumber.text = points + "";
+        GameUIManager.instance.PointNumber.text = points + "";
     }
     public void OnPickUpPower()
     {

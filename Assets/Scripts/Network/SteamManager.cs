@@ -100,6 +100,7 @@ public class SteamManager : MonoBehaviour
     {
         NewLobby();
         IsServer = true;
+        client = null;
         try
         {
             var createLobbyOutput = await SteamMatchmaking.CreateLobbyAsync(8);
@@ -134,7 +135,7 @@ public class SteamManager : MonoBehaviour
 
     public GameServer server;
     public GameClient client;
-    public bool IsServer = false;
+    public bool IsServer = true;
     private void OnLobbyCreated(Result r, Lobby l)
     {
         l.SetFriendsOnly();
@@ -157,6 +158,8 @@ public class SteamManager : MonoBehaviour
         Debug.Log($"Connecting To Relay Server: {ip}:{port}, {id}");
         if (client == null)
         {
+            IsServer = false;
+
             client = SteamNetworkingSockets.ConnectRelay<GameClient>(id);
             GameInformation.instance.CurrentLobby = lobby;
         }
@@ -164,11 +167,13 @@ public class SteamManager : MonoBehaviour
     private void OnLobbyEntered(Lobby l)
     {
         if (l.Owner.Id == SteamClient.SteamId) { return; }
+        server = null;
         NewLobby();
-        IsServer = false;
 
         if (client == null)
         {
+            IsServer = false;
+
             SteamId serverid = new SteamId();
             uint ip = 0;
             ushort port = 0;

@@ -32,7 +32,7 @@ namespace Assets.Scripts.BattleSceneControl
         }
         private void RoomCompleted()
         {
-            GameInformation.instance.ui.StartRollRoom();
+            GameUIManager.instance.StartRollRoom();
             GameInformation.instance.gd.RollRoomArguments();
             GameInformation.instance.gd.CurrentRoomCompleted = true;
             for(int i = 0; i < RewardCount;i++)

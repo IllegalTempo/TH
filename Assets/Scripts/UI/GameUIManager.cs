@@ -63,6 +63,11 @@ public class GameUIManager : MonoBehaviour
     public TMP_InputField enterWorldID;
     public TMP_Text StatusText;
 
+    [Header("Message System")]
+    public GameObject MessageInstance;
+    public Transform MessageLayout;
+
+
     [Header("<;> Grouping Canvas")]
     public GameObject Mission;
     public GameObject Inventory;
@@ -76,7 +81,7 @@ public class GameUIManager : MonoBehaviour
     public bool suffixsetted = true;
 
     public ulong UIRoomIDBuffer;
-
+    public static GameUIManager instance;
     private System.Random r = new System.Random();
     private string rs = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890,./;'[]-=!@#$%^&*)";
     private void Update()
@@ -85,6 +90,19 @@ public class GameUIManager : MonoBehaviour
         {
             OpenNetworkUI();
         }
+    }
+    void Awake()
+    {
+
+        if (instance == null)
+        {
+            instance = this;
+        }
+    }
+    public void NewMessage(string message)
+    {
+        MessageObject msobj = Instantiate(MessageInstance, MessageLayout).GetComponent<MessageObject>();
+        msobj.Init(message);
     }
     public void CopyRoomID()
     {
@@ -262,7 +280,7 @@ public class GameUIManager : MonoBehaviour
     public void EnterBattleState()
     {
         InBattleUIObject.SetActive(true);
-
+        NetworkUI.SetActive(false);
     }
     private void SetMission(string title,string description)
     {

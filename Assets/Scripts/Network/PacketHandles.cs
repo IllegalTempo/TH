@@ -107,6 +107,14 @@ public class PacketHandles_Method
         Quaternion bodyrot = packet.Readquaternion();
         GameInformation.instance.MainNetwork.client.GetPlayerByNetworkID[NetworkID].playermovement.SetMovement(pos, headrot, bodyrot);
     }
+    public static async void Client_Handle_ReceivedTransferWorld(Connection c,packet packet)
+    {
+        int seed = packet.Readint();
+        GameSystem.instance.LoadSceneAction("InBattle", false);
+        GameUIManager.instance.NewMessage("Transferring To Battle...");
+        await Task.Delay(5000);
+        GameInformation.instance.gd.ClientInitGridSystem(seed);
+    }
     public static void Client_Handle_ReceivedPlayerAnimation(Connection c,packet packet)
     {
         int NetworkID = packet.Readint();

@@ -23,7 +23,7 @@ public class Wishboard : MonoBehaviour
     public void AcceptedMission(PrayerMission m)
     {
         GameInformation.instance.currentsave.CurrentMission = m;
-        //GameInformation.instance.ui.SetMission(m.name,m.description);
+        //GameUIManager.instance.SetMission(m.name,m.description);
     }
    public void RemovePrayer(PrayerMission m)
     {

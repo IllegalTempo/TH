@@ -80,7 +80,7 @@ public class Save
         GameSystem.instance.LoadSceneAction(LastSceneName,true);
 
         GameInformation.instance.inventory = Inventory;
-        GameInformation.instance.ui.StartPlayerControl();
+        GameUIManager.instance.StartPlayerControl();
 
     }
     public static string CreateNewSave(string savename)

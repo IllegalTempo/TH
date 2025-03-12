@@ -12,7 +12,6 @@ public class GameInformation : MonoBehaviour
     public SteamManager MainNetwork;
     public InGameSystemController system;
     public EnemyProjectileReserve PjtlReserve;
-    public GameUIManager ui;
     public GridSystem gd;
     public Wishboard missionsystem;
     public PlayerInventory inventory;
@@ -46,7 +45,6 @@ public class GameInformation : MonoBehaviour
     {
         playerMask = LayerMask.GetMask("Player");
         OnlyBuildings = LayerMask.GetMask("Buildings");
-        GameObject.Find("");
 
         if (instance == null)
         {

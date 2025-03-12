@@ -30,7 +30,8 @@ public class GameClient : ConnectionManager
             { (int)PacketSend.ServerPackets.UpdatePlayerEnterRoomForExistingPlayer,PacketHandles_Method.Client_Handle_NewPlayerJoin },
             { (int)PacketSend.ServerPackets.PlayerQuit,PacketHandles_Method.Client_Handle_PlayerQuit },
             { (int)PacketSend.ServerPackets.DistributeMovement,PacketHandles_Method.Client_Handle_ReceivedPlayerMovement},
-            { (int)PacketSend.ServerPackets.DistributeAnimation,PacketHandles_Method.Client_Handle_ReceivedPlayerAnimation}
+            { (int)PacketSend.ServerPackets.DistributeAnimation,PacketHandles_Method.Client_Handle_ReceivedPlayerAnimation},
+            { (int)PacketSend.ServerPackets.SendTransferWorld,PacketHandles_Method.Client_Handle_ReceivedTransferWorld} 
 
         };
     }
@@ -52,6 +53,8 @@ public class GameClient : ConnectionManager
     {
         base.OnDisconnected(info);
         Debug.Log("Disconnected to " + new Friend(info.Identity.SteamId).Name);
+        GameInformation.instance.MainNetwork.CreateGameLobby();
+
     }
     public override unsafe void OnMessage(IntPtr data, int size, long messageNum, long recvTime, int channel)
     {
