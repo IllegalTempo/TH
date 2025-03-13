@@ -279,7 +279,7 @@ public class GridSystem : MonoBehaviour
     }
     public void GenerateNextRoom()
     {
-        if(GameInformation.instance.MainNetwork.IsServer)
+        if(!GameInformation.instance.MainNetwork.IsServer)
         {
             PacketSend.Client_Send_SpawnChunk();
 
