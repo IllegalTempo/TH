@@ -178,7 +178,7 @@ public class flute : GeneralWeapon
     
     private void Start()
     {
-        base.GetAttackAction = new AttackAction[]{Shoot1Action,Beat,Spin_Beat };
+        base.GetAttackAction = new AttackAction[]{Shoot,Beat,Spin_Beat };
         WeaponTypeID = (int)GameInformation.WeaponType.flute;
         base.preStart();
         InitializeAbilityCD();
