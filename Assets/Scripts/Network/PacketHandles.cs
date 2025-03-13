@@ -30,9 +30,10 @@ public class PacketHandles_Method
     }
     public static void Server_Handle_SpawnChunk(NetworkPlayer p, packet packet)
     {
+        int id = packet.Readint();
         bool confirm = packet.Readbool();
         GameInformation.instance.gd.SpawnNextRoom = confirm;
-        PacketSend.Server_DistributeSpawnChunk();
+        PacketSend.Server_DistributeSpawnChunk(id);
     }
     public static void Server_Handle_EnemyHealthUpdate(NetworkPlayer p, packet packet)
     {

@@ -64,12 +64,12 @@ public class PacketSend
 
         };
     }
-    public static Result Server_DistributeSpawnChunk()
+    public static Result Server_DistributeSpawnChunk(int IgnoreID)
     {
         using (packet p = new packet((int)ServerPackets.SendSpawnChunk))
         {
             p.Write(true);
-            return BroadcastPacket(p);
+            return BroadcastPacket(IgnoreID,p);
 
         };
     }
@@ -217,10 +217,11 @@ public class PacketSend
             return SendToServer(p);
         }
     }
-    public static Result Client_Send_SpawnChunk()
+    public static Result Client_Send_SpawnChunk(int source)
     {
         using (packet p = new packet((int)ClientPackets.SendSpawnChunk))
         {
+            p.Write(source);
             p.Write(true);
             return SendToServer(p);
         }

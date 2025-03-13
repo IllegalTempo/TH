@@ -281,11 +281,11 @@ public class GridSystem : MonoBehaviour
     {
         if(!GameInformation.instance.MainNetwork.IsServer)
         {
-            PacketSend.Client_Send_SpawnChunk();
+            PacketSend.Client_Send_SpawnChunk(GameInformation.instance.MainNetwork.client.NetworkID);
 
         } else
         {
-            PacketSend.Server_DistributeSpawnChunk();
+            PacketSend.Server_DistributeSpawnChunk(0);
         }
         SpawnNextRoom = false;
         CurrentRoomCompleted = false;
