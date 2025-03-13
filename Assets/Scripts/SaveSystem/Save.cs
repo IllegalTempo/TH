@@ -77,7 +77,6 @@ public class Save
     public void UtilizeSave()
     {
         GameInformation.instance.MainNetwork.CreateGameLobby();
-        if(LastSceneName == "InBattle")
         GameSystem.instance.LoadSceneAction(LastSceneName,true);
 
         GameInformation.instance.inventory = Inventory;
