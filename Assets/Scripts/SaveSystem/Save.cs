@@ -153,6 +153,8 @@ public class Save
         
         LastSceneName = SceneManager.GetActiveScene().name;
         if (LastSceneName == "InBattle") { LastSceneName = "InGame"; LastLocation = new Vector3(-7.98f, -0.26f, -19f); }
+        if (LastSceneName == "StartScreen") { LastSceneName = "InGame"; LastLocation = new Vector3(-7.98f, -0.26f, -19f); }
+
         SaveData();
     }
     public static void OnExit(PlayModeStateChange change)
