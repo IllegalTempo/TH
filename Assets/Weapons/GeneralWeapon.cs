@@ -12,7 +12,25 @@ public class GeneralWeapon : MonoBehaviour
     protected Animator playeranimator;
     public float WeaponActionCD = 0f;
     public int WeaponTypeID;
+    public delegate void AttackAction();
 
+    public AttackAction[] GetAttackAction;
+    protected void OnAttack_Network(int AttackActionIDInWeapon)
+    {
+        if (!player.IsLocal) return;
+        if(GameInformation.instance.MainNetwork.IsServer)
+        {
+            PacketSend.Server_Distribute_Weapon_Attack(player.NetworkID,AttackActionIDInWeapon);
+
+        } else
+        {
+            PacketSend.Client_Send_WeaponAttackAction(AttackActionIDInWeapon);
+        }
+    }
+    public void Attack_Network(int AttackID)
+    {
+        GetAttackAction[AttackID]();
+    }
     protected void preStart()
     {
         player = transform.root.GetComponent<PlayerMain>();

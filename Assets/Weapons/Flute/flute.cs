@@ -117,29 +117,14 @@ public class flute : GeneralWeapon
                 break;
         }
     }
-    private void Beat()
-    {
-        player.OnAttack();
-        playeranimator.Play("Attack1_Weapon");
-        WeaponActionCD = BeatCD * WeaponActionTimeMultiplier;
-    }
-    private void Spin_Beat()
-    {
-        player.OnAttack();
-        player.rb.AddForce(UpwardForce_Spin_Beat,ForceMode.VelocityChange);
-        playeranimator.Play("Attack2_Weapon");
-        WeaponActionCD = Spin_BeatCD * WeaponActionTimeMultiplier;
-    }
-    //Followings are ran by animation:
-    private Vector3 CursorExtension = new Vector3(0,0,3);
-    public void Shoot1()
-    {
-        WeaponActionCD = Shoot1CD * WeaponActionTimeMultiplier;
-        Invoke("Shoot1Action",(0.47f/0.6f) * WeaponActionTimeMultiplier);
-        
-    }
+
+
+    /// <summary>
+    /// Real Attacks ==================================
+    /// </summary>
     private void Shoot1Action()
     {
+        base.OnAttack_Network(0);
         bulletobject b = Attack1Pool.GetBulletobject();
         if (player.playermovement.aiming)
         {
@@ -154,10 +139,45 @@ public class flute : GeneralWeapon
 
         }
     }
+    private void Beat()
+    {
+        base.OnAttack_Network(1);
+
+        player.OnAttack();
+        playeranimator.Play("Attack1_Weapon");
+        WeaponActionCD = BeatCD * WeaponActionTimeMultiplier;
+    }
+    private void Spin_Beat()
+    {
+        base.OnAttack_Network(2);
+
+        player.OnAttack();
+        player.rb.AddForce(UpwardForce_Spin_Beat,ForceMode.VelocityChange);
+        playeranimator.Play("Attack2_Weapon");
+        WeaponActionCD = Spin_BeatCD * WeaponActionTimeMultiplier;
+    }
+    /// <summary>
+    /// END========================================================
+    /// </summary>
+
+
+
+
+
+    //Followings are ran by animation:
+    private Vector3 CursorExtension = new Vector3(0,0,3);
+    public void Shoot1()
+    {
+        WeaponActionCD = Shoot1CD * WeaponActionTimeMultiplier;
+        Invoke("Shoot1Action",(0.47f/0.6f) * WeaponActionTimeMultiplier);
+        
+    }
+    
 
     
     private void Start()
     {
+        base.GetAttackAction = new AttackAction[]{Shoot1Action,Beat,Spin_Beat };
         WeaponTypeID = (int)GameInformation.WeaponType.flute;
         base.preStart();
         InitializeAbilityCD();

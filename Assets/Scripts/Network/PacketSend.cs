@@ -18,6 +18,10 @@ public class PacketSend
         DistributeMovement = 4,
         DistributeAnimation = 5,
         SendTransferWorld = 6,
+        SendSpawnChunk = 7,
+        SendEveryoneReady = 8,
+        
+        Weapon_Attack = 1000,
     };
     public static string TestRandomUnicode = "幻想鄉是一個與外界隔絕的神秘之地，其存在自古以來便被視為傳說而流傳。";
     public static Result Server_Send_test(NetworkPlayer pl)
@@ -32,11 +36,39 @@ public class PacketSend
 
         };
     }
+    public static Result Server_Distribute_Weapon_Attack(int NetworkID,int AttackIDinWeapon)
+    {
+        using (packet p = new packet((int)ServerPackets.Weapon_Attack))
+        {
+            p.Write(NetworkID);
+            p.Write(AttackIDinWeapon);
+            return BroadcastPacket(p);
+
+        };
+    }
     public static Result Server_Send_TransferBattle(int seed)
     {
         using (packet p = new packet((int)ServerPackets.SendTransferWorld))
         {
             p.Write(seed);
+            return BroadcastPacket(p);
+
+        };
+    }
+    public static Result Server_Send_EveryoneReady()
+    {
+        using (packet p = new packet((int)ServerPackets.SendEveryoneReady))
+        {
+            p.Write(true);
+            return BroadcastPacket(p);
+
+        };
+    }
+    public static Result Server_DistributeSpawnChunk()
+    {
+        using (packet p = new packet((int)ServerPackets.SendSpawnChunk))
+        {
+            p.Write(true);
             return BroadcastPacket(p);
 
         };
@@ -154,6 +186,9 @@ public class PacketSend
         SendPosition = 1,
         Ready = 2,
         SendAnimationState = 3,
+        ReadyForChunkSpawning = 4,
+        SendSpawnChunk = 5,
+        SendWeaponAttack = 6,
     };
     public static Result Client_Send_AnimationState(float movementx,float movementy)
     {
@@ -161,6 +196,30 @@ public class PacketSend
         {
             p.Write(movementx);
             p.Write(movementy);
+            return SendToServer(p);
+        }
+    }
+    public static Result Client_Send_WeaponAttackAction(int AttackActionID)
+    {
+        using (packet p = new packet((int)ClientPackets.SendWeaponAttack))
+        {
+            p.Write(AttackActionID);
+            return SendToServer(p);
+        }
+    }
+    public static Result Client_Send_SpawnChunk()
+    {
+        using (packet p = new packet((int)ClientPackets.SendSpawnChunk))
+        {
+            p.Write(true);
+            return SendToServer(p);
+        }
+    }
+    public static Result Client_Send_ReadySpawnChunk()
+    {
+        using (packet p = new packet((int)ClientPackets.ReadyForChunkSpawning))
+        {
+            p.Write(true);
             return SendToServer(p);
         }
     }

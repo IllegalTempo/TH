@@ -37,6 +37,7 @@ public class GridSystem : MonoBehaviour
     public GameObject[] TreePrefab;
     public int TPC = 50;
 
+    public List<int> ReadySpawnChunkPlayerList;
     public GameObject Chunk;
     public GameObject Barrier;
 
@@ -44,6 +45,27 @@ public class GridSystem : MonoBehaviour
     public string ranPrefix;
     public string ranSuffix;
     public string ranCorefix;
+    private void Start()
+    {
+        GameInformation.instance.gd = this;
+        if (GameInformation.instance.MainNetwork.IsServer)
+        {
+            ReadySpawnChunkPlayerList = new List<int>();
+            seed = (int)Time.time;
+            PacketSend.Server_Send_TransferBattle(seed);
+            ReadySpawnChunkPlayerList.Add(0);
+            Random.InitState(seed);
+        }
+
+
+
+    }
+    public void EveryoneReady()
+    {
+        GameUIManager.instance.NewMessage("Everyone's Ready!");
+        StartCoroutine(genchunks(true));
+
+    }
     private Vector2 NextPos()
     {
 
@@ -211,26 +233,22 @@ public class GridSystem : MonoBehaviour
     {
         return new Vector3(pos.x * Chunksize.x * transform.localScale.x, 0, pos.y * Chunksize.y * transform.localScale.x);
     }
-    private void Start()
-    {
-        GameInformation.instance.gd = this;
-
-        if (GameInformation.instance.MainNetwork.IsServer)
-        {
-            seed = (int)Time.time;
-            PacketSend.Server_Send_TransferBattle(seed);
-            Random.InitState(seed);
-            StartCoroutine(genchunks(true));
-        }
-
-
-
-    }
+    
     public void ClientInitGridSystem(int seed)
     {
         this.seed = seed;
         Random.InitState(seed);
-        StartCoroutine(genchunks(true));
+        PacketSend.Client_Send_ReadySpawnChunk();
+    }
+    public void PlayerReady(NetworkPlayer p)
+    {
+        GameInformation.instance.gd.ReadySpawnChunkPlayerList.Add(p.NetworkID); 
+        GameUIManager.instance.NewMessage($"{p.SteamName} is Ready!");
+        if (ReadySpawnChunkPlayerList.Count >= GameInformation.instance.MainNetwork.server.GetPlayerCount())
+        {
+            EveryoneReady();
+            PacketSend.Server_Send_EveryoneReady();
+        }
 
     }
     public NavMeshSurface sur;
@@ -261,6 +279,7 @@ public class GridSystem : MonoBehaviour
     }
     public void GenerateNextRoom()
     {
+        SpawnNextRoom = false;
         CurrentRoomCompleted = false;
         for (int i = 0; i < BarrierGroup.childCount; i++)
         {
@@ -272,9 +291,10 @@ public class GridSystem : MonoBehaviour
         currentpos = NextPos();
 
     }
+    public bool SpawnNextRoom = false;
     private void Update()
     {
-        if (Input.GetKeyDown(KeyMap.Interact2) && CurrentRoomCompleted)
+        if ((Input.GetKeyDown(KeyMap.Interact2) || SpawnNextRoom) && CurrentRoomCompleted)
         {
             GenerateNextRoom();
         }

@@ -60,7 +60,7 @@ public class PlayerMain : MonoBehaviour
         GameUIManager.instance.gameObject.SetActive(true);
         GameUIManager.instance.invUI.Initialize(playermovement, soul);
         GameInformation.instance.MainNetwork.Connected = true;
-
+        transform.position = GameInformation.instance.currentsave.LastLocation;
     }
     public void DeLocalisation()
     {

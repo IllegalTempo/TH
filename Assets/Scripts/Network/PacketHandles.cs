@@ -23,6 +23,22 @@ public class PacketHandles_Method
             Debug.Log($"Check Code Mismatched Client Message: {text}");
         }
     }
+    public static void Server_Handle_WeaponAttack(NetworkPlayer p, packet packet)
+    {
+        int AttackID = packet.Readint();
+        p.player.CurrentWeapon.Attack_Network(AttackID);
+    }
+    public static void Server_Handle_SpawnChunk(NetworkPlayer p, packet packet)
+    {
+        bool confirm = packet.Readbool();
+        GameInformation.instance.gd.SpawnNextRoom = confirm;
+        PacketSend.Server_DistributeSpawnChunk();
+    }
+    public static void Server_Handle_ReadySpawnChunk(NetworkPlayer p, packet packet)
+    {
+        bool confirm = packet.Readbool();
+        GameInformation.instance.gd.PlayerReady(p);
+    }
     public static void Server_Handle_ReadyUpdate(NetworkPlayer p, packet packet)
     {
         bool ready = packet.Readbool();
@@ -98,6 +114,11 @@ public class PacketHandles_Method
         cl.GetPlayerByNetworkID[NetworkID].Disconnect();
         cl.GetPlayerByNetworkID.Remove(NetworkID);
     }
+    public static void Client_Handle_EveryoneReady(Connection c,packet packet)
+    {
+        bool confirm = packet.Readbool();
+        GameInformation.instance.gd.EveryoneReady();
+    }
     public static void Client_Handle_ReceivedPlayerMovement(Connection c,packet packet)
     {
         int NetworkID = packet.Readint();
@@ -106,6 +127,12 @@ public class PacketHandles_Method
         Quaternion headrot = packet.Readquaternion();
         Quaternion bodyrot = packet.Readquaternion();
         GameInformation.instance.MainNetwork.client.GetPlayerByNetworkID[NetworkID].playermovement.SetMovement(pos, headrot, bodyrot);
+    }
+    public static void Client_Handle_ReceivedWeaponAction(Connection c, packet packet)
+    {
+        int NetworkID = packet.Readint();
+        int AttackID = packet.Readint();
+        GameInformation.instance.MainNetwork.client.GetPlayerByNetworkID[NetworkID].CurrentWeapon.Attack_Network(AttackID);
     }
     public static async void Client_Handle_ReceivedTransferWorld(Connection c,packet packet)
     {
@@ -121,6 +148,11 @@ public class PacketHandles_Method
         float x = packet.Readfloat();
         float y = packet.Readfloat();
         GameInformation.instance.MainNetwork.client.GetPlayerByNetworkID[NetworkID].playermovement.SetAnimation(x, y);
+    }
+    public static void Client_Handle_ReceivedSpawnNextRoom(Connection c, packet packet)
+    {
+        bool ready = packet.Readbool();
+        GameInformation.instance.gd.SpawnNextRoom = ready;
     }
 }
 

@@ -49,7 +49,11 @@ public class GameServer : SocketManager
             { (int)PacketSend.ClientPackets.Test_Packet,PacketHandles_Method.Server_Handle_test },
             { (int)PacketSend.ClientPackets.SendPosition,PacketHandles_Method.Server_Handle_PosUpdate},
             { (int)PacketSend.ClientPackets.Ready,PacketHandles_Method.Server_Handle_ReadyUpdate},
-            { (int)PacketSend.ClientPackets.SendAnimationState,PacketHandles_Method.Server_Handle_AnimationState}
+            { (int)PacketSend.ClientPackets.SendAnimationState,PacketHandles_Method.Server_Handle_AnimationState},
+            { (int)PacketSend.ClientPackets.ReadyForChunkSpawning,PacketHandles_Method.Server_Handle_ReadySpawnChunk},
+            { (int)PacketSend.ClientPackets.SendSpawnChunk,PacketHandles_Method.Server_Handle_SpawnChunk},
+            { (int)PacketSend.ClientPackets.SendWeaponAttack,PacketHandles_Method.Server_Handle_WeaponAttack},
+
         };
     }
 

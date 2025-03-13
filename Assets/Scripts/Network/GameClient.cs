@@ -31,7 +31,12 @@ public class GameClient : ConnectionManager
             { (int)PacketSend.ServerPackets.PlayerQuit,PacketHandles_Method.Client_Handle_PlayerQuit },
             { (int)PacketSend.ServerPackets.DistributeMovement,PacketHandles_Method.Client_Handle_ReceivedPlayerMovement},
             { (int)PacketSend.ServerPackets.DistributeAnimation,PacketHandles_Method.Client_Handle_ReceivedPlayerAnimation},
-            { (int)PacketSend.ServerPackets.SendTransferWorld,PacketHandles_Method.Client_Handle_ReceivedTransferWorld} 
+            { (int)PacketSend.ServerPackets.SendSpawnChunk,PacketHandles_Method.Client_Handle_ReceivedSpawnNextRoom},
+
+            { (int)PacketSend.ServerPackets.SendTransferWorld,PacketHandles_Method.Client_Handle_ReceivedTransferWorld},
+            { (int)PacketSend.ServerPackets.SendEveryoneReady,PacketHandles_Method.Client_Handle_EveryoneReady},
+            { (int)PacketSend.ServerPackets.Weapon_Attack,PacketHandles_Method.Client_Handle_ReceivedWeaponAction},
+
 
         };
     }
