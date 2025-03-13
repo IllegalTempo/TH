@@ -62,9 +62,18 @@ public class Enemy : MonoBehaviour
     public void SetHealth(float dmg)
     {
         MaterialPropertyBlock pb = new MaterialPropertyBlock();
-
-        pb.SetFloat("_Fill", ((health -= dmg) * 0.5f) / maxhealth);
+        float nhealth = health -= dmg;
+        pb.SetFloat("_Fill", (nhealth * 0.5f) / maxhealth);
         SoulRenderer.SetPropertyBlock(pb);
+        if (nhealth <= 0)
+        {
+            OnDeath();
+        }
+        else
+        {
+            animator.Play("HURT");
+
+        }
     }
     public void Damage(float dmg,Vector3 collidepoint,PlayerMain DamageDealer)
     {

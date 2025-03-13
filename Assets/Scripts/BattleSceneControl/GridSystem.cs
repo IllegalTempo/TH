@@ -279,6 +279,14 @@ public class GridSystem : MonoBehaviour
     }
     public void GenerateNextRoom()
     {
+        if(GameInformation.instance.MainNetwork.IsServer)
+        {
+            PacketSend.Client_Send_SpawnChunk();
+
+        } else
+        {
+            PacketSend.Server_DistributeSpawnChunk();
+        }
         SpawnNextRoom = false;
         CurrentRoomCompleted = false;
         for (int i = 0; i < BarrierGroup.childCount; i++)
