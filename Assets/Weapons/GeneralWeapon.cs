@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -36,7 +35,7 @@ public class GeneralWeapon : MonoBehaviour
         player = transform.root.GetComponent<PlayerMain>();
         playeranimator = player.animator;
 
-        playeranimator.runtimeAnimatorController = Resources.Load<AnimatorController>(GameInformation.instance.WeaponPath[WeaponTypeID] + "PlayerAnimator");
+        playeranimator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>(GameInformation.instance.WeaponPath[WeaponTypeID] + "PlayerAnimator");
 
     }
     protected void BaseUpdate()

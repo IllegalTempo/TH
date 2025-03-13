@@ -5,8 +5,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using UnityEditor;
 using UnityEngine;
+using UnityEditor;
 using UnityEngine.SceneManagement;
 public class Save
 {
@@ -156,6 +156,7 @@ public class Save
 
         SaveData();
     }
+#if UNITY_EDITOR
     public static void OnExit(PlayModeStateChange change)
     {
         if(change == PlayModeStateChange.ExitingPlayMode && GameInformation.instance.currentsave != null)
@@ -164,4 +165,5 @@ public class Save
             GameInformation.instance.currentsave.Saving();
         }
     }
+#endif
 }
