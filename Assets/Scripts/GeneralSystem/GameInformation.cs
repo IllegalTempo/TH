@@ -2,6 +2,7 @@ using Steamworks.Data;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
@@ -50,7 +51,13 @@ public class GameInformation : MonoBehaviour
     {
         playerMask = LayerMask.GetMask("Player");
         OnlyBuildings = LayerMask.GetMask("Buildings");
+        string folderPath = Application.dataPath + Path.AltDirectorySeparatorChar + "SaveData";
 
+        if (!Directory.Exists(folderPath))
+        {
+            Directory.CreateDirectory(folderPath);
+            Debug.Log("Directory created at: " + folderPath);
+        }
         if (instance == null)
         {
             instance = this;

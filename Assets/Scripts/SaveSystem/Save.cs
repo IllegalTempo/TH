@@ -15,7 +15,7 @@ public class Save
     [JsonIgnore]
     public Vector3 LastLocation;
 
-    public float[] LastLocation_Save = new float[3]; 
+    public float[] LastLocation_Save = new float[3];
     public string LastSceneName;
     public string savename;
     public LastRunSave runsave;
@@ -25,11 +25,11 @@ public class Save
     //[PlaceID] [priority]
     public int seed;
 
-    public int[] FindMissionByID(int Type,int id)
+    public int[] FindMissionByID(int Type, int id)
     {
         List<int> result = new List<int>();
-        
-        for(int i = 0; i < ActiveMissions.Length;i++)
+
+        for (int i = 0; i < ActiveMissions.Length; i++)
         {
             if (ActiveMissions[i].missionType == Type && ActiveMissions[i].id == id)
             {
@@ -77,7 +77,7 @@ public class Save
     public void UtilizeSave()
     {
         GameInformation.instance.MainNetwork.CreateGameLobby();
-        GameSystem.instance.LoadSceneAction(LastSceneName,true);
+        GameSystem.instance.LoadSceneAction(LastSceneName, true);
 
         GameInformation.instance.inventory = Inventory;
         GameUIManager.instance.StartPlayerControl();
@@ -85,17 +85,18 @@ public class Save
     }
     public static string CreateNewSave(string savename)
     {
-            Save save = new Save(savename);
-            save.SaveData();
-            return Application.dataPath + Path.AltDirectorySeparatorChar + $"SaveData/{savename}.json";
-        
+        Save save = new Save(savename);
+        save.SaveData();
+        return Application.dataPath + Path.AltDirectorySeparatorChar + $"SaveData/{savename}.json";
+
     }
     public static void LoadData(string savename)
     {
-        if(!File.Exists(Application.dataPath + Path.AltDirectorySeparatorChar + $"SaveData/{savename}.json"))
+        if (!File.Exists(Application.dataPath + Path.AltDirectorySeparatorChar + $"SaveData/{savename}.json"))
         {
             Debug.Log("File Not Exist");
-        } else
+        }
+        else
         {
             string json = string.Empty;
 
@@ -106,7 +107,7 @@ public class Save
             Debug.Log("Reading File: " + json);
             Save save = new Save(savename);
             //JsonUtility.FromJsonOverwrite(json,save);
-            JsonConvert.PopulateObject(json,save);
+            JsonConvert.PopulateObject(json, save);
             GameInformation.instance.currentsave = save;
             save.LastLocation = new Vector3(save.LastLocation_Save[0], save.LastLocation_Save[1], save.LastLocation_Save[2]);
         }
@@ -149,7 +150,7 @@ public class Save
     public void Saving()
     {
         LastLocation = GameInformation.instance.LocalPlayer.transform.position;
-        
+
         LastSceneName = SceneManager.GetActiveScene().name;
         if (LastSceneName == "InBattle") { LastSceneName = "InGame"; LastLocation = new Vector3(-7.98f, -0.26f, -19f); }
         if (LastSceneName == "StartScreen") { LastSceneName = "InGame"; LastLocation = new Vector3(-7.98f, -0.26f, -19f); }
@@ -159,7 +160,7 @@ public class Save
 #if UNITY_EDITOR
     public static void OnExit(PlayModeStateChange change)
     {
-        if(change == PlayModeStateChange.ExitingPlayMode && GameInformation.instance.currentsave != null)
+        if (change == PlayModeStateChange.ExitingPlayMode && GameInformation.instance.currentsave != null)
         {
 
             GameInformation.instance.currentsave.Saving();
