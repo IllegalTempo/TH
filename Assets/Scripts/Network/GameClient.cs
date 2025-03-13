@@ -36,6 +36,7 @@ public class GameClient : ConnectionManager
             { (int)PacketSend.ServerPackets.SendTransferWorld,PacketHandles_Method.Client_Handle_ReceivedTransferWorld},
             { (int)PacketSend.ServerPackets.SendEveryoneReady,PacketHandles_Method.Client_Handle_EveryoneReady},
             { (int)PacketSend.ServerPackets.Weapon_Attack,PacketHandles_Method.Client_Handle_ReceivedWeaponAction},
+            { (int)PacketSend.ServerPackets.DistributeEnemyHealthUpdate,PacketHandles_Method.Client_Handle_ReceivedEnemyHealth},
 
 
         };

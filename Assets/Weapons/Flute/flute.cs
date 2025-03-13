@@ -108,6 +108,8 @@ public class flute : GeneralWeapon
     }
     private void Shoot()
     {
+        base.OnAttack_Network(0);
+
         player.OnAttack();
         playeranimator.Play($"Attack{AttackIndex}");
         switch(AttackIndex)
@@ -124,7 +126,6 @@ public class flute : GeneralWeapon
     /// </summary>
     private void Shoot1Action()
     {
-        base.OnAttack_Network(0);
         bulletobject b = Attack1Pool.GetBulletobject();
         if (player.playermovement.aiming)
         {
@@ -157,7 +158,7 @@ public class flute : GeneralWeapon
         WeaponActionCD = Spin_BeatCD * WeaponActionTimeMultiplier;
     }
     /// <summary>
-    /// END========================================================
+    /// END
     /// </summary>
 
 

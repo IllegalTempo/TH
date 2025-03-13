@@ -34,6 +34,13 @@ public class PacketHandles_Method
         GameInformation.instance.gd.SpawnNextRoom = confirm;
         PacketSend.Server_DistributeSpawnChunk();
     }
+    public static void Server_Handle_EnemyHealthUpdate(NetworkPlayer p, packet packet)
+    {
+        long uuid = packet.Readlong();
+        float dmg = packet.Readfloat();
+        GameInformation.instance.AllEnemies[uuid].SetHealth( dmg );
+        PacketSend.Server_DistributeEnemyHealthUpdate(p.NetworkID,uuid,dmg);
+    }
     public static void Server_Handle_ReadySpawnChunk(NetworkPlayer p, packet packet)
     {
         bool confirm = packet.Readbool();
@@ -127,6 +134,12 @@ public class PacketHandles_Method
         Quaternion headrot = packet.Readquaternion();
         Quaternion bodyrot = packet.Readquaternion();
         GameInformation.instance.MainNetwork.client.GetPlayerByNetworkID[NetworkID].playermovement.SetMovement(pos, headrot, bodyrot);
+    }
+    public static void Client_Handle_ReceivedEnemyHealth(Connection c, packet packet)
+    {
+        long uuid = packet.Readlong();
+        float dmg = packet.Readfloat();
+        GameInformation.instance.AllEnemies[uuid].SetHealth(dmg);
     }
     public static void Client_Handle_ReceivedWeaponAction(Connection c, packet packet)
     {

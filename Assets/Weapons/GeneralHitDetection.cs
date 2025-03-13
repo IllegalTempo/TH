@@ -13,7 +13,7 @@ public class GeneralHitDetection : MonoBehaviour
         
         if (enemy != null)
         {
-            enemy.Damage(damage,other.ClosestPoint(transform.position));
+            enemy.Damage(damage,other.ClosestPoint(transform.position),owner);
             owner.OnHit(gameObject.name);
         }
     }

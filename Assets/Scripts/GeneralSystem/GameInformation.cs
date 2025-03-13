@@ -26,6 +26,7 @@ public class GameInformation : MonoBehaviour
     public int State;
     public float ItemPickUpRange = 1f;
     public Lobby CurrentLobby;
+    private long uuidCounter = 0;
     public enum GameState
     {
         StartScreen = 0,
@@ -33,13 +34,17 @@ public class GameInformation : MonoBehaviour
         InBattle = 2,
     }
 
-    
+    public Dictionary<long,Enemy> AllEnemies = new Dictionary<long,Enemy>();
     
     public readonly string Hakurei_House_Scene = "InGame";
     public readonly string Human_Village = "HumanVillage";
     public int GetMaxXP(int level)
     {
         return (int)(Mathf.Pow(1.3f, level) + Mathf.Sin(level*30)) * 10;
+    }
+    public long GetUUID()
+    {
+        return uuidCounter++;
     }
     void Awake()
     {

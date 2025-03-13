@@ -31,6 +31,7 @@ public class Enemy : MonoBehaviour
     public Room BelongTo;
     public AiEnemy AiClass;
     public int EnemyIDinRoom;
+    public long uuid;
 
     public EnemyBoonBase[] Boons = new EnemyBoonBase[3];
     public int BoonCount = 0;
@@ -44,6 +45,8 @@ public class Enemy : MonoBehaviour
     }
     private void Start()
     {
+        uuid = GameInformation.instance.GetUUID();
+        GameInformation.instance.AllEnemies.Add(uuid, this);
         AiClass = GetComponent<AiEnemy>();
         if(UsedProjectileList.Length > 0)
         {
@@ -56,16 +59,29 @@ public class Enemy : MonoBehaviour
         }
         
     }
-    public void Damage(float dmg,Vector3 collidepoint)
+    public void SetHealth(float dmg)
     {
-        if(!invulnerable)
+        MaterialPropertyBlock pb = new MaterialPropertyBlock();
+
+        pb.SetFloat("_Fill", ((health -= dmg) * 0.5f) / maxhealth);
+        SoulRenderer.SetPropertyBlock(pb);
+    }
+    public void Damage(float dmg,Vector3 collidepoint,PlayerMain DamageDealer)
+    {
+        OnHitEffect.transform.position = collidepoint;
+        OnHitEffect.Play();
+        if (!invulnerable)
         {
-            float newhealth = health -= dmg;
-            MaterialPropertyBlock pb = new MaterialPropertyBlock();
-
-            pb.SetFloat("_Fill", (newhealth*0.5f) / maxhealth);
-            SoulRenderer.SetPropertyBlock(pb);
-
+            if (!DamageDealer.IsLocal) return;
+            SetHealth(dmg);
+            if (GameInformation.instance.MainNetwork.IsServer)
+            {
+                PacketSend.Server_DistributeEnemyHealthUpdate(0, uuid, dmg);
+            }
+            else
+            {
+                PacketSend.Client_Send_EnemyHealthUpdate(uuid, dmg);
+            }
         }
         if (health <= 0)
         {
@@ -77,8 +93,8 @@ public class Enemy : MonoBehaviour
         }
 
 
-        OnHitEffect.transform.position = collidepoint;
-        OnHitEffect.Play();
+        
+        
     }
     private void OnDeath()
     {
@@ -86,7 +102,7 @@ public class Enemy : MonoBehaviour
         BelongTo.RemoveEnemy(this);
         int pointdrop = (int)Random.Range(0, value);
         int powerdrop = (int)Random.Range(0, value);
-
+        GameInformation.instance.AllEnemies.Remove(uuid);
         GameObject pointinstance = GameInformation.instance.pointDropInstance;
         for (int i = 0; i < powerdrop; i++)
         {

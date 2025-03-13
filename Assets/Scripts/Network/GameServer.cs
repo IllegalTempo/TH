@@ -53,6 +53,7 @@ public class GameServer : SocketManager
             { (int)PacketSend.ClientPackets.ReadyForChunkSpawning,PacketHandles_Method.Server_Handle_ReadySpawnChunk},
             { (int)PacketSend.ClientPackets.SendSpawnChunk,PacketHandles_Method.Server_Handle_SpawnChunk},
             { (int)PacketSend.ClientPackets.SendWeaponAttack,PacketHandles_Method.Server_Handle_WeaponAttack},
+            { (int)PacketSend.ClientPackets.UpdateEnemyHealth,PacketHandles_Method.Server_Handle_EnemyHealthUpdate},
 
         };
     }

@@ -20,7 +20,7 @@ public class PacketSend
         SendTransferWorld = 6,
         SendSpawnChunk = 7,
         SendEveryoneReady = 8,
-        
+        DistributeEnemyHealthUpdate = 9,
         Weapon_Attack = 1000,
     };
     public static string TestRandomUnicode = "幻想鄉是一個與外界隔絕的神秘之地，其存在自古以來便被視為傳說而流傳。";
@@ -93,6 +93,15 @@ public class PacketSend
             p.Write(movementx);
             p.Write(movementy);
 
+            return BroadcastPacketToReady(SourceNetworkID, p);
+        };
+    }
+    public static Result Server_DistributeEnemyHealthUpdate(int SourceNetworkID,long uuid,float newhealth)
+    {
+        using (packet p = new packet((int)ServerPackets.DistributeEnemyHealthUpdate))
+        {
+            p.Write(uuid);
+            p.Write(newhealth);
             return BroadcastPacketToReady(SourceNetworkID, p);
         };
     }
@@ -189,6 +198,7 @@ public class PacketSend
         ReadyForChunkSpawning = 4,
         SendSpawnChunk = 5,
         SendWeaponAttack = 6,
+        UpdateEnemyHealth = 7,
     };
     public static Result Client_Send_AnimationState(float movementx,float movementy)
     {
@@ -231,6 +241,17 @@ public class PacketSend
             p.Write(DateTime.Now.Ticks);
             Debug.Log("sending: " + DateTime.Now.Ticks);
 
+            return SendToServer(p);
+
+
+        };
+    }
+    public static Result Client_Send_EnemyHealthUpdate(long uuid,float newhealth)
+    {
+        using (packet p = new packet((int)ClientPackets.UpdateEnemyHealth))
+        {
+            p.Write(uuid);
+            p.Write(newhealth);
             return SendToServer(p);
 
 

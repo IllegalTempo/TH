@@ -62,6 +62,10 @@ public class packet : IDisposable
     {
         buffer.AddRange(BitConverter.GetBytes(i));
     }
+    public void Write(Guid uuid)
+    {
+        buffer.AddRange(uuid.ToByteArray());
+    }
     public void Write(bool i)
     {
         buffer.AddRange(BitConverter.GetBytes(i));
