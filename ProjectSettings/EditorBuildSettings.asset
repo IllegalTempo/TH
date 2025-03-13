@@ -4,7 +4,28 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scene/StartScreen.unity
+    guid: 071e5e2cba501c0408c84edc0c3e940b
+  - enabled: 1
+    path: Assets/Scene/AnimationWork.unity
+    guid: c23e39d520f41f4458547f370447b376
+  - enabled: 1
+    path: Assets/Scene/HumanVillage.unity
+    guid: 56fae754b5fa9ed4398b496ee586b956
+  - enabled: 1
+    path: Assets/Scene/HumanVillagePerformanceRoom.unity
+    guid: 2bded9920824f74469d5631712d885ff
+  - enabled: 1
+    path: Assets/Scene/InBattle.unity
+    guid: 309003cae10685a4797cdba62adb8689
+  - enabled: 1
+    path: Assets/Scene/InGame.unity
+    guid: 9c3d63913f3292b47879ddec055d2cc5
+  - enabled: 1
+    path: Assets/Cutscenes/Scene1/CUTSCENE_1.unity
+    guid: fbf125db8db46224a8b14cea96e5e6d1
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 22c91ab9da5935e458a72a1b7bf39fb4, type: 2}
     com.unity.localization.settings: {fileID: 11400000, guid: 4550727e0dbf95e4bb32d2aa24270ecd, type: 2}

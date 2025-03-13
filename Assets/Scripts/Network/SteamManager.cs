@@ -8,8 +8,6 @@ using System.Threading.Tasks;
 using UnityEngine.Rendering;
 using Steamworks.Data;
 using UnityEditor;
-using static UnityEditor.Experimental.GraphView.GraphView;
-using UnityEditor.MemoryProfiler;
 
 public class SteamManager : MonoBehaviour
 {
@@ -136,7 +134,7 @@ public class SteamManager : MonoBehaviour
     public GameServer server;
     public GameClient client;
     public bool IsServer = true;
-    private void OnLobbyCreated(Result r, Lobby l)
+    private async void OnLobbyCreated(Result r, Lobby l)
     {
         l.SetFriendsOnly();
         l.SetJoinable(true);
@@ -146,6 +144,7 @@ public class SteamManager : MonoBehaviour
         GameInformation.instance.CurrentLobby = l;
 
         server = SteamNetworkingSockets.CreateRelaySocket<GameServer>(1111);
+        await Task.Delay(300);
         Debug.Log($"Server: {server}");
 
 

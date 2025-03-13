@@ -135,10 +135,12 @@ public class GameInformation : MonoBehaviour
         HAKUREI_HARP = 4,
         HAKUREI_DRUM = 5,
     }
+#if UNITY_EDITOR
     public void OnExit(PlayModeStateChange mode)
     {
         Save.OnExit(mode);
     }
+#endif
     public Dictionary<int, GameObject> EnemyInstances = new Dictionary<int, GameObject>();
     public Dictionary<string, Sprite> EnemyBoonImage = new Dictionary<string, Sprite>();
 

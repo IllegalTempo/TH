@@ -6,10 +6,8 @@ using System.Net.Security;
 using System.Threading.Tasks;
 using Unity.AI.Navigation;
 using Unity.VisualScripting;
-using UnityEditor.Localization.Plugins.XLIFF.V12;
 using UnityEngine;
 using UnityEngine.AI;
-using static UnityEditor.PlayerSettings;
 
 public class GridSystem : MonoBehaviour
 {
