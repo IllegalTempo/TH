@@ -77,6 +77,7 @@ public class Save
     public void UtilizeSave()
     {
         GameInformation.instance.MainNetwork.CreateGameLobby();
+        if(LastSceneName == "InBattle")
         GameSystem.instance.LoadSceneAction(LastSceneName,true);
 
         GameInformation.instance.inventory = Inventory;
@@ -151,7 +152,7 @@ public class Save
         LastLocation = GameInformation.instance.LocalPlayer.transform.position;
         
         LastSceneName = SceneManager.GetActiveScene().name;
-        if (LastSceneName == "InBattle") { LastSceneName = "InGame"; }
+        if (LastSceneName == "InBattle") { LastSceneName = "InGame"; LastLocation = new Vector3(-7.98f, -0.26f, -19f); }
         SaveData();
     }
     public static void OnExit(PlayModeStateChange change)
