@@ -8,8 +8,6 @@ using UnityEngine.UIElements;
 
 public class PacketHandles_Method
 {
-    public static GameServer server;
-    public static GameClient client;
     public static void Server_Handle_test(NetworkPlayer p, packet packet)
     {
         string text = packet.ReadstringUNICODE();

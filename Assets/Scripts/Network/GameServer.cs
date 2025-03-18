@@ -77,6 +77,10 @@ public class GameServer : SocketManager
     {
         return players[info.Identity.SteamId.Value];
     }
+    public NetworkPlayer GetPlayerByIndex(int index)
+    {
+        return players.ElementAt(index).Value;
+    }
     public NetworkPlayer GetPlayer(int NetworkID)
     {
         return players[GetSteamID[NetworkID]];

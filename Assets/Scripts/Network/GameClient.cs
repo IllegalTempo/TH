@@ -73,7 +73,14 @@ public class GameClient : ConnectionManager
         using (packet packet = new packet(bytedata))
         {
             int packetid = packet.Readint();
-            ClientPacketHandles[packetid](Connection, packet);
+            PacketHandle handle;
+            if (ClientPacketHandles.TryGetValue(packetid,out handle))
+            {
+                handle(Connection, packet);
+            } else
+            {
+                Debug.Log($"Packet ID: {packetid} not found");
+            }
 
         }
     }

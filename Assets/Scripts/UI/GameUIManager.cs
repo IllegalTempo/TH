@@ -122,12 +122,21 @@ public class GameUIManager : MonoBehaviour
         bool success = ulong.TryParse(enterWorldID.text,out WorldID);
         if(success)
         {
-            Lobby lobby = new(WorldID);
-            StatusText.text = $"Enter Room Created by {lobby.Owner.Name}";
-
-            RoomEnter result = await lobby.Join();
-            StatusText.text = result.ToString();
             
+            Lobby lobby = new(WorldID);
+            RoomEnter result;
+            if (lobby.Id.IsValid)
+            {
+                StatusText.text = $"Enter Room Created by {lobby.Owner.Name}";
+
+                result = await lobby.Join();
+            } else
+            {
+                StatusText.text = $"Error when Entering room (RoomID Not Valid)";
+
+            }
+
+
         } else
         {
             StatusText.text = "Error not a valid World ID Format";

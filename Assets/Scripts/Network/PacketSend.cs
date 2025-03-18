@@ -142,7 +142,7 @@ public class PacketSend
     {
         for (int i = 1; i < GameInformation.instance.MainNetwork.server.GetPlayerCount(); i++)
         {
-            NetworkPlayer sendtarget = GameInformation.instance.MainNetwork.server.GetPlayer(i);
+            NetworkPlayer sendtarget = GameInformation.instance.MainNetwork.server.GetPlayerByIndex(i);
             if (sendtarget.NetworkID != excludeid)
             {
                 if (sendtarget.SendPacket(p) != Result.OK)
@@ -160,7 +160,7 @@ public class PacketSend
         int playercount = GameInformation.instance.MainNetwork.server.GetPlayerCount();
         for (int i = 1; i < playercount; i++)
         {
-            NetworkPlayer sendtarget = GameInformation.instance.MainNetwork.server.GetPlayer(i);
+            NetworkPlayer sendtarget = GameInformation.instance.MainNetwork.server.GetPlayerByIndex(i);
             if (sendtarget.NetworkID != excludeid && sendtarget.MovementUpdateReady)
             {
                 if (sendtarget.SendPacket(p) != Result.OK)
@@ -284,6 +284,7 @@ public class PacketSend
     private static Result SendToServer(packet p)
     {
         return PacketSendingUtils.SendPacketToConnection(GameInformation.instance.MainNetwork.client.GetServer(), p);
+        
     }
 }
 
