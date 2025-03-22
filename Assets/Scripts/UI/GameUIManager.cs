@@ -120,6 +120,8 @@ public class GameUIManager : MonoBehaviour
     {
         ulong WorldID;
         bool success = ulong.TryParse(enterWorldID.text,out WorldID);
+        StatusText.text = "Saving...";
+        GameInformation.instance.currentsave.Saving();
         if(success)
         {
             
@@ -130,9 +132,8 @@ public class GameUIManager : MonoBehaviour
                 StatusText.text = $"Enter Room Created by {lobby.Owner.Name}";
 
                 result = await lobby.Join();
-            } else
-            {
-                StatusText.text = $"Error when Entering room (RoomID Not Valid)";
+                StatusText.text = result.ToString();
+                GameInformation.instance.MainNetwork.CreateGameLobby();
 
             }
 

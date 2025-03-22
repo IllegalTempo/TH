@@ -8,6 +8,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEditor;
 using UnityEngine.SceneManagement;
+using System.Threading.Tasks;
 public class Save
 {
     //Save Data
@@ -53,7 +54,7 @@ public class Save
         ActionCheckList = new bool[100];
         this.savename = savename;
     }
-    public void SaveData()
+    public async Task SaveData()
     {
         LastLocation_Save = new float[3]
         {
@@ -64,7 +65,7 @@ public class Save
         Debug.Log("Saving Data: " + json);
         using (StreamWriter writer = new StreamWriter(Application.dataPath + Path.AltDirectorySeparatorChar + $"SaveData/{savename}.json"))
         {
-            writer.Write(json);
+            await writer.WriteAsync(json);
         }
     }
     /*
@@ -147,15 +148,15 @@ public class Save
         GameInformation.instance.currentsave = save;
         GameInformation.instance.currentsave.Saving();
     }
-    public void Saving()
+    public async void Saving()
     {
         LastLocation = GameInformation.instance.LocalPlayer.transform.position;
-
+        GameUIManager.instance.NewMessage("Progress Saved");
         LastSceneName = SceneManager.GetActiveScene().name;
         if (LastSceneName == "InBattle") { LastSceneName = "InGame"; LastLocation = new Vector3(-7.98f, -0.26f, -19f); }
         if (LastSceneName == "StartScreen") { LastSceneName = "InGame"; LastLocation = new Vector3(-7.98f, -0.26f, -19f); }
 
-        SaveData();
+        await SaveData();
     }
 #if UNITY_EDITOR
     public static void OnExit(PlayModeStateChange change)

@@ -166,12 +166,10 @@ public class SteamManager : MonoBehaviour
     private void OnLobbyEntered(Lobby l)
     {
         if (l.Owner.Id == SteamClient.SteamId) { return; }
-        server = null;
         NewLobby();
 
         if (client == null)
         {
-            IsServer = false;
 
             SteamId serverid = new SteamId();
             uint ip = 0;
@@ -181,6 +179,8 @@ public class SteamManager : MonoBehaviour
             {
                 Debug.Log($"Connecting To Relay Server: {ip}:{port}, {serverid}");
                 GameInformation.instance.CurrentLobby = l;
+                server = null;
+                IsServer = false;
                 client = SteamNetworkingSockets.ConnectRelay<GameClient>(serverid, 1111);
 
             }

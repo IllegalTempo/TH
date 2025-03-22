@@ -283,8 +283,17 @@ public class PacketSend
     }
     private static Result SendToServer(packet p)
     {
-        return PacketSendingUtils.SendPacketToConnection(GameInformation.instance.MainNetwork.client.GetServer(), p);
-        
+        Connection server = GameInformation.instance.MainNetwork.client.GetServer();
+
+        if(server == null)
+        {
+            return Result.ConnectFailed;
+        } else
+        {
+            return PacketSendingUtils.SendPacketToConnection(GameInformation.instance.MainNetwork.client.GetServer(), p);
+
+        }
+
     }
 }
 
