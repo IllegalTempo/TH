@@ -37,7 +37,7 @@ MonoBehaviour:
     - Locale-zh-HK
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 6d910ceb110608a43a9f4d56863bc186
-    m_Address: Item_zh-HK
+    m_Address: ItemName_zh-HK
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-zh-HK

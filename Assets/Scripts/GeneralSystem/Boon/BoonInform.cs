@@ -11,6 +11,7 @@ public class BoonInform
     public int Rarity;
     public int BoonID;
     public int BoonType;
+    public bool WeaponBoon;
     public enum ContinuouseBoonTypes
     {
         PlayerAttackBoon = 0,
@@ -26,14 +27,14 @@ public class BoonInform
         MoveSpeed = 103,
 
     }
-    public BoonInform(string name, string description, int rarity, int boonid, int boontype)
+    public BoonInform(string name, string description, int rarity, int boonid, int boontype, bool weaponBoon)
     {
         Name = name;
         Description = description;
         Rarity = rarity;
         BoonID = boonid;
         BoonType = boontype;
-
+        WeaponBoon = weaponBoon;
     }
 }
 

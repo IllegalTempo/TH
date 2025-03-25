@@ -63,6 +63,22 @@ public class GameSystem : MonoBehaviour
         StartCoroutine(LoadScene(scene, init));
     }
     TMP_Text loadingtext;
+    private void EnterBattle()
+    {
+        GameInformation info = GameInformation.instance;
+        GameUIManager.instance.EnterBattleState();
+        if (info.MainNetwork.IsServer)
+        {
+            if (info.MainNetwork.server.GetPlayerCount() == 1)
+            {
+                info.gd.EveryoneReady();
+            }
+        }
+    }
+    public void SpawnItem(Vector3 pos, Item item)
+    {
+        Instantiate();
+    }
     private IEnumerator LoadScene(string scene,bool init)
     {
         loadingtext = GameUIManager.instance.progressloading;
@@ -84,8 +100,7 @@ public class GameSystem : MonoBehaviour
         GameObject spawnpoint = GameObject.Find("SpawnPoint");
         if(scene == "InBattle")
         {
-            GameUIManager.instance.EnterBattleState();
-
+           EnterBattle();
         }
         Cursor.lockState = CursorLockMode.Locked;
         if(GameInformation.instance.MainNetwork.Connected)

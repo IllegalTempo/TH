@@ -30,7 +30,7 @@ MonoBehaviour:
     - Locale-zh
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 3c28e3181897dd74dbc7293fdf5cb9b8
-    m_Address: Item_zh
+    m_Address: ItemName_zh
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-zh

@@ -36,7 +36,7 @@ MonoBehaviour:
     - Locale-zh-TW
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 236be799719afc74eada8978fc9d2a59
-    m_Address: Item_zh-TW
+    m_Address: ItemName_zh-TW
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-zh-TW

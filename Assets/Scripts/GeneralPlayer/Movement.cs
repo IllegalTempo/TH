@@ -36,7 +36,7 @@ public class Movement : MonoBehaviour
     private Vector3 AimDownCameraOffset = new Vector3(3f, 0, -8);
     private Vector3 InventoryCameraOffset = new Vector3(3f, 0.3f, -10f);
 
-    private Vector3 TargetCameraOffset;
+    public Vector3 TargetCameraOffset;
     public bool aiming;
     public bool OpeningInventory;
     public bool IsGrounded;

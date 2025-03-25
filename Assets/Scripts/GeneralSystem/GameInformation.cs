@@ -83,7 +83,7 @@ public class GameInformation : MonoBehaviour
     };
     public BoonInform[] BoonInforms =
     {
-        new BoonInform("SpellCard/Alpha:Test","Spellcard #1 Test", 0,0,(int)BoonInform.ContinuouseBoonTypes.PlayerAttackBoon),
+        new BoonInform("SpellCard/Alpha:Test","Spellcard #1 Test", 0,0,(int)BoonInform.ContinuouseBoonTypes.PlayerAttackBoon,false),
     };
     public Dictionary<string, Type> PrefixBoonSetupMatch = new Dictionary<string, Type>
     {

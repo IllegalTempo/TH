@@ -16,7 +16,7 @@ public class GridSystem : MonoBehaviour
         Air = 0,
 
     }
-    public bool CurrentRoomCompleted = true;
+    public bool CurrentRoomCompleted = false;
 
     public int seed;
     public int[,] grid = new int[5, 5];
@@ -61,6 +61,7 @@ public class GridSystem : MonoBehaviour
     public void EveryoneReady()
     {
         GameUIManager.instance.NewMessage("Everyone's Ready!");
+        CurrentRoomCompleted = true;
         StartCoroutine(genchunks(true));
 
     }
