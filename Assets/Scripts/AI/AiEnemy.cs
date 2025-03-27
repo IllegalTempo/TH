@@ -98,7 +98,7 @@ public abstract class AiEnemy : MonoBehaviour
             if (DestinationCompletion > 0.95f)
             {
 
-                WalkAround();
+               // WalkAround();
             }
         }
 
@@ -131,14 +131,14 @@ public abstract class AiEnemy : MonoBehaviour
         Destination = des;
         orgdestdis = Vector3.Distance(des, transform.position);
     }
-    private void WalkAround()
-    {
-        //agent.isStopped = false;
-        //agent.SetDestination(GridSystem.randomLocalPosOnSurface(InChunk));
-        Vector3 Destination = ChunkCenterWorldPos + Random.insideUnitSphere * GridSystem.Chunksize.x/2;
-        Destination.y = 50;
-        SetDestination(Destination);
-    }
+    //private void WalkAround()
+    //{
+    //    //agent.isStopped = false;
+    //    //agent.SetDestination(GridSystem.randomLocalPosOnSurface(InChunk));
+    //    Vector3 Destination = ChunkCenterWorldPos + Random.insideUnitSphere * GridSystem.Chunksize.x/2;
+    //    Destination.y = 50;
+    //    SetDestination(Destination);
+    //}
     protected abstract void Attack();
     private void ChasePlayer(Transform target)
     {

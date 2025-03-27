@@ -102,165 +102,165 @@ public class TerrainGeneration : MonoBehaviour
     //    }
     //    return false;
     //}
-    public void Generate(int seed, GridSystem.ChunkType t, Vector2 size, AnimationCurve heightc)
-    {
-        int xsize = (int)size.x/LOD;
-        int ysize = (int)size.y / LOD;
-        TerrainMat.SetFloat("_MaxHeight", MaxHeight);
-        TerrainMat.SetFloat("_MinHeight",0);
+    //public void Generate(int seed, GridSystem.ChunkType t, Vector2 size, AnimationCurve heightc)
+    //{
+    //    int xsize = (int)size.x/LOD;
+    //    int ysize = (int)size.y / LOD;
+    //    TerrainMat.SetFloat("_MaxHeight", MaxHeight);
+    //    TerrainMat.SetFloat("_MinHeight",0);
 
-        //indexesofSubmesh = new int[HeightSubmeshBoundaries.Length];
-        //for (int i = 0; i < HeightSubmeshBoundaries.Length; i++)
-        //{
-        //    AllSubmeshesTriangles.Add(new int[xsize * ysize * 6]);
+    //    //indexesofSubmesh = new int[HeightSubmeshBoundaries.Length];
+    //    //for (int i = 0; i < HeightSubmeshBoundaries.Length; i++)
+    //    //{
+    //    //    AllSubmeshesTriangles.Add(new int[xsize * ysize * 6]);
 
-        //}
-        Mesh mesh = new Mesh();
+    //    //}
+    //    Mesh mesh = new Mesh();
 
 
-        GetComponent<MeshFilter>().mesh = mesh;
+    //    GetComponent<MeshFilter>().mesh = mesh;
         
-        GetComponent<MeshCollider>().sharedMesh = mesh;
-        mesh.name = "generatedmesh";
+    //    GetComponent<MeshCollider>().sharedMesh = mesh;
+    //    mesh.name = "generatedmesh";
 
-        Vector3[] vertices = new Vector3[0];
-        Vector2[] uv = new Vector2[0];
-        Vector3[] normals = new Vector3[0];
-        switch (t)
-        {
-            case GridSystem.ChunkType.GrassPlane:
-                vertices = GenerateGrassPlaneVertices(size, out uv, out normals, heightc);
-                break;
-        }
-
-
-        mesh.vertices = vertices;
-        #region commented
-        //Connect vertices and turn them into triangle
-        //vi is going through the list
-
-        //int ti = 0;
-
-        //for (int x = 0, vi = (xsize +1) * (ysize) * 2; x < xsize * 2 - 1; x++, vi++, ti += 6)
-        //{
-        //    tris[ti] = vi;
-        //    tris[ti + 2] = vi + 2;
-        //    tris[ti + 1] = vi + 1;
-
-        //    tris[ti + 3] = vi + 2;
-        //    tris[ti + 5] = vi + 3;
-        //    tris[ti + 4] = vi + 1;
-        //}
-        //for (int x = 0, vi = 0; x < xsize * 2 - 1; x++, vi++, ti += 6)
-        //{
-        //    tris[ti] = vi;
-        //    tris[ti + 1] = vi + 2;
-        //    tris[ti + 2] = vi + 1;
-
-        //    tris[ti + 3] = vi + 2;
-        //    tris[ti + 4] = vi + 3;
-        //    tris[ti + 5] = vi + 1;
-        //}
+    //    Vector3[] vertices = new Vector3[0];
+    //    Vector2[] uv = new Vector2[0];
+    //    Vector3[] normals = new Vector3[0];
+    //    switch (t)
+    //    {
+    //        case GridSystem.ChunkType.GrassPlane:
+    //            vertices = GenerateGrassPlaneVertices(size, out uv, out normals, heightc);
+    //            break;
+    //    }
 
 
+    //    mesh.vertices = vertices;
+    //    #region commented
+    //    //Connect vertices and turn them into triangle
+    //    //vi is going through the list
+
+    //    //int ti = 0;
+
+    //    //for (int x = 0, vi = (xsize +1) * (ysize) * 2; x < xsize * 2 - 1; x++, vi++, ti += 6)
+    //    //{
+    //    //    tris[ti] = vi;
+    //    //    tris[ti + 2] = vi + 2;
+    //    //    tris[ti + 1] = vi + 1;
+
+    //    //    tris[ti + 3] = vi + 2;
+    //    //    tris[ti + 5] = vi + 3;
+    //    //    tris[ti + 4] = vi + 1;
+    //    //}
+    //    //for (int x = 0, vi = 0; x < xsize * 2 - 1; x++, vi++, ti += 6)
+    //    //{
+    //    //    tris[ti] = vi;
+    //    //    tris[ti + 1] = vi + 2;
+    //    //    tris[ti + 2] = vi + 1;
+
+    //    //    tris[ti + 3] = vi + 2;
+    //    //    tris[ti + 4] = vi + 3;
+    //    //    tris[ti + 5] = vi + 1;
+    //    //}
 
 
 
 
 
 
-        //for (int y = 0, vi = 0; y < ysize; y++, vi += 2 * xsize + 2, ti += 6)
-        //{
-        //    tris[ti] = vi;
-        //    tris[ti + 2] = vi + (xsize + 1) * 2;
-
-        //    tris[ti + 1] = vi + 1;
-
-        //    tris[ti + 3] = vi + 2 * (xsize + 1);
-        //    tris[ti + 5] = vi + 2 * (xsize + 1) + 1;
-        //    tris[ti + 4] = vi + 1;
-
-        //}
-        //for (int y = 0, vi = 2 * xsize; y < ysize; y++, vi += 2 * xsize + 2, ti += 6)
-        //{
-        //    tris[ti] = vi;
-        //    tris[ti + 1] = vi + (xsize + 1) * 2;
-
-        //    tris[ti + 2] = vi + 1;
-
-        //    tris[ti + 3] = vi + 2 * (xsize + 1);
-        //    tris[ti + 4] = vi + 2 * (xsize + 1) + 1;
-        //    tris[ti + 5] = vi + 1;
-
-        //}
 
 
-        //for (int y = 0, vi = 1; y < ysize; y++, vi += 2)
-        //{
-        //    for (int x = 0; x < xsize; x++, vi += 2, ti += 6)
-        //    {
-        //        tris[ti] = vi;
-        //        tris[ti + 2] = vi + (xsize + 1) * 2;
-        //        tris[ti + 1] = vi + (1) * 2;
+    //    //for (int y = 0, vi = 0; y < ysize; y++, vi += 2 * xsize + 2, ti += 6)
+    //    //{
+    //    //    tris[ti] = vi;
+    //    //    tris[ti + 2] = vi + (xsize + 1) * 2;
 
-        //        tris[ti + 3] = vi + (1) * 2;
-        //        tris[ti + 5] = vi + (xsize + 1) * 2;
-        //        tris[ti + 4] = vi + (xsize + 2) * 2;
+    //    //    tris[ti + 1] = vi + 1;
+
+    //    //    tris[ti + 3] = vi + 2 * (xsize + 1);
+    //    //    tris[ti + 5] = vi + 2 * (xsize + 1) + 1;
+    //    //    tris[ti + 4] = vi + 1;
+
+    //    //}
+    //    //for (int y = 0, vi = 2 * xsize; y < ysize; y++, vi += 2 * xsize + 2, ti += 6)
+    //    //{
+    //    //    tris[ti] = vi;
+    //    //    tris[ti + 1] = vi + (xsize + 1) * 2;
+
+    //    //    tris[ti + 2] = vi + 1;
+
+    //    //    tris[ti + 3] = vi + 2 * (xsize + 1);
+    //    //    tris[ti + 4] = vi + 2 * (xsize + 1) + 1;
+    //    //    tris[ti + 5] = vi + 1;
+
+    //    //}
 
 
-        //    }
-        //}
-        #endregion
-        int ti = 0;
-        int[] trigs = new int[xsize * ysize * 6];
-        for (int y = 0, vi = 0; y < ysize; y++, vi ++)
-        {
-            for (int x = 0; x < xsize; x++, vi ++, ti += 6)
-            {
-                //float height = mesh.vertices[vi].y;
-                //int index = GetSubmesh(height);
-                //Debug.Log(index);
-                //int vtid = indexesofSubmesh[index];
-                //AllSubmeshesTriangles[index][vtid] = vi;
-                //AllSubmeshesTriangles[index][vtid + 1] = vi+ (xsize + 1);
-                //AllSubmeshesTriangles[index][vtid + 2] = vi + (1);
+    //    //for (int y = 0, vi = 1; y < ysize; y++, vi += 2)
+    //    //{
+    //    //    for (int x = 0; x < xsize; x++, vi += 2, ti += 6)
+    //    //    {
+    //    //        tris[ti] = vi;
+    //    //        tris[ti + 2] = vi + (xsize + 1) * 2;
+    //    //        tris[ti + 1] = vi + (1) * 2;
 
-                ////if (GetBoundarySubmesh(height) && index > 0)
-                ////{
-                ////    index--;
-                ////}
+    //    //        tris[ti + 3] = vi + (1) * 2;
+    //    //        tris[ti + 5] = vi + (xsize + 1) * 2;
+    //    //        tris[ti + 4] = vi + (xsize + 2) * 2;
 
-                //AllSubmeshesTriangles[index][vtid + 3] = vi + (1);
-                //AllSubmeshesTriangles[index][vtid + 4] = vi + (xsize + 1);
-                //AllSubmeshesTriangles[index][vtid + 5] = vi + (xsize + 2);
-                //indexesofSubmesh[index] += 6;
 
-                trigs[ti] = vi;
-                trigs[ti + 1] = vi + 1 + xsize;
-                trigs[ti + 2] = vi + 1;
-                trigs[ti + 3] = vi + 1;
-                trigs[ti + 4] = vi + 1 + xsize;
-                trigs[ti + 5] = vi + 2 + xsize;
+    //    //    }
+    //    //}
+    //    #endregion
+    //    int ti = 0;
+    //    int[] trigs = new int[xsize * ysize * 6];
+    //    for (int y = 0, vi = 0; y < ysize; y++, vi ++)
+    //    {
+    //        for (int x = 0; x < xsize; x++, vi ++, ti += 6)
+    //        {
+    //            //float height = mesh.vertices[vi].y;
+    //            //int index = GetSubmesh(height);
+    //            //Debug.Log(index);
+    //            //int vtid = indexesofSubmesh[index];
+    //            //AllSubmeshesTriangles[index][vtid] = vi;
+    //            //AllSubmeshesTriangles[index][vtid + 1] = vi+ (xsize + 1);
+    //            //AllSubmeshesTriangles[index][vtid + 2] = vi + (1);
+
+    //            ////if (GetBoundarySubmesh(height) && index > 0)
+    //            ////{
+    //            ////    index--;
+    //            ////}
+
+    //            //AllSubmeshesTriangles[index][vtid + 3] = vi + (1);
+    //            //AllSubmeshesTriangles[index][vtid + 4] = vi + (xsize + 1);
+    //            //AllSubmeshesTriangles[index][vtid + 5] = vi + (xsize + 2);
+    //            //indexesofSubmesh[index] += 6;
+
+    //            trigs[ti] = vi;
+    //            trigs[ti + 1] = vi + 1 + xsize;
+    //            trigs[ti + 2] = vi + 1;
+    //            trigs[ti + 3] = vi + 1;
+    //            trigs[ti + 4] = vi + 1 + xsize;
+    //            trigs[ti + 5] = vi + 2 + xsize;
                 
 
-            }
-        }
+    //        }
+    //    }
 
 
 
 
-        mesh.subMeshCount = 1;
-        //for (int i = 0; i < indexesofSubmesh.Length; i++)
-        //{
-        //    mesh.SetTriangles(AllSubmeshesTriangles[i], 0);
+    //    mesh.subMeshCount = 1;
+    //    //for (int i = 0; i < indexesofSubmesh.Length; i++)
+    //    //{
+    //    //    mesh.SetTriangles(AllSubmeshesTriangles[i], 0);
 
-        //}
-        mesh.triangles = trigs;
-        mesh.uv = uv;
-        mesh.normals = normals;
+    //    //}
+    //    mesh.triangles = trigs;
+    //    mesh.uv = uv;
+    //    mesh.normals = normals;
         
-        //gameObject.GetComponent<MeshCollider>().sharedMesh = mesh;
-        gameObject.layer = GameInformation.BuildingLayer;
-    }
+    //    //gameObject.GetComponent<MeshCollider>().sharedMesh = mesh;
+    //    gameObject.layer = GameInformation.BuildingLayer;
+    //}
 
 }

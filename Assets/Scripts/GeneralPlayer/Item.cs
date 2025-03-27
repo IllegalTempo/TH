@@ -16,10 +16,10 @@ public class Item
     {
         this.name = ItemInform.RarityColor[rarity] + LocalizationSettings.StringDatabase.GetLocalizedString("ItemName", name);
         this.description = ItemInform.RarityColor[rarity] + LocalizationSettings.StringDatabase.GetLocalizedString("ItemName", name + "_Description");
-        this.instancepath = 
+        this.instancepath = "Items/" + name + "/instance";
         this.id = id;
         this.type = type;
-        this.iconpath = iconpath;
+        this.iconpath = "Items/" + name + "/icon";
         this.rarity = rarity;
     }
 }

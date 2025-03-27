@@ -33,16 +33,15 @@ public abstract class AiWalkEnemy : MonoBehaviour
     public bool Stopped;
     public GameObject Head;
     public float speed;
+    public GridSystem gd;
 
-    public float orgdestdis;
-    public float DestinationCompletion;
-    public Vector3 Destination;
     private void Start()
     {
         MainClass = GetComponent<Enemy>();
         animator = GetComponent<Animator>();
         player = LayerMask.GetMask("Player");
         agent.isStopped = true;
+        
     }
     private void Update()
     {
@@ -57,8 +56,8 @@ public abstract class AiWalkEnemy : MonoBehaviour
         NearbyEnemies = Physics.OverlapSphere(transform.position, DetectRange, GameInformation.instance.playerMask);
         InRangeEnemies = Physics.OverlapSphere(transform.position, AttackRange, GameInformation.instance.playerMask);
 
-        Head.transform.LookAt(Destination);
-        Quaternion lookrot = Quaternion.LookRotation(Destination - transform.position);
+        Head.transform.LookAt(agent.destination);
+        Quaternion lookrot = Quaternion.LookRotation(agent.destination - transform.position);
         transform.rotation = Quaternion.Euler(0, lookrot.eulerAngles.y, 0);
         animator.SetBool("Attack", false);
 
@@ -93,9 +92,7 @@ public abstract class AiWalkEnemy : MonoBehaviour
     private void WalkAround()
     {
         agent.isStopped = false;
-        //agent.SetDestination(GridSystem.randomLocalPosOnSurface(InChunk));
-        Vector3 Destination = transform.position + Random.insideUnitSphere * 10f * GridSystem.Chunksize.x;
-        Destination.y = 100;
+        agent.SetDestination(gd.randomWorldPosOnSurface());
     }
     protected abstract void Attack();
     private void ChasePlayer(Transform target)

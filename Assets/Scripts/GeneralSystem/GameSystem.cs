@@ -77,7 +77,6 @@ public class GameSystem : MonoBehaviour
     }
     public void SpawnItem(Vector3 pos, Item item)
     {
-        Instantiate();
     }
     private IEnumerator LoadScene(string scene,bool init)
     {

@@ -19,7 +19,7 @@ public class Enemy : MonoBehaviour
     public float maxhealth;
     public bool invulnerable;
     public float value; //ability to drop powers and points
-
+    public float DamageMultiplier;
     [SerializeField]
     private Animator animator;
     public ParticleSystem OnHitEffect;
@@ -29,10 +29,9 @@ public class Enemy : MonoBehaviour
     private float DropTableTotalWeight;
     public EnemyBulletPool[] ProjectilePools;
     public Room BelongTo;
-    public AiEnemy AiClass;
     public int EnemyIDinRoom;
     public long uuid;
-
+    public AiWalkEnemy Ai;
     public EnemyBoonBase[] Boons = new EnemyBoonBase[3];
     public int BoonCount = 0;
     public void AddBoon(string PrefixName)
@@ -47,7 +46,6 @@ public class Enemy : MonoBehaviour
     {
         uuid = GameInformation.instance.GetUUID();
         GameInformation.instance.AllEnemies.Add(uuid, this);
-        AiClass = GetComponent<AiEnemy>();
         if(UsedProjectileList.Length > 0)
         {
             ProjectilePools = new EnemyBulletPool[UsedProjectileList.Length];
@@ -123,7 +121,7 @@ public class Enemy : MonoBehaviour
             GameSystem.instance.SpawnPointDrops(transform.position);
 
         }
-        AiClass.StopAction();
+        Ai.Stopped = true;
     }
     public void OnDisappear()
     {

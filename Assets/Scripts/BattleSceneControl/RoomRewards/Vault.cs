@@ -8,7 +8,7 @@ public class Vault : RoomReward
     {
         for (int i = 0; i < 50; i++)
         {
-            Vector3 droppos = GameInformation.instance.gd.ToWorld(mainroom.ChunkPos);
+            Vector3 droppos = Vector3.zero;
             droppos.y = GameInformation.instance.LocalPlayer.transform.position.y;
             GameSystem.instance.SpawnPointDrops(droppos);
 

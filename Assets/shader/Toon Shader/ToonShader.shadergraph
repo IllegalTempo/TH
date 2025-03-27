@@ -38,6 +38,9 @@
         },
         {
             "m_Id": "d05fc60a7b9640eca95c624fdc38350c"
+        },
+        {
+            "m_Id": "2cd817a3da204ae390c4a3fdde590643"
         }
     ],
     "m_Keywords": [
@@ -105,11 +108,28 @@
         },
         {
             "m_Id": "84ae11efbb5e41fab064d4def2e200a7"
+        },
+        {
+            "m_Id": "11faf4673f28420f9a713c44122ab938"
         }
     ],
     "m_GroupDatas": [],
     "m_StickyNoteDatas": [],
     "m_Edges": [
+        {
+            "m_OutputSlot": {
+                "m_Node": {
+                    "m_Id": "11faf4673f28420f9a713c44122ab938"
+                },
+                "m_SlotId": 0
+            },
+            "m_InputSlot": {
+                "m_Node": {
+                    "m_Id": "2b9a808877d441138eba1e1054182d0e"
+                },
+                "m_SlotId": -790363605
+            }
+        },
         {
             "m_OutputSlot": {
                 "m_Node": {
@@ -453,6 +473,42 @@
 {
     "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.PropertyNode",
+    "m_ObjectId": "11faf4673f28420f9a713c44122ab938",
+    "m_Group": {
+        "m_Id": ""
+    },
+    "m_Name": "Property",
+    "m_DrawState": {
+        "m_Expanded": true,
+        "m_Position": {
+            "serializedVersion": "2",
+            "x": 24.0,
+            "y": 1158.0,
+            "width": 0.0,
+            "height": 0.0
+        }
+    },
+    "m_Slots": [
+        {
+            "m_Id": "dd2625d0ca5b496f853efaf5f891f216"
+        }
+    ],
+    "synonyms": [],
+    "m_Precision": 0,
+    "m_PreviewExpanded": true,
+    "m_DismissedVersion": 0,
+    "m_PreviewMode": 0,
+    "m_CustomColors": {
+        "m_SerializableColors": []
+    },
+    "m_Property": {
+        "m_Id": "2cd817a3da204ae390c4a3fdde590643"
+    }
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.PropertyNode",
     "m_ObjectId": "14c3135b784c4d68ad871f8dadb14e80",
     "m_Group": {
         "m_Id": ""
@@ -703,6 +759,9 @@
             "m_Id": "5c8d9d96843e463e88063af0f3107549"
         },
         {
+            "m_Id": "897ba82a57314a4498998c80b422f42a"
+        },
+        {
             "m_Id": "1b17cd032c284282b7e7a38535624037"
         },
         {
@@ -741,7 +800,8 @@
         "cb4d1ed0-b4f5-4954-ba54-90498f37fd0d",
         "845af148-b5d4-4ace-a429-1e76e48db356",
         "eb83f64e-5f70-4265-8d9b-a23e28708199",
-        "dcc4bfaa-3aec-4a87-b20a-0d366882d45a"
+        "dcc4bfaa-3aec-4a87-b20a-0d366882d45a",
+        "4ea24b73-92a9-4761-8b9f-9aec7a44bd35"
     ],
     "m_PropertyIds": [
         56898614,
@@ -754,10 +814,41 @@
         -965424880,
         -298196772,
         247808667,
-        -90567268
+        -90567268,
+        -790363605
     ],
     "m_Dropdowns": [],
     "m_DropdownSelectedEntries": []
+}
+
+{
+    "m_SGVersion": 3,
+    "m_Type": "UnityEditor.ShaderGraph.Internal.ColorShaderProperty",
+    "m_ObjectId": "2cd817a3da204ae390c4a3fdde590643",
+    "m_Guid": {
+        "m_GuidSerialized": "5acd06b5-411c-4112-9cb9-23f392c7aab9"
+    },
+    "m_Name": "RimColor",
+    "m_DefaultRefNameVersion": 1,
+    "m_RefNameGeneratedByDisplayName": "RimColor",
+    "m_DefaultReferenceName": "_RimColor",
+    "m_OverrideReferenceName": "",
+    "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
+    "m_DismissedVersion": 0,
+    "m_Precision": 0,
+    "overrideHLSLDeclaration": false,
+    "hlslDeclarationOverride": 0,
+    "m_Hidden": false,
+    "m_Value": {
+        "r": 0.0,
+        "g": 0.0,
+        "b": 0.0,
+        "a": 0.0
+    },
+    "isMainColor": false,
+    "m_ColorMode": 0
 }
 
 {
@@ -965,7 +1056,7 @@
     "m_SlotType": 0,
     "m_Hidden": false,
     "m_ShaderOutputName": "_rimLightArea",
-    "m_StageCapability": 3,
+    "m_StageCapability": 2,
     "m_Value": 0.0,
     "m_DefaultValue": 0.0,
     "m_Labels": []
@@ -1173,6 +1264,31 @@
 
 {
     "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Vector4MaterialSlot",
+    "m_ObjectId": "897ba82a57314a4498998c80b422f42a",
+    "m_Id": -790363605,
+    "m_DisplayName": "RimColor",
+    "m_SlotType": 0,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "_RimColor",
+    "m_StageCapability": 2,
+    "m_Value": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+    },
+    "m_DefaultValue": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+    },
+    "m_Labels": []
+}
+
+{
+    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
     "m_ObjectId": "89b228c1da954cb3a9fdfba66c8f3025",
     "m_Id": 0,
@@ -1359,7 +1475,7 @@
     "m_SlotType": 0,
     "m_Hidden": false,
     "m_ShaderOutputName": "_rimLightStrength",
-    "m_StageCapability": 3,
+    "m_StageCapability": 2,
     "m_Value": 1.0,
     "m_DefaultValue": 0.0,
     "m_Labels": []
@@ -1752,6 +1868,31 @@
 
 {
     "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Vector4MaterialSlot",
+    "m_ObjectId": "dd2625d0ca5b496f853efaf5f891f216",
+    "m_Id": 0,
+    "m_DisplayName": "RimColor",
+    "m_SlotType": 1,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "Out",
+    "m_StageCapability": 3,
+    "m_Value": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+    },
+    "m_DefaultValue": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+    },
+    "m_Labels": []
+}
+
+{
+    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.Internal.Texture2DShaderProperty",
     "m_ObjectId": "dd26e666ceb847ac888e119b973647ca",
     "m_Guid": {
@@ -1964,6 +2105,9 @@
         },
         {
             "m_Id": "1b6eaa9500564848a62e5690507d3411"
+        },
+        {
+            "m_Id": "2cd817a3da204ae390c4a3fdde590643"
         },
         {
             "m_Id": "0b3853f1d1d44afdbb18983de4c35ce0"
