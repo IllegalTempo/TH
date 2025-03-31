@@ -14,12 +14,14 @@ public class PacketSend
         RoomInfoOnPlayerEnterRoom = 1,
         UpdatePlayerEnterRoomForExistingPlayer = 2,
         PlayerQuit = 3,
-        DistributeMovement = 4,
-        DistributeAnimation = 5,
         SendTransferWorld = 6,
         SendSpawnChunk = 7,
         SendEveryoneReady = 8,
+
+        DistributeMovement = 4,
+        DistributeAnimation = 5,
         DistributeEnemyHealthUpdate = 9,
+        DistributeStartRoom = 10,
         Weapon_Attack = 1000,
     };
     public static string TestRandomUnicode = "幻想鄉是一個與外界隔絕的神秘之地，其存在自古以來便被視為傳說而流傳。";
@@ -73,6 +75,14 @@ public class PacketSend
             return BroadcastPacket(IgnoreID,p);
 
         };
+    }
+    public static Result Server_Send_StartRoom()
+    {
+        using (packet p = new packet((int)ServerPackets.DistributeStartRoom))
+        {
+            p.Write(true);
+            return BroadcastPacket(p);
+        }
     }
     public static Result Server_DistributeMovement(int SourceNetworkID, Vector3 pos, Quaternion headrot, Quaternion bodyrot)
     {
@@ -157,6 +167,7 @@ public class PacketSend
     }
     private static Result BroadcastPacketToReady(int excludeid, packet p)
     {
+        if (GameInformation.instance.MainNetwork.server == null) return Result.Disabled;
         int playercount = GameInformation.instance.MainNetwork.server.GetPlayerCount();
         for (int i = 1; i < playercount; i++)
         {

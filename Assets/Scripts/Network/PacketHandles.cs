@@ -166,6 +166,12 @@ public class PacketHandles_Method
         bool ready = packet.Readbool();
         GameInformation.instance.gd.SpawnNextRoom = ready;
     }
+    public static void Client_Handle_ReceivedStartRoom(Connection c, packet packet)
+    {
+        bool ready = packet.Readbool();
+        if (!ready) return;
+        GameInformation.instance.gd.StartGridSystem(true);
+    }
 }
 
 

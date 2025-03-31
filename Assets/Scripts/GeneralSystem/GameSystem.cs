@@ -83,7 +83,7 @@ public class GameSystem : MonoBehaviour
         loadingtext = GameUIManager.instance.progressloading;
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(scene);
         asyncLoad.allowSceneActivation = false;
-        GameUIManager.instance.LoadingScreenGameObject.SetActive(true);
+        GameUIManager.instance.StartLoading($"Loading Scene: {scene}, Is Init?: {init}");
         while (!asyncLoad.isDone)
         {
 
@@ -94,7 +94,7 @@ public class GameSystem : MonoBehaviour
             }
             yield return null;
         }
-        GameUIManager.instance.LoadingScreenGameObject.SetActive(false);
+        GameUIManager.instance.StopLoading();
 
         GameObject spawnpoint = GameObject.Find("SpawnPoint");
         if(scene == "InBattle")

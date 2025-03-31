@@ -20,7 +20,7 @@ public abstract class AiWalkEnemy : MonoBehaviour
     public float attackcd = 0f;
     private LayerMask player;
     [SerializeField]
-    private NavMeshAgent agent;
+    public NavMeshAgent agent;
     [Header("Debug Information")]
     [SerializeField]
     public Collider[] NearbyEnemies;

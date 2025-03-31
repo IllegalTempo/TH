@@ -11,6 +11,7 @@ using UnityEngine.UI;
 
 public class GameUIManager : MonoBehaviour
 {
+    private Animator animator;
     [Header("<1> UI Element for Mission")]
     [SerializeField]
     private TMP_Text MissionTitle;
@@ -35,6 +36,9 @@ public class GameUIManager : MonoBehaviour
     [Header("<4> UI Element for Loading Screen")]
     public GameObject LoadingScreenGameObject;
     public TMP_Text progressloading;
+    public TMP_Text LoadingMessage;
+    public GameObject Cover;
+
 
     [Header("<5> UI Element for InBattle UI ")]
     public TMP_Text Healthnumber;
@@ -98,6 +102,15 @@ public class GameUIManager : MonoBehaviour
         {
             instance = this;
         }
+    }
+    public void StartLoading(string message)
+    {
+        animator.SetBool("Loading",true);
+        LoadingMessage.text = message;
+    }
+    public void StopLoading()
+    {
+        animator.SetBool("Loading", false);
     }
     public void NewMessage(string message)
     {
@@ -185,6 +198,7 @@ public class GameUIManager : MonoBehaviour
     }
     private void Start()
     {
+        animator = GetComponent<Animator>();
         InBattleUIObject.SetActive(false);
         RandomRoomDisplay.SetActive(false);
         CrosshairObject.SetActive(false);
@@ -194,6 +208,7 @@ public class GameUIManager : MonoBehaviour
         NetworkUI.SetActive(false);
         clicktips.SetActive(false);
         LoadingScreenGameObject.SetActive(false);
+        Cover.SetActive(false);
         RandomRoomDisplay.SetActive(false);
         BoonsDisplay.SetActive(false);
         StartRepeatingMethod();

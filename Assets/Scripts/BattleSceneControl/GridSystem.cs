@@ -7,19 +7,23 @@ using System.Net.Security;
 using System.Threading.Tasks;
 using Unity.AI.Navigation;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class GridSystem : MonoBehaviour
 {
-    
-    public bool CurrentRoomCompleted = false;
 
+    [Header("Preset GameObject")]
+    [SerializeField]
+    public GameObject InitialRoom;
+    public bool CurrentRoomCompleted = false;
     public int seed;
     public AnimationCurve heightcurve;
-    private float RoadLength = 0;
     public Transform EnemiesGroup;
     public Room CurrentRoom;
+    public bool GDInitialized = false;
+    public float roomsize = 200; // 200*200
     //private int GetGridItem(Vector2 res)
     //{
     //    if (res.x < 0 || res.y < 0 || res.x >= grid.GetLength(0) || res.y >= grid.GetLength(0)) return 999;
@@ -55,7 +59,7 @@ public class GridSystem : MonoBehaviour
     {
         GameUIManager.instance.NewMessage("Everyone's Ready!");
         CurrentRoomCompleted = true;
-        StartGridSystem(true);
+        //StartGridSystem(true);
     }
     //private Vector2 NextPos()
     //{
@@ -138,11 +142,11 @@ public class GridSystem : MonoBehaviour
     //    }
     //}
 
-    public Dictionary<Vector2, Room> RoomV2Match = new Dictionary<Vector2, Room>();
-    public Room GetRoombyLocalPos(Vector2 localpos)
-    {
-        return RoomV2Match[localpos];
-    }
+    //public Dictionary<Vector2, Room> RoomV2Match = new Dictionary<Vector2, Room>();
+    //public Room GetRoombyLocalPos(Vector2 localpos)
+    //{
+    //    return RoomV2Match[localpos];
+    //}
     //public enum ChunkType
     //{
     //    GrassPlane,
@@ -155,8 +159,9 @@ public class GridSystem : MonoBehaviour
         NavMeshHit hit;
         for (int i = 0; i < 30; i++)
         {
-            Vector3 dir = Vector3.zero + Random.insideUnitSphere * (250);
+            Vector3 dir = Random.insideUnitSphere * roomsize;
             dir.y = 0;
+            Vector3 center = new Vector3(0,5,0) + dir;
             if (NavMesh.SamplePosition(dir, out hit, 1.0f, NavMesh.AllAreas))
             {
                 return hit.position;
@@ -169,16 +174,25 @@ public class GridSystem : MonoBehaviour
     //{
     //    return randomWorldPosOnSurface(ToWorld(center));
     //}
+    private int NumberOfRooms()
+    {
+        string searchPattern = "*.prefab";
+        return Directory.GetFiles(Application.dataPath + "/rooms",searchPattern).Length;
+    }
     public void SpawnRandomChunk(string prefix, string corefix, string suffix)
     {
-        SpawnChunk(prefix, corefix, suffix, Random.Range(0, Directory.GetFiles(Application.dataPath + "/Rooms").Length));
+        SpawnChunk(prefix, corefix, suffix, Random.Range(0,NumberOfRooms()));
     }
     public void SpawnChunk(string prefix, string corefix, string suffix, int roomid)
     {
-        GameObject res = Resources.Load<GameObject>($"/Rooms/{roomid}");
-        GameObject g = Instantiate(res,Vector3.zero,Quaternion.identity);
+        string path = $"rooms/{roomid}";
+        Debug.Log(path);
+        GameObject res = Resources.Load<GameObject>(path);
+        GameObject g = Instantiate(res,new Vector3(-roomsize/2,0,-roomsize/2),Quaternion.identity);
+        
         Room r = g.AddComponent<Room>();
         r.AddRoomReward(suffix);
+        CurrentRoom = r;
         EnemySpawnMap spawnmap = GameInformation.instance.CoreEnemySpawnSetupMatch[corefix];
 
 
@@ -273,6 +287,11 @@ public class GridSystem : MonoBehaviour
     }
     public void GenerateNextRoom()
     {
+        if(!StartEnteringRooms)
+        {
+            Destroy(InitialRoom);
+            StartEnteringRooms = true;
+        }
         if(!GameInformation.instance.MainNetwork.IsServer)
         {
             PacketSend.Client_Send_SpawnChunk(GameInformation.instance.MainNetwork.client.NetworkID);
@@ -283,6 +302,8 @@ public class GridSystem : MonoBehaviour
         }
         SpawnNextRoom = false;
         CurrentRoomCompleted = false;
+        
+
         //for (int i = 0; i < BarrierGroup.childCount; i++)
         //{
         //    Destroy(BarrierGroup.GetChild(i).gameObject);
@@ -292,6 +313,7 @@ public class GridSystem : MonoBehaviour
 
     }
     public bool SpawnNextRoom = false;
+    public bool StartEnteringRooms = false;
     private void Update()
     {
         if ((Input.GetKeyDown(KeyMap.Interact2) || SpawnNextRoom) && CurrentRoomCompleted)
@@ -329,6 +351,8 @@ public class GridSystem : MonoBehaviour
     //}
     public void StartGridSystem(bool SpawnEnemies)
     {
+        GameUIManager.instance.StartLoading("Starting Battle Spawning Room");
+        GDInitialized = true;
         EnemiesGroup = new GameObject("Enemies").transform;
         EnemiesGroup.parent = transform;
         GameUIManager.instance.StartRollRoom();
