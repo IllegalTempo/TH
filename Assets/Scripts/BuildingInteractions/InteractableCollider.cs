@@ -29,6 +29,10 @@ public abstract class InteractableCollider : MonoBehaviour
             GameUIManager.instance.EndInteractionTips();
         }
     }
+    private void OnDestroy()
+    {
+        GameUIManager.instance.EndInteractionTips(); 
+    }
     protected abstract void OnInteract();
 
 }

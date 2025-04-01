@@ -72,10 +72,12 @@ public class Movement : MonoBehaviour
         if (IsFlying)
         {
             targety = -1;
-        } else if(IsCrouching)
+        }
+        else if (IsCrouching)
         {
             targety = 1;
-        } else
+        }
+        else
         {
             targety = 0;
         }
@@ -204,33 +206,27 @@ public class Movement : MonoBehaviour
 
     private void fly()
     {
-        if (player.InBattle)
+
+        if (!IsGrounded && Input.GetKeyDown(KeyMap.JumpKey) && !player.InBattle)
         {
             IsFlying = true;
+            IsCrouching = false;
+            rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
+            WalkSpeed = 60f;
+
         }
-        else
+        if (Input.GetKeyUp(KeyMap.JumpKey))
         {
+            IsFlying = false;
+            WalkSpeed = 20f;
 
-            if (!IsGrounded && Input.GetKeyDown(KeyMap.JumpKey))
-            {
-                IsFlying = true;
-                IsCrouching = false;
-                rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
-                WalkSpeed = 60f;
-
-            }
-            if (Input.GetKeyUp(KeyMap.JumpKey))
-            {
-                IsFlying = false;
-                WalkSpeed = 20f;
-
-            }
-            if (IsFlying)
-            {
-                rb.AddForce(Vector3.up * JumpConstant * Time.deltaTime * 10f, ForceMode.Force);
-
-            }
         }
+        if (IsFlying)
+        {
+            rb.AddForce(Vector3.up * JumpConstant * Time.deltaTime * 10f, ForceMode.Force);
+
+        }
+
 
     }
     private void Aiming()

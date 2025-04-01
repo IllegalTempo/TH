@@ -9,12 +9,52 @@ using UnityEditor;
 
 namespace Assets.Scripts.BattleSceneControl
 {
+    [System.Serializable]
+    class Wave
+    {
+        public EnemySpawnPoint[] SpawningObjects;
+    }
     public class Room : MonoBehaviour
     {
+
         public RoomReward[] rewards = new RoomReward[3];
         public int RewardCount = 0;
         public List<Enemy> enemies = new List<Enemy>();
         public Vector3 ChunkPos; //Local
+        [SerializeField]
+        private Wave[] waves;
+        public int wave = 0;
+        public int currentRemainingEnemies;
+        public void WaveComplete()
+        {
+
+            if (wave >= waves.Length)
+            {
+                RoomCompleted();
+            } else
+            {
+                Debug.Log("Next Wave! | Wave:" + wave);
+                Wave currentwave = waves[wave];
+                currentRemainingEnemies = currentwave.SpawningObjects.Length;
+                for (int i = 0; i < currentwave.SpawningObjects.Length; i++)
+                {
+                    AddEnemy(currentwave.SpawningObjects[i].Spawn(i));
+                }
+                wave++;
+            }
+            
+        }
+        public void EnemyKilled(Enemy e)
+        {
+            enemies.Remove(e);
+
+            currentRemainingEnemies--;
+            if (currentRemainingEnemies <= 0)
+            {
+                WaveComplete();
+            }
+        }
+
         public void AddRoomReward(string suffixname)
         {
             if (RewardCount >= rewards.Length) return;
@@ -32,20 +72,12 @@ namespace Assets.Scripts.BattleSceneControl
         }
         private void RoomCompleted()
         {
-            GameUIManager.instance.StartRollRoom();
-            GameInformation.instance.gd.RollRoomArguments();
+            //GameUIManager.instance.StartRollRoom();
+            //GameInformation.instance.gd.RollRoomArguments();
             GameInformation.instance.gd.CurrentRoomCompleted = true;
             for(int i = 0; i < RewardCount;i++)
             {
                 rewards[i].OnRoomComplete();
-            }
-        }
-        public void RemoveEnemy(Enemy e)
-        {
-            enemies.Remove(e);
-            if(enemies.Count == 0)
-            {
-                RoomCompleted();
             }
         }
     }

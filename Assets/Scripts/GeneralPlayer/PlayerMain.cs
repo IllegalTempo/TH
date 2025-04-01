@@ -64,7 +64,6 @@ public class PlayerMain : MonoBehaviour
     public void DeLocalisation()
     {
         IsLocal = false;
-        rb.useGravity = false;
         Destroy(playermovement.cam.gameObject);
     }
     public void LevelUP()

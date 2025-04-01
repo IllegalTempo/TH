@@ -15,11 +15,14 @@ public class ItemInfo
 public class Enemy : MonoBehaviour
 {
     //values of enemy
+    public int InWaveIndex;
+    public EnemySpawnControl Spawner;
     public float health;
     public float maxhealth;
     public bool invulnerable;
     public float value; //ability to drop powers and points
     public float DamageMultiplier;
+
     [SerializeField]
     private Animator animator;
     public ParticleSystem OnHitEffect;
@@ -106,10 +109,10 @@ public class Enemy : MonoBehaviour
     private void OnDeath()
     {
         animator.Play("OnDeath");
-        BelongTo.RemoveEnemy(this);
+        BelongTo.EnemyKilled(this);
         int pointdrop = (int)Random.Range(0, value);
         int powerdrop = (int)Random.Range(0, value);
-        GameInformation.instance.AllEnemies.Remove(uuid);
+
         GameObject pointinstance = GameInformation.instance.pointDropInstance;
         for (int i = 0; i < powerdrop; i++)
         {

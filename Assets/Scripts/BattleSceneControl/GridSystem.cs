@@ -183,8 +183,32 @@ public class GridSystem : MonoBehaviour
     {
         SpawnChunk(prefix, corefix, suffix, Random.Range(0,NumberOfRooms()));
     }
+    public void SpawnRandomChunk()
+    {
+        SpawnChunk(Random.Range(0, NumberOfRooms()));
+    }
+    public void SpawnChunk( int roomid)
+    {
+        if (CurrentRoom != null)
+        {
+            Destroy(CurrentRoom.gameObject);
+        }
+        string path = $"rooms/{roomid}";
+        Debug.Log(path);
+        GameObject res = Resources.Load<GameObject>(path);
+        GameObject g = Instantiate(res, new Vector3(-roomsize / 2, 0, -roomsize / 2), Quaternion.identity);
+
+        Room r = g.GetComponent<Room>();
+        CurrentRoom = r;
+        r.WaveComplete();
+        GameUIManager.instance.StopLoading();
+    }
     public void SpawnChunk(string prefix, string corefix, string suffix, int roomid)
     {
+        if(CurrentRoom!=null)
+        {
+            Destroy(CurrentRoom.gameObject);
+        }
         string path = $"rooms/{roomid}";
         Debug.Log(path);
         GameObject res = Resources.Load<GameObject>(path);
@@ -210,7 +234,7 @@ public class GridSystem : MonoBehaviour
 
             }
         }
-
+        GameUIManager.instance.StopLoading();
         //for(int i =0; i< TPC;i++)
         //{
         //    Instantiate(TreePrefab[UnityEngine.Random.Range(0, TreePrefab.Length)], randomWorldPosOnSurface(ToWorld(pos)), Quaternion.Euler(transform.rotation.eulerAngles.x, UnityEngine.Random.Range(0f, 360f), transform.rotation.eulerAngles.z), TreeGroup);
@@ -221,12 +245,7 @@ public class GridSystem : MonoBehaviour
     private void SpawnEnemy(Vector3 SpawnPos,  int enemyid, string prefix)
     {
 
-        GameObject enemy = Instantiate(GameInformation.instance.GetEnemyInstances(enemyid), SpawnPos, Quaternion.identity, EnemiesGroup);
-
-        Enemy e = enemy.GetComponent<Enemy>();
-        e.AddBoon(prefix);
-        e.Ai.gd = this;
-        CurrentRoom.AddEnemy(e);
+        
 
     }
     //private GameObject SpawnTerrain(Vector2 pos, ChunkType t, Vector2 size)
@@ -300,27 +319,22 @@ public class GridSystem : MonoBehaviour
         {
             PacketSend.Server_DistributeSpawnChunk(0);
         }
+        GameUIManager.instance.StartLoading("Loading Room");
         SpawnNextRoom = false;
         CurrentRoomCompleted = false;
-        
-
-        //for (int i = 0; i < BarrierGroup.childCount; i++)
-        //{
-        //    Destroy(BarrierGroup.GetChild(i).gameObject);
-        //}
         GameUIManager.instance.ConfirmClickNextRoom();
-        SpawnRandomChunk(ranPrefix, ranCorefix, ranSuffix);
+        SpawnRandomChunk();
 
     }
     public bool SpawnNextRoom = false;
     public bool StartEnteringRooms = false;
-    private void Update()
-    {
-        if ((Input.GetKeyDown(KeyMap.Interact2) || SpawnNextRoom) && CurrentRoomCompleted)
-        {
-            GenerateNextRoom();
-        }
-    }
+    //private void Update()
+    //{
+    //    if ((Input.GetKeyDown(KeyMap.Interact2) || SpawnNextRoom) && CurrentRoomCompleted)
+    //    {
+    //        GenerateNextRoom();
+    //    }
+    //}
     //public IEnumerator genchunks(bool spawnenmeies)
     //{
     //    //TreeGroup = new GameObject("Trees").transform;
@@ -355,8 +369,9 @@ public class GridSystem : MonoBehaviour
         GDInitialized = true;
         EnemiesGroup = new GameObject("Enemies").transform;
         EnemiesGroup.parent = transform;
-        GameUIManager.instance.StartRollRoom();
-        RollRoomArguments();
+        //GameUIManager.instance.StartRollRoom();
+        //RollRoomArguments();
+        GenerateNextRoom();
 
     }
 }

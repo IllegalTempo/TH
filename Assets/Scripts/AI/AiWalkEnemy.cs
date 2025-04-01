@@ -41,6 +41,7 @@ public abstract class AiWalkEnemy : MonoBehaviour
         animator = GetComponent<Animator>();
         player = LayerMask.GetMask("Player");
         agent.isStopped = true;
+        gd = GameInformation.instance.gd;
         
     }
     private void Update()
@@ -61,31 +62,32 @@ public abstract class AiWalkEnemy : MonoBehaviour
         transform.rotation = Quaternion.Euler(0, lookrot.eulerAngles.y, 0);
         animator.SetBool("Attack", false);
 
-        
 
-
-        if (agent.isStopped)
+        if (NearbyEnemies.Length > 0)
         {
-            if (NearbyEnemies.Length > 0)
+
+            if (attackcd <= 0)
             {
-
-                if (attackcd <= 0)
-                {
-                    animator.SetBool("Attack", true);
-                    Attack();
-
-                }
-                else
-                {
-                    animator.SetBool("Attack", false);
-                    ChasePlayer(NearbyEnemies[0].transform);
-                }
+                animator.SetBool("Attack", true);
+                Attack();
 
             }
             else
             {
-                WalkAround();
+                animator.SetBool("Attack", false);
+                ChasePlayer(NearbyEnemies[0].transform);
             }
+
+        }
+
+        if (agent.isStopped)
+        {
+            if(NearbyEnemies.Length == 0 )
+            {
+                WalkAround();
+
+            }
+
         }
 
     }
