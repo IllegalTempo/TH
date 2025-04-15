@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using UnityEngine.Rendering;
 using Steamworks.Data;
 using UnityEditor;
+using UnityEditor.Localization.Plugins.XLIFF.V12;
 
 public class SteamManager : MonoBehaviour
 {
@@ -142,8 +143,22 @@ public class SteamManager : MonoBehaviour
         Debug.Log($"Lobby ID: {l} Result: {r} Starting Game Server...");
         l.SetGameServer(SteamClient.SteamId);
         GameInformation.instance.CurrentLobby = l;
+        while(server == null)
+        {
+            try
+            {
+                server = SteamNetworkingSockets.CreateRelaySocket<GameServer>(0);
+                Debug.Log($"Successfully created Game Server");
 
-        server = SteamNetworkingSockets.CreateRelaySocket<GameServer>(1111);
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"Error: {ex}, Retrying in 5 seconds");
+                await Task.Delay(5000);
+
+            }
+        }
+        
         await Task.Delay(300);
         Debug.Log($"Server: {server}");
 

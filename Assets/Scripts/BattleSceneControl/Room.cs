@@ -16,7 +16,10 @@ namespace Assets.Scripts.BattleSceneControl
     }
     public class Room : MonoBehaviour
     {
-
+        [SerializeField]
+        private Color ShadeColor;
+        [SerializeField]
+        private GameObject PlayerSpawnpoint;
         public RoomReward[] rewards = new RoomReward[3];
         public int RewardCount = 0;
         public List<Enemy> enemies = new List<Enemy>();
@@ -25,6 +28,15 @@ namespace Assets.Scripts.BattleSceneControl
         private Wave[] waves;
         public int wave = 0;
         public int currentRemainingEnemies;
+        private void Start()
+        {
+            Shader.SetGlobalColor("_ShadeColor", ShadeColor);
+
+        }
+        public Vector3 GetRoomSpawnPoint()
+        {
+            return PlayerSpawnpoint.transform.position;
+        }
         public void WaveComplete()
         {
 
@@ -55,15 +67,15 @@ namespace Assets.Scripts.BattleSceneControl
             }
         }
 
-        public void AddRoomReward(string suffixname)
-        {
-            if (RewardCount >= rewards.Length) return;
-            Type t = GameInformation.instance.SuffixRoomRewardMatch[suffixname];
-            RoomReward r = (RoomReward)gameObject.AddComponent(t);
-            rewards[RewardCount] = r;
-            r.init(this);
-            RewardCount++;
-        }
+        //public void AddRoomReward(string suffixname)
+        //{
+        //    if (RewardCount >= rewards.Length) return;
+        //    Type t = GameInformation.instance.SuffixRoomRewardMatch[suffixname];
+        //    RoomReward r = (RoomReward)gameObject.AddComponent(t);
+        //    rewards[RewardCount] = r;
+        //    r.init(this);
+        //    RewardCount++;
+        //}
         public int AddEnemy(Enemy e)
         {
             e.BelongTo = this;

@@ -9,6 +9,8 @@ public abstract class bulletobject : MonoBehaviour
     public float damage;
     public float orglife;
     public float life;
+    public int OnHitSound;
+    public int OnHitEffect;
     public PlayerMain Owner;
     private ObjectPool<bulletobject> poolref;
     private void Update()
@@ -29,7 +31,7 @@ public abstract class bulletobject : MonoBehaviour
         if (enemy != null)
         {
 
-            enemy.Damage(damage,other.ClosestPoint(transform.position),Owner);
+            enemy.Damage(damage,other.ClosestPoint(transform.position),Owner,OnHitSound,OnHitEffect);
             DestroyBullet();
         }
     }

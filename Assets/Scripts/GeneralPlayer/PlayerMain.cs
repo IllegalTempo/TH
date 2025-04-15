@@ -34,7 +34,7 @@ public class PlayerMain : MonoBehaviour
     {
         Destroy(gameObject);
     }
-    public void SwitchScene(string newscenename,Vector3 spawnpoint)
+    public void SwitchScene(string newscenename, Vector3 spawnpoint)
     {
 
         bool IsCutScene = newscenename.Contains("CUTSCENE") || newscenename == "StartScreen";
@@ -48,7 +48,7 @@ public class PlayerMain : MonoBehaviour
             OnEnterBattle(spawnpoint);
         }
 
-        
+
         rb.velocity = Vector3.zero;
         transform.position = spawnpoint;
     }
@@ -71,7 +71,7 @@ public class PlayerMain : MonoBehaviour
         CanChooseNewBoon = true;
         CurrentLevelXP -= CurrentLevelMaxXP;
 
-        CurrentLevelMaxXP = GameInformation.instance.GetMaxXP(level+1);
+        CurrentLevelMaxXP = GameInformation.instance.GetMaxXP(level + 1);
         level++;
         GameUIManager.instance.LevelText.text = "Level " + level;
         int[] boons = { UnityEngine.Random.Range(0, GameInformation.instance.BoonInforms.Length - 1) };
@@ -126,7 +126,7 @@ public class PlayerMain : MonoBehaviour
         {
             BoonTypeIDMapGroup.Add(info.BoonType, new List<Baseboon> { b });
         }
-        if(CurrentLevelXP >= CurrentLevelMaxXP)
+        if (CurrentLevelXP >= CurrentLevelMaxXP)
         {
             LevelUP();
         }
@@ -138,7 +138,7 @@ public class PlayerMain : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         playermovement = GetComponent<Movement>();
         ChooseWeapon((int)GameInformation.Weapon.HAKUREI_FLUTE);
-        
+
     }
     private void ChangeInHealth()
     {
@@ -153,6 +153,7 @@ public class PlayerMain : MonoBehaviour
         OnHitEffect.Play();
         animator.SetTrigger("Damaged");
         health -= damage;
+        Debug.Log($"Damaged! {damage}");
         ChangeInHealth();
         OnDamage();
     }
@@ -171,15 +172,11 @@ public class PlayerMain : MonoBehaviour
     public void OnEnterBattle(Vector3 SpawnPoint)
     {
         transform.position = SpawnPoint;
-        rb.useGravity = false;
-        rb.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
         InBattle = true;
     }
     public void OnExitBattle(Vector3 SpawnPoint)
     {
         transform.position = SpawnPoint;
-        rb.useGravity = true;
-        rb.constraints = RigidbodyConstraints.FreezeRotation;
 
         InBattle = false;
     }

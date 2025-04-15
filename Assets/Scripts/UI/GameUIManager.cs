@@ -47,12 +47,13 @@ public class GameUIManager : MonoBehaviour
     public Slider HealthBar;
 
     [Header("<6> UI Element for Room Creation")]
-    public TMP_Text PrefixText;
-    public TMP_Text CoreText;
-    public TMP_Text SuffixText;
+    public GameObject NoteSelectPrefab;
+    public GameObject NoteLayout;
 
     [Header("<7> UI Element for Boons(Spellcard)")]
     public GameObject BoonDisplayInstance;
+    
+
 
     [Header("<8> UI Element for Character Upgrade")]
     public Slider EXP;
@@ -112,11 +113,20 @@ public class GameUIManager : MonoBehaviour
     {
         animator.SetBool("Loading", false);
     }
+    public void AddRoomNote(Note n)
+    {
+        NoteSelection note = Instantiate(NoteSelectPrefab, NoteLayout.transform).GetComponent<NoteSelection>();
+        string name = LocalizationSettings.StringDatabase.GetLocalizedString("RoomNotes", n.Name);
+        string desc = LocalizationSettings.StringDatabase.GetLocalizedString("RoomNotes", n.Description);
+
+        note.InitializeNote(name,desc,n.Icon);
+    }
     public void NewMessage(string message)
     {
         MessageObject msobj = Instantiate(MessageInstance, MessageLayout).GetComponent<MessageObject>();
         msobj.Init(message);
     }
+    
     public void CopyRoomID()
     {
         GUIUtility.systemCopyBuffer = UIRoomIDBuffer.ToString();
@@ -211,26 +221,26 @@ public class GameUIManager : MonoBehaviour
         Cover.SetActive(false);
         RandomRoomDisplay.SetActive(false);
         BoonsDisplay.SetActive(false);
-        StartRepeatingMethod();
+        //StartRepeatingMethod();
 
         DontDestroyOnLoad(gameObject);
     }
-    private IEnumerator RepeatingMethodCoroutine()
-    {
-        // Create a reusable WaitForSeconds object
-        // This is more efficient than creating a new one each iteration
-        WaitForSeconds wait = new WaitForSeconds(0.1f);
+    //private IEnumerator RepeatingMethodCoroutine()
+    //{
+    //    // Create a reusable WaitForSeconds object
+    //    // This is more efficient than creating a new one each iteration
+    //    WaitForSeconds wait = new WaitForSeconds(0.1f);
 
-        while (true)
-        {
+    //    while (true)
+    //    {
 
-            if (!prefixsetted) { PrefixText.text = RandomString(6); }
-            if (!corefixsetted) { CoreText.text = RandomString(8); }
-            if (!suffixsetted) { SuffixText.text = RandomString(6); }
-            // Wait for 0.1 seconds before the next call
-            yield return wait;
-        }
-    }
+    //        if (!prefixsetted) { PrefixText.text = RandomString(6); }
+    //        if (!corefixsetted) { CoreText.text = RandomString(8); }
+    //        if (!suffixsetted) { SuffixText.text = RandomString(6); }
+    //        // Wait for 0.1 seconds before the next call
+    //        yield return wait;
+    //    }
+    //}
     void OnDisable()
     {
         // Clean up when the component is disabled
@@ -240,17 +250,17 @@ public class GameUIManager : MonoBehaviour
 
     
 
-    public void StartRepeatingMethod()
-    {
-        // Stop any existing coroutine first to prevent duplicates
-        if (repeatingCoroutine != null)
-        {
-            StopCoroutine(repeatingCoroutine);
-        }
+    //public void StartRepeatingMethod()
+    //{
+    //    // Stop any existing coroutine first to prevent duplicates
+    //    if (repeatingCoroutine != null)
+    //    {
+    //        StopCoroutine(repeatingCoroutine);
+    //    }
 
-        // Start a new coroutine and store its reference
-        repeatingCoroutine = StartCoroutine(RepeatingMethodCoroutine());
-    }
+    //    // Start a new coroutine and store its reference
+    //    repeatingCoroutine = StartCoroutine(RepeatingMethodCoroutine());
+    //}
 
     public void StopRepeatingMethod()
     {
@@ -261,33 +271,33 @@ public class GameUIManager : MonoBehaviour
             repeatingCoroutine = null;
         }
     }
-    public void SetPrefix(string prefix)
-    {
-        prefixsetted = true;
-        PrefixText.text = LocalizationSettings.StringDatabase.GetLocalizedString("RoomArguments", "Prefix_"+prefix);
-    }
-    public void SetSuffix(string suffix)
-    {
-        suffixsetted = true;
-        SuffixText.text = LocalizationSettings.StringDatabase.GetLocalizedString("RoomArguments", "Suffix_" + suffix);
-    }
-    public void SetCore(string core)
-    {
-        corefixsetted = true;
-        CoreText.text = LocalizationSettings.StringDatabase.GetLocalizedString("RoomArguments", "Core_" + core);
-    }
-    public IEnumerator SetRoomArgument(string prefix,string core, string suffix)
-    {
-        Debug.Log($"Rolled Argument: {prefix} {core} {suffix}");
-        yield return new WaitForSeconds(1);
+    //public void SetPrefix(string prefix)
+    //{
+    //    prefixsetted = true;
+    //    PrefixText.text = LocalizationSettings.StringDatabase.GetLocalizedString("RoomArguments", "Prefix_"+prefix);
+    //}
+    //public void SetSuffix(string suffix)
+    //{
+    //    suffixsetted = true;
+    //    SuffixText.text = LocalizationSettings.StringDatabase.GetLocalizedString("RoomArguments", "Suffix_" + suffix);
+    //}
+    //public void SetCore(string core)
+    //{
+    //    corefixsetted = true;
+    //    CoreText.text = LocalizationSettings.StringDatabase.GetLocalizedString("RoomArguments", "Core_" + core);
+    //}
+    //public IEnumerator SetRoomArgument(string prefix,string core, string suffix)
+    //{
+    //    Debug.Log($"Rolled Argument: {prefix} {core} {suffix}");
+    //    yield return new WaitForSeconds(1);
 
-        SetPrefix(prefix);
-        yield return new WaitForSeconds(1);
-        SetCore(core);
-        yield return new WaitForSeconds(1);
-        SetSuffix(suffix);
+    //    SetPrefix(prefix);
+    //    yield return new WaitForSeconds(1);
+    //    SetCore(core);
+    //    yield return new WaitForSeconds(1);
+    //    SetSuffix(suffix);
 
-    }
+    //}
     public void NewPlaceIntro(string title,bool translate)
     {
         clicktips.SetActive(false);

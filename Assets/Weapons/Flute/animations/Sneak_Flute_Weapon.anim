@@ -163,7 +163,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: {x: -16.574, y: -9.936, z: 189.936}
+        value: {x: -14.384, y: 0.374, z: 177.037}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -228,7 +228,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: {x: 0.09, y: -1.74, z: 1}
+        value: {x: 0.09, y: -2.49, z: 1}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -1336,7 +1336,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: -16.574
+        value: -14.384
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -1357,7 +1357,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: -9.936
+        value: 0.374
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -1378,7 +1378,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 189.936
+        value: 177.037
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -1420,7 +1420,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: -1.74
+        value: -2.49
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -1690,7 +1690,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: Armature
+    path: Armature/CHEST_R/HAND1_R/HAND2_R/flute
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -1702,7 +1702,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: Armature
+    path: Armature/CHEST_R/HAND1_R/HAND2_R/flute
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -1714,7 +1714,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: Armature
+    path: Armature/CHEST_R/HAND1_R/HAND2_R/flute
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -2014,7 +2014,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: Armature/CHEST_R/HAND1_R/HAND2_R/flute
+    path: Armature
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -2026,7 +2026,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: Armature/CHEST_R/HAND1_R/HAND2_R/flute
+    path: Armature
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -2038,7 +2038,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: Armature/CHEST_R/HAND1_R/HAND2_R/flute
+    path: Armature
     classID: 4
     script: {fileID: 0}
     flags: 0

@@ -25,9 +25,6 @@ public abstract class AiWalkEnemy : MonoBehaviour
     [SerializeField]
     public Collider[] NearbyEnemies;
     public Collider[] InRangeEnemies;
-
-    public bool ReachDestination;
-    public float RemainPath;
     public Vector2 InChunk;
     private Animator animator;
     public bool Stopped;
@@ -46,18 +43,16 @@ public abstract class AiWalkEnemy : MonoBehaviour
     }
     private void Update()
     {
-        Stopped = agent.isStopped;
-        ReachDestination = agent.isStopped;
-        RemainPath = agent.remainingDistance;
+        Stopped = agent.remainingDistance < 1;
 
-        agent.isStopped = agent.remainingDistance < 1;
+        agent.isStopped = Stopped;
 
         attackcd -= Time.deltaTime;
 
         NearbyEnemies = Physics.OverlapSphere(transform.position, DetectRange, GameInformation.instance.playerMask);
         InRangeEnemies = Physics.OverlapSphere(transform.position, AttackRange, GameInformation.instance.playerMask);
 
-        Head.transform.LookAt(agent.destination);
+        Head.transform.LookAt(agent.destination + new Vector3(0,2,0));
         Quaternion lookrot = Quaternion.LookRotation(agent.destination - transform.position);
         transform.rotation = Quaternion.Euler(0, lookrot.eulerAngles.y, 0);
         animator.SetBool("Attack", false);

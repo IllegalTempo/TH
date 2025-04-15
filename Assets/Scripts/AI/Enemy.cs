@@ -37,14 +37,14 @@ public class Enemy : MonoBehaviour
     public AiWalkEnemy Ai;
     public EnemyBoonBase[] Boons = new EnemyBoonBase[3];
     public int BoonCount = 0;
-    public void AddBoon(string PrefixName)
-    {
-        if (BoonCount > 2) return;
-        Type t = GameInformation.instance.PrefixBoonSetupMatch[PrefixName];
-        Boons[BoonCount] = (EnemyBoonBase)gameObject.AddComponent(t);
-        BoonCount++;
+    //public void AddBoon(string PrefixName)
+    //{
+    //    if (BoonCount > 2) return;
+    //    Type t = GameInformation.instance.PrefixBoonSetupMatch[PrefixName];
+    //    Boons[BoonCount] = (EnemyBoonBase)gameObject.AddComponent(t);
+    //    BoonCount++;
 
-    }
+    //}
     private void Start()
     {
         uuid = GameInformation.instance.GetUUID();
@@ -76,10 +76,10 @@ public class Enemy : MonoBehaviour
 
         }
     }
-    public void Damage(float dmg,Vector3 collidepoint,PlayerMain DamageDealer)
+    public void Damage(float dmg,Vector3 collidepoint,PlayerMain DamageDealer,int soundid,int effectid)
     {
-        OnHitEffect.transform.position = collidepoint;
-        OnHitEffect.Play();
+        GameSystem.instance.PlayEffect(effectid,collidepoint);
+        GameSystem.instance.PlaySound(soundid, collidepoint);
         if (!invulnerable)
         {
             if (!DamageDealer.IsLocal) return;

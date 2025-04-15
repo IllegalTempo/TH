@@ -123,6 +123,7 @@ MonoBehaviour:
   damage: 10
   orglife: 5
   life: 0
+  damagemultiplier: 1
 --- !u!1 &6328548047504042367
 GameObject:
   m_ObjectHideFlags: 0

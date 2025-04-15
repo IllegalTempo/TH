@@ -196,7 +196,7 @@ public class Movement : MonoBehaviour
     {
 
 
-        if (Input.GetKeyDown(KeyMap.JumpKey) && IsGrounded && !player.InBattle)
+        if (Input.GetKeyDown(KeyMap.JumpKey) && IsGrounded)
         {
 
             IsGrounded = false;

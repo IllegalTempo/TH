@@ -72,11 +72,7 @@ public class GameInformation : MonoBehaviour
         harp,
         drum,
     }
-    public Type GetBoon(int id, out BoonInform info)
-    {
-        info = BoonInforms[id];
-        return PlayerBoons[id];
-    }
+    public Note[] AllNotes;
     public Type[] PlayerBoons =
     {
         typeof(con_OnAttack_Test),
@@ -85,26 +81,26 @@ public class GameInformation : MonoBehaviour
     {
         new BoonInform("SpellCard/Alpha:Test","Spellcard #1 Test", 0,0,(int)BoonInform.ContinuouseBoonTypes.PlayerAttackBoon,false),
     };
-    public Dictionary<string, Type> PrefixBoonSetupMatch = new Dictionary<string, Type>
-    {
-        {"Insane",
-             typeof(Insane)
-        },
-    };
+    //public Dictionary<string, Type> PrefixBoonSetupMatch = new Dictionary<string, Type>
+    //{
+    //    {"Insane",
+    //         typeof(Insane)
+    //    },
+    //};
 
-    public Dictionary<string, EnemySpawnMap> CoreEnemySpawnSetupMatch = new Dictionary<string, EnemySpawnMap>
-    {
-        {"Disgusting",
-            new EnemySpawnMap(new Dictionary<float, int>{ {1,0} },5) 
-        },
-        {"Annoying",
-            new EnemySpawnMap(new Dictionary<float, int>{ {1,0} },10)
-        },
-        {"Inferno",
-            new EnemySpawnMap(new Dictionary<float, int>{ {1,0} },20)
-        },
+    //public Dictionary<string, EnemySpawnMap> CoreEnemySpawnSetupMatch = new Dictionary<string, EnemySpawnMap>
+    //{
+    //    {"Disgusting",
+    //        new EnemySpawnMap(new Dictionary<float, int>{ {1,0} },5) 
+    //    },
+    //    {"Annoying",
+    //        new EnemySpawnMap(new Dictionary<float, int>{ {1,0} },10)
+    //    },
+    //    {"Inferno",
+    //        new EnemySpawnMap(new Dictionary<float, int>{ {1,0} },20)
+    //    },
 
-    };
+    //};
     public Sprite[] SpellCardTexture;
     public Dictionary<int, string> Rarity = new()
     {
@@ -117,13 +113,13 @@ public class GameInformation : MonoBehaviour
         {6, "Chronicle" },
         {7, "Matara's" },
     };
-    public Dictionary<string, Type> SuffixRoomRewardMatch = new Dictionary<string, Type>
-    {
-        {"Vault",
-            typeof(Vault)
+    //public Dictionary<string, Type> SuffixRoomRewardMatch = new Dictionary<string, Type>
+    //{
+    //    {"Vault",
+    //        typeof(Vault)
 
-        },
-    };
+    //    },
+    //};
     public enum PlaceID
     {
         Hakurei_Shrine = 0,
@@ -142,12 +138,7 @@ public class GameInformation : MonoBehaviour
         HAKUREI_HARP = 4,
         HAKUREI_DRUM = 5,
     }
-#if UNITY_EDITOR
-    public void OnExit(PlayModeStateChange mode)
-    {
-        Save.OnExit(mode);
-    }
-#endif
+
     public Dictionary<int, GameObject> EnemyInstances = new Dictionary<int, GameObject>();
     public Dictionary<string, Sprite> EnemyBoonImage = new Dictionary<string, Sprite>();
 
@@ -155,30 +146,13 @@ public class GameInformation : MonoBehaviour
     {
         { 0,"enemies/fairy/0"}
     };
-    public Dictionary<string, string> EnemyBoonImagePath = new Dictionary<string, string>()
-    {
-        { "Insane","boons/enemy/Insane"}
-    };
+    //public Dictionary<string, string> EnemyBoonImagePath = new Dictionary<string, string>()
+    //{
+    //    { "Insane","boons/enemy/Insane"}
+    //};
     public GameObject powerDropInstance;
     public GameObject pointDropInstance;
-    public GameObject GetEnemyInstances(int EnemyID)
-    {
-        if (!EnemyInstances.TryGetValue(EnemyID, out _))
-        {
-            EnemyInstances.Add(EnemyID, Resources.Load<GameObject>(EnemyInstancesPath[EnemyID]));
-
-        }
-        return EnemyInstances[EnemyID];
-    }
-    public Sprite GetEnemyBoonImage(string boonName)
-    {
-        if (!EnemyBoonImage.TryGetValue(boonName, out _))
-        {
-            EnemyBoonImage.Add(boonName, Resources.Load<Sprite>(EnemyBoonImagePath[boonName]));
-
-        }
-        return EnemyBoonImage[boonName];
-    }
+    
     //class for storing Game assests;
     public Dictionary<int, string> WeaponPrefabPath = new Dictionary<int, string>()
     {
@@ -193,4 +167,33 @@ public class GameInformation : MonoBehaviour
         { (int)Weapon.HAKUREI_FLUTE,(int)WeaponType.flute}
     };
 
+    public Type GetBoon(int id, out BoonInform info)
+    {
+        info = BoonInforms[id];
+        return PlayerBoons[id];
+    }
+    public GameObject GetEnemyInstances(int EnemyID)
+    {
+        if (!EnemyInstances.TryGetValue(EnemyID, out _))
+        {
+            EnemyInstances.Add(EnemyID, Resources.Load<GameObject>(EnemyInstancesPath[EnemyID]));
+
+        }
+        return EnemyInstances[EnemyID];
+    }
+    //public Sprite GetEnemyBoonImage(string boonName)
+    //{
+    //    if (!EnemyBoonImage.TryGetValue(boonName, out _))
+    //    {
+    //        EnemyBoonImage.Add(boonName, Resources.Load<Sprite>(EnemyBoonImagePath[boonName]));
+
+    //    }
+    //    return EnemyBoonImage[boonName];
+    //}
+#if UNITY_EDITOR
+    public void OnExit(PlayModeStateChange mode)
+    {
+        Save.OnExit(mode);
+    }
+#endif
 }

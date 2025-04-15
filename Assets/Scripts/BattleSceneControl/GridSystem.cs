@@ -200,7 +200,8 @@ public class GridSystem : MonoBehaviour
 
         Room r = g.GetComponent<Room>();
         CurrentRoom = r;
-        r.WaveComplete();
+        GameInformation.instance.LocalPlayer.transform.position = r.GetRoomSpawnPoint();
+        r.WaveComplete(); //Run for first time, used for first wave
         GameUIManager.instance.StopLoading();
     }
     public void SpawnChunk(string prefix, string corefix, string suffix, int roomid)
@@ -215,25 +216,25 @@ public class GridSystem : MonoBehaviour
         GameObject g = Instantiate(res,new Vector3(-roomsize/2,0,-roomsize/2),Quaternion.identity);
         
         Room r = g.AddComponent<Room>();
-        r.AddRoomReward(suffix);
+        //r.AddRoomReward(suffix);
         CurrentRoom = r;
-        EnemySpawnMap spawnmap = GameInformation.instance.CoreEnemySpawnSetupMatch[corefix];
+        //EnemySpawnMap spawnmap = GameInformation.instance.CoreEnemySpawnSetupMatch[corefix];
 
 
-        foreach (KeyValuePair<float, int> kvp in spawnmap.Map)
-        {
-            float sample = Random.value * (kvp.Key / spawnmap.TotalWeight) * spawnmap.maxcount;
-            for (int i = 0; i < sample; i++)
-            {
+        //foreach (KeyValuePair<float, int> kvp in spawnmap.Map)
+        //{
+        //    float sample = Random.value * (kvp.Key / spawnmap.TotalWeight) * spawnmap.maxcount;
+        //    for (int i = 0; i < sample; i++)
+        //    {
 
-                //Vector3 SpawnPos = ToWorld(pos) + Random.insideUnitSphere * Chunksize.x * (transform.localScale.x / 2);
-                //SpawnPos.y = 50f;
+        //        //Vector3 SpawnPos = ToWorld(pos) + Random.insideUnitSphere * Chunksize.x * (transform.localScale.x / 2);
+        //        //SpawnPos.y = 50f;
 
-                Vector3 SpawnPos = randomWorldPosOnSurface();
-                SpawnEnemy(SpawnPos,  kvp.Value, prefix);
+        //        Vector3 SpawnPos = randomWorldPosOnSurface();
+        //        SpawnEnemy(SpawnPos,  kvp.Value, prefix);
 
-            }
-        }
+        //    }
+        //}
         GameUIManager.instance.StopLoading();
         //for(int i =0; i< TPC;i++)
         //{
@@ -296,14 +297,14 @@ public class GridSystem : MonoBehaviour
     //{
     //    return new Vector2(v.x + (int)((v.y + 1) / grid.GetLength(0)), (v.y + 1) % grid.GetLength(0));
     //}
-    public void RollRoomArguments()
-    {
+    //public void RollRoomArguments()
+    //{
 
-        ranPrefix = GameInformation.instance.PrefixBoonSetupMatch.Keys.ElementAt(Random.Range(0, GameInformation.instance.PrefixBoonSetupMatch.Count));
-        ranCorefix = GameInformation.instance.CoreEnemySpawnSetupMatch.Keys.ElementAt(Random.Range(0, GameInformation.instance.CoreEnemySpawnSetupMatch.Count));
-        ranSuffix = GameInformation.instance.SuffixRoomRewardMatch.Keys.ElementAt(Random.Range(0, GameInformation.instance.SuffixRoomRewardMatch.Count));
-        StartCoroutine(GameUIManager.instance.SetRoomArgument(ranPrefix, ranCorefix, ranSuffix));
-    }
+    //    ranPrefix = GameInformation.instance.PrefixBoonSetupMatch.Keys.ElementAt(Random.Range(0, GameInformation.instance.PrefixBoonSetupMatch.Count));
+    //    ranCorefix = GameInformation.instance.CoreEnemySpawnSetupMatch.Keys.ElementAt(Random.Range(0, GameInformation.instance.CoreEnemySpawnSetupMatch.Count));
+    //    ranSuffix = GameInformation.instance.SuffixRoomRewardMatch.Keys.ElementAt(Random.Range(0, GameInformation.instance.SuffixRoomRewardMatch.Count));
+    //    StartCoroutine(GameUIManager.instance.SetRoomArgument(ranPrefix, ranCorefix, ranSuffix));
+    //}
     public void GenerateNextRoom()
     {
         if(!StartEnteringRooms)
