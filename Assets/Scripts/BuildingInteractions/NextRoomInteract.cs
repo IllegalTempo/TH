@@ -6,6 +6,6 @@ public class NextRoomInteract : InteractableCollider
 {
     protected override void OnInteract()
     {
-
+        GameUIManager.instance.StartChoosingNote();
     }
 }

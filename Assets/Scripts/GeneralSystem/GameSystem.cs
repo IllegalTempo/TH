@@ -100,15 +100,15 @@ public class GameSystem : MonoBehaviour
     {
         AddRoomNote(GameInformation.instance.AllNotes[UnityEngine.Random.Range(0,GameInformation.instance.AllNotes.Length)]);
     }
-    public void SelectNote(NoteSelection n)
+    public void SelectNote(Note n)
     {
-        if(CurrentlyOwnedNotes.Contains(n.note))
+        if(CurrentlyOwnedNotes.Contains(n))
         {
-            CurrentlyOwnedNotes.Remove(n.note);
+            CurrentlyOwnedNotes.Remove(n);
 
         } else
         {
-            Debug.LogError($"Select Note ({n.note.Name}) not in list");
+            Debug.LogError($"Select Note ({n.Name}) not in list");
         }
     }
     public void SpawnItem(Vector3 pos, Item item)

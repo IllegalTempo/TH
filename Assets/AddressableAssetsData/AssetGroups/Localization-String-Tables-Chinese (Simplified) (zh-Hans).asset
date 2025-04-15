@@ -30,7 +30,7 @@ MonoBehaviour:
     - Locale-zh-Hans
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 3fbb1b9604f1077488a444507691be35
-    m_Address: RoomArguments_zh-Hans
+    m_Address: RoomNotes_zh-Hans
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-zh-Hans

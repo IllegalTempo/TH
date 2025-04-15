@@ -42,7 +42,7 @@ MonoBehaviour:
     - Locale-zh
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: cb0d69c8a0d2ba441983152fa820061d
-    m_Address: RoomArguments_zh
+    m_Address: RoomNotes_zh
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-zh

@@ -47,6 +47,8 @@ public class GameUIManager : MonoBehaviour
     public Slider HealthBar;
 
     [Header("<6> UI Element for Room Creation")]
+    public GameObject MusicSheetUI;
+    public GameObject SelectNoteUI;
     public GameObject NoteSelectPrefab;
     public GameObject NoteLayout;
 
@@ -77,7 +79,7 @@ public class GameUIManager : MonoBehaviour
     public GameObject Mission;
     public GameObject Inventory;
     public GameObject InBattleUIObject;
-    public GameObject RandomRoomDisplay;
+    //public GameObject RandomRoomDisplay;
     public GameObject BoonsDisplay;
     public GameObject NetworkUI;
     public Inventory invUI;
@@ -113,13 +115,30 @@ public class GameUIManager : MonoBehaviour
     {
         animator.SetBool("Loading", false);
     }
+    public void StartChoosingNote()
+    {
+        OpenMusicSheet();
+        SelectNoteUI.SetActive(true);
+    }
+    public void OpenMusicSheet()
+    {
+        MusicSheetUI.SetActive(true);
+        Cursor.lockState = CursorLockMode.None;
+        
+    }
+    public void CloseMusicSheet()
+    {
+        MusicSheetUI.SetActive(false);
+        Cursor.lockState = CursorLockMode.Locked;
+    }
     public void AddRoomNote(Note n)
     {
+        Debug.Log($"Added Room Note {n.Name}");
         NoteSelection note = Instantiate(NoteSelectPrefab, NoteLayout.transform).GetComponent<NoteSelection>();
         string name = LocalizationSettings.StringDatabase.GetLocalizedString("RoomNotes", n.Name);
         string desc = LocalizationSettings.StringDatabase.GetLocalizedString("RoomNotes", n.Description);
 
-        note.InitializeNote(name,desc,n.Icon);
+        note.InitializeNote(name,desc,n.Icon,n);
     }
     public void NewMessage(string message)
     {
@@ -166,13 +185,13 @@ public class GameUIManager : MonoBehaviour
             StatusText.text = "Error not a valid World ID Format";
         }
     }
-    public void StartRollRoom()
-    {
-        RandomRoomDisplay.SetActive(true);
-        prefixsetted = false;
-        suffixsetted = false;
-        corefixsetted = false;
-    }
+    //public void StartRollRoom()
+    //{
+    //    RandomRoomDisplay.SetActive(true);
+    //    prefixsetted = false;
+    //    suffixsetted = false;
+    //    corefixsetted = false;
+    //}
     private string RandomString(int length)
     {
         string result = "";
@@ -182,10 +201,10 @@ public class GameUIManager : MonoBehaviour
         }
         return result;
     }
-    public void ConfirmClickNextRoom()
-    {
-        RandomRoomDisplay.SetActive(false);
-    }
+    //public void ConfirmClickNextRoom()
+    //{
+    //    RandomRoomDisplay.SetActive(false);
+    //}
     public void SetXP(float xp_percentage)
     {
         EXP.value = xp_percentage;
@@ -210,16 +229,17 @@ public class GameUIManager : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         InBattleUIObject.SetActive(false);
-        RandomRoomDisplay.SetActive(false);
+        //RandomRoomDisplay.SetActive(false);
         CrosshairObject.SetActive(false);
         PlaceIntro.gameObject.SetActive(false);
         Mission.gameObject.SetActive(false);
         Inventory.SetActive(false);
         NetworkUI.SetActive(false);
+        MusicSheetUI.SetActive(false);
+        SelectNoteUI.SetActive(false);
         clicktips.SetActive(false);
         LoadingScreenGameObject.SetActive(false);
         Cover.SetActive(false);
-        RandomRoomDisplay.SetActive(false);
         BoonsDisplay.SetActive(false);
         //StartRepeatingMethod();
 

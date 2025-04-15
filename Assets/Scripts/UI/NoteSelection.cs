@@ -23,14 +23,18 @@ public class NoteSelection : MonoBehaviour
     public TMP_Text NoteName;
     public TMP_Text NoteDescription;
     public Note note;
-    public void InitializeNote(string Name,string Desc, Sprite icon)
+    public void InitializeNote(string Name,string Desc, Sprite icon, Note note)
     {
         NoteIcon.sprite = icon;
         NoteName.text = Name;
         NoteDescription.text = Desc;
+        this.note = note;
     }
     public void SelectNote()
     {
-        GameSystem.instance.SelectNote(this);
+        GameSystem.instance.SelectNote(note);
+        GameUIManager.instance.CloseMusicSheet();
+        GameInformation.instance.gd.GenerateNextRoom();
+        Destroy(gameObject);
     }
 }

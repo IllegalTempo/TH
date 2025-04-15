@@ -24,6 +24,7 @@ namespace Assets.Scripts.BattleSceneControl
         public int RewardCount = 0;
         public List<Enemy> enemies = new List<Enemy>();
         public Vector3 ChunkPos; //Local
+        public GameObject NextRoomInteraction;
         [SerializeField]
         private Wave[] waves;
         public int wave = 0;
@@ -31,6 +32,7 @@ namespace Assets.Scripts.BattleSceneControl
         private void Start()
         {
             Shader.SetGlobalColor("_ShadeColor", ShadeColor);
+            NextRoomInteraction.SetActive(false);
 
         }
         public Vector3 GetRoomSpawnPoint()
@@ -84,8 +86,10 @@ namespace Assets.Scripts.BattleSceneControl
         }
         private void RoomCompleted()
         {
+            GameSystem.instance.AddRandomRoomNote();
             //GameUIManager.instance.StartRollRoom();
             //GameInformation.instance.gd.RollRoomArguments();
+            NextRoomInteraction.SetActive(true);    
             GameInformation.instance.gd.CurrentRoomCompleted = true;
             for(int i = 0; i < RewardCount;i++)
             {

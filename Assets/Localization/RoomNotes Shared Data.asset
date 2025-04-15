@@ -15,8 +15,12 @@ MonoBehaviour:
   m_TableCollectionName: RoomNotes
   m_TableCollectionNameGuidString: 56112f86e10b8f84596f742bbe456bbd
   m_Entries:
-  - m_Id: 14592808368943104
-    m_Key: New Entry
+  - m_Id: 14592893509120000
+    m_Key: greed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14593882916073472
+    m_Key: greed_desc
     m_Metadata:
       m_Items: []
   m_Metadata:

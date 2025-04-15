@@ -49,7 +49,7 @@ MonoBehaviour:
     - Locale-zh-HK
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e97bd91ac2fad834b9bbcf7e83f2c03c
-    m_Address: RoomArguments_zh-HK
+    m_Address: RoomNotes_zh-HK
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-zh-HK

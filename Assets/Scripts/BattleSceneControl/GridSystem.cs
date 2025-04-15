@@ -179,10 +179,10 @@ public class GridSystem : MonoBehaviour
         string searchPattern = "*.prefab";
         return Directory.GetFiles(Application.dataPath + "/rooms",searchPattern).Length;
     }
-    public void SpawnRandomChunk(string prefix, string corefix, string suffix)
-    {
-        SpawnChunk(prefix, corefix, suffix, Random.Range(0,NumberOfRooms()));
-    }
+    //public void SpawnRandomChunk(string prefix, string corefix, string suffix)
+    //{
+    //    SpawnChunk(prefix, corefix, suffix, Random.Range(0,NumberOfRooms()));
+    //}
     public void SpawnRandomChunk()
     {
         SpawnChunk(Random.Range(0, NumberOfRooms()));
@@ -204,44 +204,44 @@ public class GridSystem : MonoBehaviour
         r.WaveComplete(); //Run for first time, used for first wave
         GameUIManager.instance.StopLoading();
     }
-    public void SpawnChunk(string prefix, string corefix, string suffix, int roomid)
-    {
-        if(CurrentRoom!=null)
-        {
-            Destroy(CurrentRoom.gameObject);
-        }
-        string path = $"rooms/{roomid}";
-        Debug.Log(path);
-        GameObject res = Resources.Load<GameObject>(path);
-        GameObject g = Instantiate(res,new Vector3(-roomsize/2,0,-roomsize/2),Quaternion.identity);
+    //public void SpawnChunk(string prefix, string corefix, string suffix, int roomid)
+    //{
+    //    if(CurrentRoom!=null)
+    //    {
+    //        Destroy(CurrentRoom.gameObject);
+    //    }
+    //    string path = $"rooms/{roomid}";
+    //    Debug.Log(path);
+    //    GameObject res = Resources.Load<GameObject>(path);
+    //    GameObject g = Instantiate(res,new Vector3(-roomsize/2,0,-roomsize/2),Quaternion.identity);
         
-        Room r = g.AddComponent<Room>();
-        //r.AddRoomReward(suffix);
-        CurrentRoom = r;
-        //EnemySpawnMap spawnmap = GameInformation.instance.CoreEnemySpawnSetupMatch[corefix];
+    //    Room r = g.AddComponent<Room>();
+    //    //r.AddRoomReward(suffix);
+    //    CurrentRoom = r;
+    //    //EnemySpawnMap spawnmap = GameInformation.instance.CoreEnemySpawnSetupMatch[corefix];
 
 
-        //foreach (KeyValuePair<float, int> kvp in spawnmap.Map)
-        //{
-        //    float sample = Random.value * (kvp.Key / spawnmap.TotalWeight) * spawnmap.maxcount;
-        //    for (int i = 0; i < sample; i++)
-        //    {
+    //    //foreach (KeyValuePair<float, int> kvp in spawnmap.Map)
+    //    //{
+    //    //    float sample = Random.value * (kvp.Key / spawnmap.TotalWeight) * spawnmap.maxcount;
+    //    //    for (int i = 0; i < sample; i++)
+    //    //    {
 
-        //        //Vector3 SpawnPos = ToWorld(pos) + Random.insideUnitSphere * Chunksize.x * (transform.localScale.x / 2);
-        //        //SpawnPos.y = 50f;
+    //    //        //Vector3 SpawnPos = ToWorld(pos) + Random.insideUnitSphere * Chunksize.x * (transform.localScale.x / 2);
+    //    //        //SpawnPos.y = 50f;
 
-        //        Vector3 SpawnPos = randomWorldPosOnSurface();
-        //        SpawnEnemy(SpawnPos,  kvp.Value, prefix);
+    //    //        Vector3 SpawnPos = randomWorldPosOnSurface();
+    //    //        SpawnEnemy(SpawnPos,  kvp.Value, prefix);
 
-        //    }
-        //}
-        GameUIManager.instance.StopLoading();
-        //for(int i =0; i< TPC;i++)
-        //{
-        //    Instantiate(TreePrefab[UnityEngine.Random.Range(0, TreePrefab.Length)], randomWorldPosOnSurface(ToWorld(pos)), Quaternion.Euler(transform.rotation.eulerAngles.x, UnityEngine.Random.Range(0f, 360f), transform.rotation.eulerAngles.z), TreeGroup);
+    //    //    }
+    //    //}
+    //    GameUIManager.instance.StopLoading();
+    //    //for(int i =0; i< TPC;i++)
+    //    //{
+    //    //    Instantiate(TreePrefab[UnityEngine.Random.Range(0, TreePrefab.Length)], randomWorldPosOnSurface(ToWorld(pos)), Quaternion.Euler(transform.rotation.eulerAngles.x, UnityEngine.Random.Range(0f, 360f), transform.rotation.eulerAngles.z), TreeGroup);
 
-        //}
-    }
+    //    //}
+    //}
 
     private void SpawnEnemy(Vector3 SpawnPos,  int enemyid, string prefix)
     {
@@ -323,7 +323,7 @@ public class GridSystem : MonoBehaviour
         GameUIManager.instance.StartLoading("Loading Room");
         SpawnNextRoom = false;
         CurrentRoomCompleted = false;
-        GameUIManager.instance.ConfirmClickNextRoom();
+        //GameUIManager.instance.ConfirmClickNextRoom();
         SpawnRandomChunk();
 
     }

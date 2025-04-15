@@ -48,7 +48,7 @@ MonoBehaviour:
     - Locale-en
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: fd75883624bd4094ea13eaf72bb1653c
-    m_Address: RoomArguments_en
+    m_Address: RoomNotes_en
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-en

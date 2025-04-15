@@ -93,14 +93,8 @@ public class Enemy : MonoBehaviour
                 PacketSend.Client_Send_EnemyHealthUpdate(uuid, dmg);
             }
         }
-        if (health <= 0)
-        {
-            OnDeath();
-        }else
-        {
             animator.Play("HURT");
 
-        }
 
 
         

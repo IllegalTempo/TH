@@ -14884,7 +14884,7 @@ MonoBehaviour:
   maxhealth: 30
   invulnerable: 0
   value: 5
-  DamageMultiplier: 0
+  DamageMultiplier: 1
   animator: {fileID: 5810028229770158942}
   OnHitEffect: {fileID: 0}
   SoulRenderer: {fileID: 7046067445361708616}
