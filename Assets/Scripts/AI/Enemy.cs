@@ -80,6 +80,8 @@ public class Enemy : MonoBehaviour
     {
         GameSystem.instance.PlayEffect(effectid,collidepoint);
         GameSystem.instance.PlaySound(soundid, collidepoint);
+        animator.Play("HURT");
+
         if (!invulnerable)
         {
             if (!DamageDealer.IsLocal) return;
@@ -93,7 +95,6 @@ public class Enemy : MonoBehaviour
                 PacketSend.Client_Send_EnemyHealthUpdate(uuid, dmg);
             }
         }
-            animator.Play("HURT");
 
 
 

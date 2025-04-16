@@ -33,7 +33,7 @@ public class NoteSelection : MonoBehaviour
     public void SelectNote()
     {
         GameSystem.instance.SelectNote(note);
-        GameUIManager.instance.CloseMusicSheet();
+        GameUIManager.instance.OnChooseNote(note.Icon);
         GameInformation.instance.gd.GenerateNextRoom();
         Destroy(gameObject);
     }

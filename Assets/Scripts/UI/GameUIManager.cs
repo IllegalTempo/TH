@@ -8,6 +8,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Localization.Settings;
 using UnityEngine.UI;
+using Image = UnityEngine.UI.Image;
 
 public class GameUIManager : MonoBehaviour
 {
@@ -48,9 +49,11 @@ public class GameUIManager : MonoBehaviour
 
     [Header("<6> UI Element for Room Creation")]
     public GameObject MusicSheetUI;
+    public GameObject NoteContainer;
     public GameObject SelectNoteUI;
     public GameObject NoteSelectPrefab;
     public GameObject NoteLayout;
+    public GameObject NoteImagePrefab;
 
     [Header("<7> UI Element for Boons(Spellcard)")]
     public GameObject BoonDisplayInstance;
@@ -130,6 +133,12 @@ public class GameUIManager : MonoBehaviour
     {
         MusicSheetUI.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
+    }
+    public void OnChooseNote(Sprite s)
+    {
+        GameObject noteobj = Instantiate(NoteImagePrefab, NoteContainer.transform);
+        noteobj.GetComponent<Image>().sprite = s;
+        CloseMusicSheet();
     }
     public void AddRoomNote(Note n)
     {

@@ -11,7 +11,7 @@ public class RoomBuildTools : EditorWindow
     [MenuItem("Window/RoomBuildTools")]
     private void OnEnable()
     {
-        BaseRoom = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Rooms/RoomTools/BaseRoom.prefab");   
+        BaseRoom = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Rooms/RoomTools/BaseRoom.prefab");
     }
     public static void ShowWindow()
     {
@@ -25,7 +25,7 @@ public class RoomBuildTools : EditorWindow
         {
             CreateInitialRoom();
         }
-        
+
     }
     private void CreateInitialRoom()
     {

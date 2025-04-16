@@ -147,13 +147,13 @@ public class SteamManager : MonoBehaviour
         {
             try
             {
-                server = SteamNetworkingSockets.CreateRelaySocket<GameServer>(0);
+                server = SteamNetworkingSockets.CreateRelaySocket<GameServer>(1111);
                 Debug.Log($"Successfully created Game Server");
 
             }
             catch (Exception ex)
             {
-                Debug.LogError($"Error: {ex}, Retrying in 5 seconds");
+                Debug.LogError($"Please Restart your game Client | Error: {ex}");
                 await Task.Delay(5000);
 
             }
