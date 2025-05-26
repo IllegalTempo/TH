@@ -3,6 +3,7 @@ Shader"Toon/Grass"
     Properties
     {
 		[Header(Shading)]
+		[Toggle(_UseGrass)]_UseGrass("Grass Only", Float) = 0
 		_BaseTexture("Texture",2D) = "white" {}
         _TopColor("Top Color", Color) = (1,1,1,1)
 		_BottomColor("Bottom Color", Color) = (1,1,1,1)
@@ -29,6 +30,7 @@ Shader"Toon/Grass"
 #define BLADE_SEGMENTS 3
 CBUFFER_START(UnityPerMaterial)
 
+float _UseGrass;
 float _BladeForward;
 float _BladeCurve;
 float _BendRotationRandom;
@@ -41,7 +43,7 @@ sampler2D _WindDistortionMap;
 sampler2D _BaseTexture;
 sampler2D _NormalMap;
 float4 _BaseTexture_ST;
-
+bool GrassOnly;
 float4 _WindDistortionMap_ST;
 float _WindStrength;
 float2 _WindFrequency;
@@ -115,15 +117,20 @@ void calgeo(triangle vertexOutput IN[3] : SV_Position, inout TriangleStream<geom
 {
     //Origin
 	geometryOutput o;
-    for (int v = 0; v < 3; v++)
+    if (_UseGrass < 0.5)
     {
-        o.pos = TransformObjectToHClip(IN[v].vertex);
-        o._ShadowCoord = GetShadowCoord(GetVertexPositionInputs(IN[v].vertex.xyz));
+		
+    
+        for (int v = 0; v < 3; v++)
+        {
+            o.pos = TransformObjectToHClip(IN[v].vertex);
+            o._ShadowCoord = GetShadowCoord(GetVertexPositionInputs(IN[v].vertex.xyz));
 
-        o.uv = TRANSFORM_TEX(IN[v].uv, _BaseTexture);
-        o.normal = TransformObjectToWorldNormal(float3(0,1,0));
-		o.isBase = 1;
-        triStream.Append(o);
+            o.uv = TRANSFORM_TEX(IN[v].uv, _BaseTexture);
+            o.normal = TransformObjectToWorldNormal(float3(0, 1, 0));
+            o.isBase = 1;
+            triStream.Append(o);
+        }
     }
 	//Blade
     float3 pos = IN[0].vertex;

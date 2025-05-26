@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 [Serializable]
 public class ItemInfo
@@ -26,7 +27,12 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private Animator animator;
     public ParticleSystem OnHitEffect;
-    public Renderer SoulRenderer;
+    [SerializeField]
+    private Slider HealthBar;
+    [SerializeField]
+    private Collider HitBox;
+    [SerializeField]
+    private Rigidbody rb;
     public int[] UsedProjectileList = new int[0];
     public ItemInfo[] ItemDropTable;
     private float DropTableTotalWeight;
@@ -60,12 +66,10 @@ public class Enemy : MonoBehaviour
         }
         
     }
-    public void SetHealth(float dmg)
+    public void SetHealth(float nhealth)
     {
-        MaterialPropertyBlock pb = new MaterialPropertyBlock();
-        float nhealth = health -= dmg;
-        pb.SetFloat("_Fill", (nhealth * 0.5f) / maxhealth);
-        SoulRenderer.SetPropertyBlock(pb);
+        HealthBar.value = nhealth / maxhealth;
+        health = nhealth;
         if (nhealth <= 0)
         {
             OnDeath();
@@ -80,12 +84,11 @@ public class Enemy : MonoBehaviour
     {
         GameSystem.instance.PlayEffect(effectid,collidepoint);
         GameSystem.instance.PlaySound(soundid, collidepoint);
-        animator.Play("HURT");
 
         if (!invulnerable)
         {
             if (!DamageDealer.IsLocal) return;
-            SetHealth(dmg);
+            SetHealth(health - dmg);
             if (GameInformation.instance.MainNetwork.IsServer)
             {
                 PacketSend.Server_DistributeEnemyHealthUpdate(0, uuid, dmg);
@@ -119,7 +122,12 @@ public class Enemy : MonoBehaviour
             GameSystem.instance.SpawnPointDrops(transform.position);
 
         }
+
         Ai.Stopped = true;
+        HitBox.enabled = false;
+        HealthBar.enabled = false;
+        rb.useGravity = false;
+        
     }
     public void OnDisappear()
     {

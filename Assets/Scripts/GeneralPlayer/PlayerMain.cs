@@ -154,8 +154,16 @@ public class PlayerMain : MonoBehaviour
         animator.SetTrigger("Damaged");
         health -= damage;
         Debug.Log($"Damaged! {damage}");
+        if (health < 0)
+        {
+            Death();
+        }
         ChangeInHealth();
         OnDamage();
+    }
+    public void Death()
+    {
+
     }
     public void Heal(float health)
     {

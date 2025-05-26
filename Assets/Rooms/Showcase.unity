@@ -564,6 +564,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 517746318742764579, guid: b4ae5936f2b2a8a4eae03cc2c8bb313b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1063906503463716307, guid: b4ae5936f2b2a8a4eae03cc2c8bb313b, type: 3}
       propertyPath: m_Name
       value: 0
@@ -607,6 +611,18 @@ PrefabInstance:
     - target: {fileID: 3459095308967278246, guid: b4ae5936f2b2a8a4eae03cc2c8bb313b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4383244930653070205, guid: b4ae5936f2b2a8a4eae03cc2c8bb313b, type: 3}
+      propertyPath: m_Type
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4383244930653070205, guid: b4ae5936f2b2a8a4eae03cc2c8bb313b, type: 3}
+      propertyPath: m_Intensity
+      value: 177.37
+      objectReference: {fileID: 0}
+    - target: {fileID: 4383244930653070205, guid: b4ae5936f2b2a8a4eae03cc2c8bb313b, type: 3}
+      propertyPath: m_BounceIntensity
+      value: 4.31
       objectReference: {fileID: 0}
     - target: {fileID: 6269861790162098547, guid: b4ae5936f2b2a8a4eae03cc2c8bb313b, type: 3}
       propertyPath: m_Name

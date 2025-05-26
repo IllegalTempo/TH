@@ -8,6 +8,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Localization.Settings;
 using UnityEngine.UI;
+using static System.Net.Mime.MediaTypeNames;
 using Image = UnityEngine.UI.Image;
 
 public class GameUIManager : MonoBehaviour
@@ -77,7 +78,11 @@ public class GameUIManager : MonoBehaviour
     public GameObject MessageInstance;
     public Transform MessageLayout;
 
-
+    [Header("Dialogue System")]
+    public TMP_Text DialogueText;
+    public GameObject DialogueObject;
+    public Image DialogueImage;
+    public Animator DialogueAnimator;
     [Header("<;> Grouping Canvas")]
     public GameObject Mission;
     public GameObject Inventory;
@@ -236,6 +241,7 @@ public class GameUIManager : MonoBehaviour
     }
     private void Start()
     {
+        DialogueObject.SetActive(true);
         animator = GetComponent<Animator>();
         InBattleUIObject.SetActive(false);
         //RandomRoomDisplay.SetActive(false);
@@ -361,11 +367,29 @@ public class GameUIManager : MonoBehaviour
     {
         PlaceIntro.gameObject.SetActive(false);
     }
+    public void Dialogue(string text, string dialogueimagename)
+    {
+        GameSystem.instance.DialogueActive = true;
+        DialogueText.text = text;
+        DialogueImage.sprite = Resources.Load<Sprite>($"dialogue/{dialogueimagename}");
+        DialogueAnimator.SetTrigger("StartDialogue");
+    }
+    public void DialogueContinue()
+    {
+        GameSystem.instance.DialogueActive = false;
+        GameSystem.instance.NextSceneAction();
+        DialogueAnimator.SetTrigger("clickeddialogue");
 
-    
+
+    }
+    public void TranslatedDialogue(string key, string dialogueimagename)
+    {
+        Dialogue(LocalizationSettings.StringDatabase.GetLocalizedString("NPC", key),dialogueimagename);
+
+    }
     public void StartInteraction()
     {
-        StartKeyTips(LocalizationSettings.StringDatabase.GetLocalizedString("UI", "interact"), "F");
+        StartKeyTips(LocalizationSettings.StringDatabase.GetLocalizedString("UI", "interact"), KeyMap.Interact.ToString());
     }
     public void StartKeyTips(string desc, string key)
     {

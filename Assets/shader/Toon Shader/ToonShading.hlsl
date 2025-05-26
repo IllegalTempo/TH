@@ -49,9 +49,9 @@ out float Diffuse, out float Specular, out float3 Color)
         half atten = light.distanceAttenuation * light.shadowAttenuation;
         half thisDiffuse = atten * NdotL;
         half thisSpecular = LightingSpecular(thisDiffuse, light.direction, WorldNormal, WorldView, 1, Smoothness);
-        Diffuse += thisDiffuse;
+        Diffuse = saturate(Diffuse+thisDiffuse);
         Specular += thisSpecular;
-        Color += light.color * (thisDiffuse + thisSpecular);
+        Color += light.color * step(0.00001,thisDiffuse);
 
     }
 #endif

@@ -15,20 +15,16 @@ MonoBehaviour:
   m_TableCollectionName: NPC
   m_TableCollectionNameGuidString: 3276cc7bdd2293845b39c71f751b5b43
   m_Entries:
-  - m_Id: 7819964416
+  - m_Id: 5708090353332224
     m_Key: MARISA_ASK_0
     m_Metadata:
       m_Items: []
-  - m_Id: 5708090353332224
+  - m_Id: 6170337219391488
     m_Key: MARISA_ASK_1
     m_Metadata:
       m_Items: []
-  - m_Id: 6170337219391488
-    m_Key: MARISA_ASK_2
-    m_Metadata:
-      m_Items: []
   - m_Id: 7304693438689280
-    m_Key: MARISA_ASK_3
+    m_Key: MARISA_ASK_2
     m_Metadata:
       m_Items: []
   - m_Id: 8061188816187392

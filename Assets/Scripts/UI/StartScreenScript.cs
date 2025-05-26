@@ -15,6 +15,10 @@ public class StartScreenScript : MonoBehaviour
 
     [SerializeField]
     private string selectedsave;
+    [SerializeField]
+    private Animator SceneObjectAnimator;
+    [SerializeField]
+    private GameObject Clickables;
     public string[] GetAllSavePath()
     {
         return Directory.GetFiles(Application.dataPath + Path.AltDirectorySeparatorChar + "SaveData","*.json").OrderByDescending(d => new FileInfo(d).CreationTime).ToArray();
@@ -25,6 +29,15 @@ public class StartScreenScript : MonoBehaviour
         DisplayAllSaves();
         
 
+    }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            SceneObjectAnimator.SetTrigger("ButtonPressed");
+            Clickables.SetActive(false);
+
+        }
     }
     public void DisplayAllSaves()
     {
@@ -64,11 +77,12 @@ public class StartScreenScript : MonoBehaviour
     }
     public void OnClickStartGame()
     {
-        if(GetAllSavePath().Length == 0)
+        if (GetAllSavePath().Length == 0)
         {
             selectedsave = Save.CreateNewSave($"Save{DateTime.UtcNow.Ticks}");
         }
         if (selectedsave == null) { selectedsave = GetAllSavePath()[0]; }
+        selectedsave = GetAllSavePath()[0];
         PlayerPrefs.SetString("LastSave",selectedsave);
         Debug.Log($"Starting with {selectedsave}");
         Save.LoadDataPath(selectedsave);

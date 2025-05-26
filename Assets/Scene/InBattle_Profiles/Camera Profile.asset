@@ -12,9 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e6292b2c06870d4495f009f912b9600, type: 3}
   m_Name: Camera Profile
   m_EditorClassIdentifier: 
-  settings:
-  - {fileID: 6739956494106337433}
---- !u!114 &6739956494106337433
+  settings: []
+--- !u!114 &1082733046858900114
 MonoBehaviour:
   m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
@@ -23,41 +22,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 48a79b01ea5641d4aa6daa2e23605641, type: 3}
-  m_Name: Bloom
+  m_Script: {fileID: 11500000, guid: 26b3931fd44c0334ca7b82348602685b, type: 3}
+  m_Name: PostProcessOutline
   m_EditorClassIdentifier: 
-  active: 1
-  enabled:
-    overrideState: 1
-    value: 1
-  intensity:
-    overrideState: 1
-    value: 51.89
-  threshold:
-    overrideState: 1
-    value: 0
-  softKnee:
-    overrideState: 1
-    value: 0.52
-  clamp:
-    overrideState: 0
-    value: 65472
-  diffusion:
-    overrideState: 0
-    value: 7
-  anamorphicRatio:
-    overrideState: 0
-    value: 0
-  color:
-    overrideState: 0
-    value: {r: 1, g: 1, b: 1, a: 1}
-  fastMode:
-    overrideState: 0
-    value: 0
-  dirtTexture:
-    overrideState: 0
-    value: {fileID: 0}
-    defaultState: 1
-  dirtIntensity:
-    overrideState: 0
-    value: 0
+  m_Active: 1
+  settings:
+    renderPassEvent: 500
+    applyToSceneView: 1
+    thickness: 1
+    depthMin: 0
+    depthMax: 1
+    outlineShader: {fileID: 0}
+  outlineMaterial: {fileID: 0}

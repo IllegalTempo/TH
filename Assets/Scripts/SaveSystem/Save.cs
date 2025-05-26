@@ -49,7 +49,7 @@ public class Save
         //new Player Save
         seed = (int)Time.time;
         Inventory = new PlayerInventory();
-        LastLocation = new Vector3(495, 200, -70);
+        LastLocation = new Vector3(-7.98f, -0.26f, -19f);
         LastSceneName = "InGame";
         ActionCheckList = new bool[100];
         this.savename = savename;

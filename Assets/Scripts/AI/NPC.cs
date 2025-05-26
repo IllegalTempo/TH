@@ -8,32 +8,21 @@ using UnityEngine.UI;
 
 public class NPC : MonoBehaviour
 {
-    [Header("Speech Bubble Variables")]
-    public speechbubble SpeechBubble;
+    //[Header("Speech Bubble Variables")]
+    //public speechbubble SpeechBubble;
     private float SpeechBubbleLife;
     private bool immortal;
-    public Outline outlineclass;
+    //public Outline outlineclass;
     public PathCreator path;
     public Animator animator;
     public float speed = 5;
+    public GameObject Head;
     float distanceTravelled;
-    public void NewSpeechBubble(string text,float live,bool immortal,int type)
-    {
-        this.immortal = immortal;
-        SpeechBubbleLife = live;
-        SpeechBubble.textobject.text = text;
-        SpeechBubble.gameObject.SetActive(true);
-
-    }
-    public void NewTranslatedSpeechBubble(string text, float live, bool immortal, int type)
-    {
-        NewSpeechBubble(LocalizationSettings.StringDatabase.GetLocalizedString("NPC", text),live,immortal,type);
-
-    }
+    
     private void Start()
     {
-        SpeechBubble.SpeechSender = this.gameObject;
-        outlineclass.enabled = false;
+        //SpeechBubble.SpeechSender = this.gameObject;
+        //outlineclass.enabled = false;
     }
     public void MoveTo(PathCreator p)
     {
@@ -48,22 +37,27 @@ public class NPC : MonoBehaviour
     }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyMap.Interact))
-        {
-            outlineclass.interacted = true;
-            outlineclass.OutlineColor = Color.red;
+        Vector3 lookdir = GameInformation.instance.LocalPlayer.transform.position - transform.position;
+        Head.transform.right = lookdir;
+        lookdir.y = 0;
+        transform.right = lookdir;
 
-            outlineclass.UpdateMaterialProperties();
+        //if (Input.GetKeyDown(KeyMap.Interact))
+        //{
+        //    outlineclass.interacted = true;
+        //    outlineclass.OutlineColor = Color.red;
 
-        }
-        if (Input.GetKeyUp(KeyMap.Interact))
-        {
-            outlineclass.interacted = false;
-            outlineclass.OutlineColor = Color.white;
+        //    outlineclass.UpdateMaterialProperties();
 
-            outlineclass.UpdateMaterialProperties();
+        //}
+        //if (Input.GetKeyUp(KeyMap.Interact))
+        //{
+        //    outlineclass.interacted = false;
+        //    outlineclass.OutlineColor = Color.white;
 
-        }
+        //    outlineclass.UpdateMaterialProperties();
+
+        //}
         if (path != null)
         {
             distanceTravelled += speed * Time.deltaTime;
@@ -75,14 +69,14 @@ public class NPC : MonoBehaviour
                 OnStop();
             }
         }
-        if ((SpeechBubbleLife < 0 && !immortal) || outlineclass.interacted)
-        {
-            if (!SpeechBubble.isActiveAndEnabled) return;
-            SpeechBubbleLife = 0;
-            SpeechBubble.FadeoutObject();
-        } else
-        {
-            SpeechBubbleLife -= Time.deltaTime;
-        }
+        //if ((SpeechBubbleLife < 0 && !immortal) || outlineclass.interacted)
+        //{
+        //    if (!SpeechBubble.isActiveAndEnabled) return;
+        //    SpeechBubbleLife = 0;
+        //    SpeechBubble.FadeoutObject();
+        //} else
+        //{
+        //    SpeechBubbleLife -= Time.deltaTime;
+        //}
     }
 }

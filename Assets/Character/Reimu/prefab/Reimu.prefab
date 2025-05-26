@@ -5167,6 +5167,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: -5568371526223589888, guid: edf8265bcd3b91e468ab2df957597e6a, type: 3}
+      propertyPath: m_Name
+      value: Body
+      objectReference: {fileID: 0}
     - target: {fileID: -5363461691990940785, guid: edf8265bcd3b91e468ab2df957597e6a, type: 3}
       propertyPath: m_Layer
       value: 7
@@ -5427,6 +5431,14 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 5074512353664290214, guid: edf8265bcd3b91e468ab2df957597e6a, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 3cb6646552f7c5440acb4accfdfbb07d, type: 2}
+    - target: {fileID: 5074512353664290214, guid: edf8265bcd3b91e468ab2df957597e6a, type: 3}
+      propertyPath: m_BlendShapeWeights.Array.data[2]
+      value: 89.4
+      objectReference: {fileID: 0}
     - target: {fileID: 5129668623796403907, guid: edf8265bcd3b91e468ab2df957597e6a, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -5596,8 +5608,8 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8748168959889820349}
   serializedVersion: 4
-  m_Mass: 1.3
-  m_Drag: 0.1
+  m_Mass: 0.2
+  m_Drag: 1
   m_AngularDrag: 0
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
@@ -5635,9 +5647,9 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 1.2354584
-  m_Height: 5.4692726
+  m_Height: 5.6503067
   m_Direction: 1
-  m_Center: {x: 0, y: -1.4309101, z: 0}
+  m_Center: {x: 0, y: -1.5214272, z: 0}
 --- !u!114 &1313008142666763571
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5655,11 +5667,19 @@ MonoBehaviour:
   Head: {fileID: 7045744204618232737}
   sensX: 30
   sensY: 30
+  TargetCameraOffset: {x: 0, y: 0, z: 0}
   aiming: 0
   OpeningInventory: 0
   IsGrounded: 0
   IsFlying: 0
+  TargetX: 0
+  targety: 0
   IsCrouching: 0
+  NetworkPos: {x: 0, y: 0, z: 0}
+  NetworkRot: {x: 0, y: 0, z: 0, w: 1}
+  NetworkBodyrot: {x: 0, y: 0, z: 0, w: 1}
+  NetworkAnimationX: 0
+  NetworkAnimationY: 0
 --- !u!95 &6425005829632576601
 Animator:
   serializedVersion: 5

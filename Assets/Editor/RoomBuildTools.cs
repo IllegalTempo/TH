@@ -6,8 +6,9 @@ using UnityEngine;
 
 public class RoomBuildTools : EditorWindow
 {
-
+    [SerializeField]
     private GameObject BaseRoom;
+    private Color ShadeColor;
     [MenuItem("Window/RoomBuildTools")]
     private void OnEnable()
     {
@@ -20,10 +21,17 @@ public class RoomBuildTools : EditorWindow
     private void OnGUI()
     {
         GUILayout.Label("Tools for room building");
+        ShadeColor = EditorGUILayout.ColorField("Shade Color", ShadeColor);
 
-        if(GUILayout.Button("Instantiate Base Room"))
+        if (GUILayout.Button("Instantiate Base Room"))
         {
             CreateInitialRoom();
+        }
+        if(GUILayout.Button("Set Lighting"))
+        {
+            Shader.SetGlobalColor("_ShadeColor", ShadeColor);
+            SceneView.RepaintAll();
+
         }
 
     }

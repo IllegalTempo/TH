@@ -19,18 +19,19 @@ public class HakureiShrine : world
     }
     //On Load
 
-    public static void Marisa_Ask(int missionid)
+    public static void Marisa_Ask_0(int missionid)
     {
-        HakureiShrine thisworld = ((HakureiShrine)GameInformation.instance.CurrentWorld);
         GameInformation.instance.currentsave.ActionCheckList[missionid] = true;
-        thisworld.Marisa.NewTranslatedSpeechBubble("MARISA_ASK_" + missionid, 5, true, 0);
+        GameUIManager.instance.TranslatedDialogue("MARISA_ASK_0","marisa_smart");
+    }
+    public static void Marisa_Ask_1(int missionid)
+    {
+        GameInformation.instance.currentsave.ActionCheckList[missionid] = true;
+        GameUIManager.instance.TranslatedDialogue("MARISA_ASK_1", "marisa_smart");
     }
     public static void Marisa_Ask_2(int missionid)
     {
-        HakureiShrine thisworld = ((HakureiShrine)GameInformation.instance.CurrentWorld);
         GameInformation.instance.currentsave.ActionCheckList[missionid] = true;
-        thisworld.Marisa.NewTranslatedSpeechBubble("MARISA_ASK_2" , 5, true, 0);
-        thisworld.Marisa.MoveTo(thisworld.Path_LeadToMissionBoard);
-
+        GameUIManager.instance.TranslatedDialogue("MARISA_ASK_2", "marisa_interested");
     }
 }

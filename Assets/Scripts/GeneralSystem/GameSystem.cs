@@ -13,7 +13,8 @@ public class GameSystem : MonoBehaviour
 {
     // Start is called before the first frame update
     public static GameSystem instance;
-    [SerializeField]
+    public bool DialogueActive;
+[SerializeField]
     private GameObject PlayerObject;
     [SerializeField]
     private GameObject[] Effects;
@@ -32,6 +33,7 @@ public class GameSystem : MonoBehaviour
     {
         AudioSource.PlayClipAtPoint(Sounds[id], pos, 1);
     }
+    
     public void SpawnPowerDrops(Vector3 CenterPosition)
     {
         GameObject powerinstance = GameInformation.instance.powerDropInstance;
@@ -65,10 +67,9 @@ public class GameSystem : MonoBehaviour
 #endif
         GetSceneAction = new Dictionary<int, SceneAction>
         {
-            {0,HakureiShrine.Marisa_Ask },
-            {1,HakureiShrine.Marisa_Ask },
+            {0,HakureiShrine.Marisa_Ask_0 },
+            {1,HakureiShrine.Marisa_Ask_1 },
             {2,HakureiShrine.Marisa_Ask_2 },
-            {3,HakureiShrine.Marisa_Ask },
 
 
         };
@@ -163,7 +164,10 @@ public class GameSystem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if(DialogueActive && Input.GetKeyDown(KeyMap.Interact2))
+        {
+            GameUIManager.instance.DialogueContinue();
+        }
     }
     public void RemoveAllPlayerObject()
     {

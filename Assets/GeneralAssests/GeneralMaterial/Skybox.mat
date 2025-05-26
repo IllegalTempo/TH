@@ -158,7 +158,7 @@ Material:
     - _GroundColor: {r: 0.369, g: 0.349, b: 0.341, a: 1}
     - _SkyTint: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
-    - _Tint: {r: 0.6745098, g: 0.6745098, b: 0.6745098, a: 1}
+    - _Tint: {r: 0.0536668, g: 0.0536668, b: 0.05660379, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &4887912654183623467
 MonoBehaviour:

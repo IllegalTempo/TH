@@ -8,7 +8,15 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
-    private float WalkSpeed = 20;
+    private float WalkSpeed = 15;
+    private const float WalkSpeedMax = 15;
+    private const float AimWalkSpeedMax = 7;
+    private const float FlySpeedMax = 60;
+
+
+
+
+
     private Vector3 BaseWind = new Vector3(-5, 0, 5);
     private Vector3 CameraOffset;
     public static bool InCutScene = false;
@@ -28,11 +36,11 @@ public class Movement : MonoBehaviour
     private float sensY = 10;
     private float xrot;
     private float yrot;
-    public const float JumpConstant = 2500;
+    public const float JumpConstant = 400;
     private Vector3 MoveDirection;
 
     private Quaternion CharacterRotation;
-    private Vector3 DefaultTargetCameraOffset = new Vector3(0, 2, -10);
+    private Vector3 DefaultTargetCameraOffset = new Vector3(0, 2, -12);
     private Vector3 AimDownCameraOffset = new Vector3(3f, 0, -8);
     private Vector3 InventoryCameraOffset = new Vector3(3f, 0.3f, -10f);
 
@@ -107,13 +115,13 @@ public class Movement : MonoBehaviour
     }
     public void AimDownSight()
     {
-        WalkSpeed = 10;
+        WalkSpeed = AimWalkSpeedMax;
         aiming = true;
         TargetCameraOffset = AimDownCameraOffset;
     }
     public void AimUpSight()
     {
-        WalkSpeed = 20;
+        WalkSpeed = WalkSpeedMax;
 
         aiming = false;
         TargetCameraOffset = DefaultTargetCameraOffset;
@@ -153,7 +161,7 @@ public class Movement : MonoBehaviour
     private Vector3 CameraRayExtension = new Vector3(0, 0, 50);
     private Vector3 twodmask = new Vector3(1, 0, 1);
 
-    private Quaternion AimingRotation;
+    private Vector3 AimingRotation;
 
     private void PlayerMovement()
     {
@@ -170,25 +178,33 @@ public class Movement : MonoBehaviour
             TargetX = 1 - TargetX;
         }
 
-        MoveDirection = cam.transform.forward * inputs.y + cam.transform.right * inputs.x;
+        MoveDirection = (cam.transform.forward * inputs.y + cam.transform.right * inputs.x);
         MoveDirection.y = 0;
+        MoveDirection = MoveDirection.normalized;
         //transform.RotateAround(transform.position,transform.up, Vector3.SignedAngle(transform.forward, MoveDirection, transform.position));
         if (aiming)
         {
-            transform.localRotation = Quaternion.Euler(0, yrot, 0);
+            rb.AddForce(Vector3.up, ForceMode.Force);
+
+            AimingRotation = cam.transform.forward;
+            AimingRotation.y = 0;
+            transform.forward = AimingRotation;
             //AimingRotation.y = 0;
-            rb.AddForce(MoveDirection * WalkSpeed * 10, ForceMode.Force);
+            rb.AddForce(Quaternion.Euler(AimingRotation) * MoveDirection * WalkSpeedMax * 100 * Time.deltaTime, ForceMode.Force);
 
         }
-        else if (MoveDirection != Vector3.zero)
+        else
         {
-            transform.forward = Vector3.Scale(MoveDirection, twodmask);
+            if (MoveDirection != Vector3.zero)
+            {
+                transform.forward = MoveDirection;
 
-            rb.AddForce(transform.forward * MoveDirection.magnitude * WalkSpeed * 500 * Time.deltaTime, ForceMode.Force);
-
+                rb.AddForce(MoveDirection.normalized * WalkSpeedMax * 100 * Time.deltaTime, ForceMode.Force);
+            }
             //transform.rotation = Quaternion.RotateTowards(transform.rotation, CharacterRotation, Time.deltaTime * Quaternion.Angle(transform.rotation, CharacterRotation) * 60);
 
         }
+
         //transform.rotation = CharacterRotation;
 
     }
@@ -212,13 +228,13 @@ public class Movement : MonoBehaviour
             IsFlying = true;
             IsCrouching = false;
             rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
-            WalkSpeed = 60f;
+            WalkSpeed = FlySpeedMax;
 
         }
         if (Input.GetKeyUp(KeyMap.JumpKey))
         {
             IsFlying = false;
-            WalkSpeed = 20f;
+            WalkSpeed = WalkSpeedMax;
 
         }
         if (IsFlying)
