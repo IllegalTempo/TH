@@ -12,6 +12,8 @@ public class ScarletDevilMansionInteraction : InteractableCollider
             if (gd.CurrentRoomCompleted)
             {
                 PacketSend.Server_Send_StartRoom();
+                GameUIManager.instance.TranslatedDialogue("MARISA_INTRO_0", "marisa_smart");
+
                 gd.StartGridSystem(true);
             }
             else

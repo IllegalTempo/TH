@@ -40,8 +40,7 @@ public class Enemy : MonoBehaviour
     public Room BelongTo;
     public int EnemyIDinRoom;
     public long uuid;
-    public AiWalkEnemy Ai;
-    public EnemyBoonBase[] Boons = new EnemyBoonBase[3];
+    //public AiWalkEnemy Ai;
     public int BoonCount = 0;
     //public void AddBoon(string PrefixName)
     //{
@@ -55,7 +54,7 @@ public class Enemy : MonoBehaviour
     {
         uuid = GameInformation.instance.GetUUID();
         GameInformation.instance.AllEnemies.Add(uuid, this);
-        if(UsedProjectileList.Length > 0)
+        if (UsedProjectileList.Length > 0)
         {
             ProjectilePools = new EnemyBulletPool[UsedProjectileList.Length];
             //Initialize Projectile Pool
@@ -64,7 +63,7 @@ public class Enemy : MonoBehaviour
                 ProjectilePools[i] = GameInformation.instance.PjtlReserve.UsePool(UsedProjectileList[i]);
             }
         }
-        
+
     }
     public void SetHealth(float nhealth)
     {
@@ -80,9 +79,9 @@ public class Enemy : MonoBehaviour
 
         }
     }
-    public void Damage(float dmg,Vector3 collidepoint,PlayerMain DamageDealer,int soundid,int effectid)
+    public void Damage(float dmg, Vector3 collidepoint, PlayerMain DamageDealer, int soundid, int effectid)
     {
-        GameSystem.instance.PlayEffect(effectid,collidepoint);
+        GameSystem.instance.PlayEffect(effectid, collidepoint);
         GameSystem.instance.PlaySound(soundid, collidepoint);
 
         if (!invulnerable)
@@ -101,13 +100,13 @@ public class Enemy : MonoBehaviour
 
 
 
-        
-        
+
+
     }
     private void OnDeath()
     {
         animator.Play("OnDeath");
-        BelongTo.EnemyKilled(this);
+        //BelongTo.EnemyKilled(this);
         int pointdrop = (int)Random.Range(0, value);
         int powerdrop = (int)Random.Range(0, value);
 
@@ -123,11 +122,11 @@ public class Enemy : MonoBehaviour
 
         }
 
-        Ai.Stopped = true;
+        //Ai.Stopped = true;
         HitBox.enabled = false;
         HealthBar.enabled = false;
         rb.useGravity = false;
-        
+
     }
     public void OnDisappear()
     {

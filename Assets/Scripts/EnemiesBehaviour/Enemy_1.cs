@@ -1,20 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+//using System.Collections;
+//using System.Collections.Generic;
+//using UnityEngine;
 
-public class Enemy_1 : AiWalkEnemy
-{
-    protected override void Attack()
-    {
+//public class Enemy_1 : AiWalkEnemy
+//{
+//    protected override void Attack()
+//    {
         
-        Debug.Log("Attack");
-    }
-    public void ShootBullet()
-    {
-        EnemyBullet bullet = MainClass.ProjectilePools[0].GetBulletobject();
-        bullet.damagemultiplier = MainClass.DamageMultiplier;
-        bullet.transform.position = Head.transform.position;
-        bullet.transform.rotation = Head.transform.rotation;
-        attackcd = 2f;
-    }
-}
+//        Debug.Log("Attack");
+//    }
+//    public void ShootBullet()
+//    {
+//        EnemyBullet bullet = MainClass.ProjectilePools[0].GetBulletobject();
+//        bullet.damagemultiplier = MainClass.DamageMultiplier;
+//        bullet.transform.position = Head.transform.position;
+//        bullet.transform.rotation = Head.transform.rotation;
+//        attackcd = 2f;
+//    }
+//}

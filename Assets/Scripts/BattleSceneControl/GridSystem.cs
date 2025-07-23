@@ -187,7 +187,7 @@ public class GridSystem : MonoBehaviour
     {
         SpawnChunk(Random.Range(0, NumberOfRooms()));
     }
-    public void SpawnChunk( int roomid)
+    public void SpawnChunk(int roomid)
     {
         if (CurrentRoom != null)
         {
@@ -201,7 +201,7 @@ public class GridSystem : MonoBehaviour
         Room r = g.GetComponent<Room>();
         CurrentRoom = r;
         GameInformation.instance.LocalPlayer.transform.position = r.GetRoomSpawnPoint();
-        r.WaveComplete(); //Run for first time, used for first wave
+        //r.WaveComplete(); //Run for first time, used for first wave
         GameUIManager.instance.StopLoading();
     }
     //public void SpawnChunk(string prefix, string corefix, string suffix, int roomid)

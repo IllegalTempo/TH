@@ -42,6 +42,14 @@ MonoBehaviour:
     m_Localized: Youkai Rumia
     m_Metadata:
       m_Items: []
+  - m_Id: 69333693471862784
+    m_Localized: This is the Scarlet Concert
+    m_Metadata:
+      m_Items: []
+  - m_Id: 69333851848781824
+    m_Localized: The Performance will be starting in no time!
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
